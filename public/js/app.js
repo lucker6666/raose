@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives']).
+angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'angularFileUpload']).
 config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider.
@@ -32,6 +32,66 @@ config(['$routeProvider', '$locationProvider',
     when('/addTodo', {
       templateUrl: 'partials/addTodo',
       controller: AddTodoCtrl
+    }).
+    when('/upload', {
+      templateUrl: 'partials/upload',
+      controller: UploadCtrl
+    }). // 需求状态
+    when(['/status'], {
+      templateUrl: 'partials/status',
+      controller: StatusCtrl
+    }).
+    when('/status/:id', {
+      templateUrl: 'partials/editStatus',
+      controller: ViewStatusCtrl
+    }).
+    when('/account/active', {
+      templateUrl: 'partials/signup',
+      controller: RegisterCtrl
+    }).
+    when('/issues', {
+      templateUrl: 'partials/issues',
+      controller: IssuesCtrl
+    }).
+    when('/addIssue', {
+      templateUrl: 'partials/addIssue',
+      controller: AddIssueCtrl
+    }).
+    when('/features', {
+      templateUrl: 'partials/features',
+      controller: FeaturesCtrl
+    }).
+    when('/features/add', {
+      templateUrl: 'partials/addFeature',
+      controller: AddFeatureCtrl
+    }).
+    when('/feature/:id', {
+      templateUrl: 'partials/viewFeature',
+      controller: ViewFeatureCtrl
+    }).
+    when('/docs', {
+      templateUrl: 'partials/docs',
+      controller: DocsCtrl
+    }).
+    when('/topics', {
+      templateUrl: 'partials/topics',
+      controller: TopicsCtrl
+    }).
+    when('/datas', {
+      templateUrl: 'partials/datas',
+      controller: DatasCtrl
+    }).
+    when('/datas/add', {
+      templateUrl: 'partials/addData',
+      controller: AddDataCtrl
+    }).
+    when('/topics/add', {
+      templateUrl: 'partials/addTopic',
+      controller: AddTopicCtrl
+    }).
+    when('/data/:id', {
+      templateUrl: 'partials/viewData',
+      controller: ViewDataCtrl
     }).
     otherwise({
       redirectTo: '/'
