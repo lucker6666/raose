@@ -1,0 +1,5 @@
+a(href='/datas/add') 添加数据源
+li(ng-repeat='one in datas')
+    p {{one.name}}
+    p {{one.config}}
+    a(href='/data/{{one._id}}') 查看

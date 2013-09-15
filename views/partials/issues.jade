@@ -1,0 +1,9 @@
+div(ng-repeat='one in issues')
+  h3 {{one.title}}
+  p {{one.content}}
+  p {{one.author}}
+  p {{one.date}}
+  p {{one.labels}}
+  p 
+    span(class='label label-danger') {{one.level}}
+  a(href='/issues/{{one._id}}') 编辑

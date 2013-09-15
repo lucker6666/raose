@@ -1,0 +1,5 @@
+a(href='/docs/add') 添加文档
+li(ng-repeat='one in docs')
+    p @{{one.author}} {{one.title}}
+    p {{one.content}}
+    a(href='/feature/{{one._id}}') 查看
