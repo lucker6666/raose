@@ -1,4 +1,4 @@
-# raose [![Build Status](https://secure.travis-ci.org/lizheng/raose.png?branch=master)](http://travis-ci.org/lizheng/raose)
+# raose [![Build Status](https://secure.travis-ci.org/airyland/raose.png?branch=master)](http://travis-ci.org/airyland/raose)
 
 project management
 
