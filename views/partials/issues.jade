@@ -4,6 +4,8 @@ div(ng-repeat='one in issues')
   p {{one.author}}
   p {{one.date}}
   p {{one.labels}}
-  p 
-    span(class='label label-danger') {{one.level}}
-  a(href='/issues/{{one._id}}') 编辑
+
+
+  span(class='label label-danger') {{one.level}}
+  a(href='/issue/{{one._id}}',class='btn btn-primary btn-xs') 编辑
+  hr

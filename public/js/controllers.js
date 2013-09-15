@@ -3,10 +3,7 @@
 /* Controllers */
 
 function IndexCtrl($scope, $http) {
-  $http.get('/api/posts').
-  success(function(data, status, headers, config) {
-    $scope.posts = data.posts;
-  });
+
 };
 
 // 需求页面
@@ -69,6 +66,13 @@ var AddTopicCtrl = function($scope, $http, $location) {
 
 var ViewFeatureCtrl = function($scope, $http, $routeParams) {
   $http.get('/api/feature/' + $routeParams.id).success(function(data) {
+    $scope.form = data.data;
+  })
+};
+
+// 查看话题
+var ViewTopicCtrl = function($scope, $http, $routeParams) {
+  $http.get('/api/topic/' + $routeParams.id).success(function(data) {
     $scope.form = data.data;
   })
 };
@@ -251,10 +255,10 @@ var AddIssueCtrl = function($scope, $http) {
   }
 };
 
-// 编辑页面
+// 编辑issue页面
 var ViewIssueCtrl = function($scope, $http, $routeParams) {
   var id = $routeParams.id;
-  $http.get('/api/issues/' + id).success(function(data) {
+  $http.get('/api/issue/' + id).success(function(data) {
     $scope.form = data.data;
   });
 };

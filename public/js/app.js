@@ -53,6 +53,10 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/issues',
       controller: IssuesCtrl
     }).
+    when('/issue/:id', {
+      templateUrl: 'partials/viewIssue',
+      controller: ViewIssueCtrl
+    }).
     when('/addIssue', {
       templateUrl: 'partials/addIssue',
       controller: AddIssueCtrl
@@ -68,6 +72,10 @@ config(['$routeProvider', '$locationProvider',
     when('/feature/:id', {
       templateUrl: 'partials/viewFeature',
       controller: ViewFeatureCtrl
+    }).
+    when('/topic/:id', {
+      templateUrl: 'partials/viewTopic',
+      controller: ViewTopicCtrl
     }).
     when('/docs', {
       templateUrl: 'partials/docs',
