@@ -85,6 +85,25 @@ passport.use(new LocalStrategy(
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
+// 登录检测
+app.get('/api/usercheck', function(req, res) {
+  if (!req.user) {
+    res.send({
+      error: 0,
+      data: {
+        hasSignin: false
+      }
+    });
+  } else {
+    res.send({
+      error: 0,
+      data: {
+        hasSignin: true
+      }
+    });
+  }
+
+});
 /**
  *-----------------------状态相关-------------------
  */
@@ -103,7 +122,8 @@ app.delete('/api/status/:id', api.status.delete);
 /**
  *-----------------------文档相关-------------------
  */
-
+// 从Gist更新文档
+app.get('/api/doc/_fetch',api.docs.fetchFromGist);
 // 获取所有文档
 app.get('/api/docs', api.docs.list);
 // 获取单个文档
@@ -111,9 +131,10 @@ app.get('/api/doc/:id', api.docs.get);
 // 更新单个文档
 app.put('/api/doc/:id', api.docs.update);
 // 添加单个文档
-app.post('/api/doc', api.docs.add);
+app.post('/api/docs', api.docs.add);
 // 删除单个文档
 app.delete('/api/doc/:id', api.docs.delete);
+
 
 /**
  *-----------------------Issue相关-------------------
@@ -133,8 +154,9 @@ app.delete('/api/issues/:id', api.issues.delete);
 /**
  *-----------------------todo相关---------------------
  */
-app.get('/api/todo', api.todo.list);
-app.post('/api/todo', api.todo.add);
+app.get('/api/todos', api.todo.list);
+app.post('/api/todos', api.todo.add);
+app.get('/api/todo/:id', api.todo.get);
 
 /**
  * ----------------------需求相关-------------------------
@@ -151,22 +173,24 @@ app.delete('/api/feature/:id', api.feature.delete);
 app.get('/api/datas', api.data.list);
 app.post('/api/datas', api.data.add);
 app.get('/api/data/:id', api.data.get);
+app.delete('/api/data/:id', api.data.delete);
 
 /**
  * ----------------------讨论-------------------------
  */
 // 相关到需求或者todo
-// list
+// 讨论列表
 app.get('/api/topics', api.topic.list);
-// get
+// 讨论回复
+app.get('/api/topic/:id/discussions', api.topic.getDiscussions);
+app.post('/api/topic/:id/discussions', api.topic.addDiscussion);
+// 讨论内容
 app.get('/api/topic/:id', api.topic.get);
+// 添加讨论
 app.post('/api/topics', api.topic.add);
 //app.put('/api/topic/:id', api.topic.update);
 //app.delete('/api/topic/:id', api.topic.delete);
 
-// 评论
-// 获得某个讨论的评论
-//app.get('/api/topics/:id/discussions', api.topic.getDiscussions);
 // 添加评论
 //app.post('/api/topics/:id/discussions', api.topic.addDiscussion);
 // 删除评论
@@ -223,6 +247,32 @@ app.post('/account/signin',
     failureFlash: true
   })
 );
+
+// API 登录
+
+app.post('/api/signin', function(req, res, next) {
+  var rs = {
+    error: 0,
+    msg: '登录成功'
+  }
+
+  passport.authenticate('local', function(err, user, info) {
+    req.login(user, function(err) {
+      if (err) {
+        rs = {
+          erro: -1,
+          msg: '登录失败'
+        };
+      }
+      rs = {
+        error: 0,
+        msg: '登录成功' + req.user
+      };
+      res.send(rs);
+      //res.redirect('/');
+    });
+  })(req, res, next);
+});
 
 app.post('/account/signup', function(req, res) {
   var one = new User(req.body);

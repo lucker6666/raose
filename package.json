@@ -28,6 +28,7 @@
   "devDependencies": {
     "express": "*",
     "mongoose": "*",
+    "node-markdown":"*",
     "jade": "*",
     "passport": "*",
     "nodemailer": "*",

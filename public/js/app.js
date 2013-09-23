@@ -89,6 +89,14 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/datas',
       controller: DatasCtrl
     }).
+    when('/todos', {
+      templateUrl: 'partials/todos',
+      controller: TodosCtrl
+    }).
+    when('/todo/:id', {
+      templateUrl: 'partials/viewTodo',
+      controller: ViewTodoCtrl
+    }).
     when('/datas/add', {
       templateUrl: 'partials/addData',
       controller: AddDataCtrl
@@ -100,6 +108,26 @@ config(['$routeProvider', '$locationProvider',
     when('/data/:id', {
       templateUrl: 'partials/viewData',
       controller: ViewDataCtrl
+    }).
+    when('/weeklyData', {
+      templateUrl: 'partials/weeklyData',
+      controller: WeeklyDataCtrl
+    }).
+    when('/signin', {
+      templateUrl: 'partials/signin',
+      controller: SigninCtrl
+    }).
+    when('/docs/add', {
+      templateUrl: 'partials/addDoc',
+      controller: AddDocCtrl
+    }).
+    when('/doc/:id', {
+      templateUrl: 'partials/viewDoc',
+      controller: ViewDocCtrl
+    }).
+    when('/data/ad',{
+      templateUrl:'partials/viewAdData',
+      controller:ViewAdCtrl
     }).
     otherwise({
       redirectTo: '/'

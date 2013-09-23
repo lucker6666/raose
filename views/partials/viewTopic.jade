@@ -3,3 +3,22 @@ p {{form.author}}
 p {{form.title}}
 p {{form.content}}
 hr
+
+// 评论框
+
+div(class='form-group')
+	input(type='hidden',value='{{form._id}}',ng-model='discussion.typeId')
+	input(type='hidden',value='topic',ng-model='discussion.type')
+	label 评论一下呗
+	textarea(class='form-control',ng-model='discussion.content')
+
+div(class='form-group')
+	button(class='btn btn-primary',ng-click='submitDiscussion()') 提交 
+
+// 评论内容
+ul
+	li(ng-repeat='one in list')
+		p
+			span {{one.author}}
+			span {{one.date}}
+		p {{one.content}}

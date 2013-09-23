@@ -28,9 +28,12 @@ var Status = mongoose.model('Status', {
   desc: String
 });
 
+// 数据源
 var Data = mongoose.model('Data', {
   name: String,
-  config: String
+  type: String, //数据类型，ga || umeng || seedit,
+  chartType: String, // 图表类型
+  option: mongoose.Schema.Types.Mixed // 选项为复杂类型
 });
 
 // todo 
@@ -82,6 +85,11 @@ var Topic = mongoose.model('Topic', {
 var Doc = mongoose.model('Doc', {
   title: String,
   author: String,
+  useGist: {
+    type: Boolean,
+    default: false
+  },
+  rawUrl: String,
   date: {
     type: Date,
     default: Date.now
@@ -163,22 +171,6 @@ exports.feature = {
   put: function(req, res) {
 
   }*/
-
-/*
- * Serve JSON to our AngularJS client
- */
-
-// For a real app, you'd make database requests here.
-// For this example, "data" acts like an in-memory "database"
-var data = {
-  "posts": [{
-    "title": "Lorem ipsum",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-  }, {
-    "title": "Sed egestas",
-    "text": "Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus."
-  }]
-};
 
 // GET
 
@@ -374,7 +366,8 @@ exports.issues = {
 
 // 讨论模型
 var Discussion = mongoose.model('Discussion', {
-  topicId: Number,
+  type: String, // 类型
+  typeId: String, // 相关id,如讨论id,需求id
   author: String,
   date: {
     type: Date,
@@ -430,10 +423,11 @@ exports.topic = {
     });
   },
   // 获取单个讨论的回复
-  getDiscussion: function(req, res) {
+  getDiscussions: function(req, res) {
     var topicId = req.params.id;
     Discussion.find({
-      topicId: topicId
+      type: 'topic',
+      typeId: topicId
     }, function(err, data) {
       if (err) throw err;
       res.send({
@@ -469,12 +463,53 @@ exports.todo = {
   // 列表
   list: function(req, res) {
     Todo.find({}, function(err, data) {
-      res.json(data);
+      res.json({
+        error: 0,
+        data: data
+      });
+    })
+  },
+  get: function(req, res) {
+    Todo.findById(req.params.id, function(err, data) {
+      if (err) throw err;
+      res.send({
+        erro: 0,
+        data: data
+      });
     })
   }
 };
 
 exports.docs = {
+  fetchFromGist: function(req, res) {
+    Doc.find({
+      useGist: true
+    }, function(err, data) {
+      data.forEach(function(one) {
+        var https = require('https');
+        https.get(one.rawUrl, function(rs) {
+          var data = '';
+          rs.on('data', function(chunk) {
+            data += chunk;
+          });
+          rs.on('end', function() {
+            Doc.update({
+              _id: one._id
+            }, {
+              content: data
+            }, function(err) {
+              console.log(err);
+              res.send({
+                error: 0,
+                msg: '获取成功'
+              })
+            })
+          });
+        });
+      });
+      //res.send(data);
+    });
+  },
   add: function(req, res) {
     req.body.author = req.user.username;
     var doc = new Doc(req.body);
@@ -511,6 +546,10 @@ exports.docs = {
   get: function(req, res) {
     Doc.findById(req.params.id, function(err, data) {
       if (err) throw err;
+      if (data.useGist === true) {
+        var md = require("node-markdown").Markdown;
+        data.content = md(data.content);
+      }
       res.send({
         error: 0,
         data: data
@@ -713,6 +752,31 @@ exports.data = {
         error: 0,
         data: data
       });
+    })
+  },
+  delete: function(req, res) {
+    var id = req.params.id;
+    /*console.log(Data.findByIdAndRemove);
+    Data.findByIdAndRemove(id, function(err) {
+      if (err) throw err;
+      res.send({
+        erro: 0,
+        msg: '删除成功'
+      });
+    })*/
+    /* Data.remove({
+      _id: id
+    }, function(err) {
+      if (err) throw err;
+      res.send({
+        error: 0,
+        msg: '删除成功'
+      });
+    });*/
+    Data.findOneAndRemove({
+      _id: id
+    }, function(err) {
+      console.log(err);
     })
   }
 }

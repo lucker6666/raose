@@ -1,5 +1,11 @@
-a(href='/datas/add') 添加数据源
-li(ng-repeat='one in datas')
-    p {{one.name}}
-    p {{one.config}}
-    a(href='/data/{{one._id}}') 查看
+div.form-group
+    a.btn.btn-primary(href='/datas/add') 添加数据源
+div.panel.panel-default
+    div.panel-heading 数据源列表
+    table.table
+        tbody
+            tr(ng-repeat='one in datas')  
+                td 
+                    a(href='/data/{{one._id}}') {{one.name}}
+
+   

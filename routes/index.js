@@ -4,11 +4,6 @@
 
 exports.index = function(req, res) {
     if (!req.user) {
-        /* res.send(403, {
-            error: 403,
-            msg: '没有权限哦'
-        });
-        return;*/
         res.redirect('/account/signin');
     }
     res.render('index');

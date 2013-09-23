@@ -1,5 +1,67 @@
-label 标题
-input(ng-model='form.name')
-label 配置
-textarea(ng-model='form.config')
-a(ng-click='submitData()') 添加
+div.form-group
+    label 名字
+    input.form-control(ng-model='form.name',require)
+
+
+div.form-group
+    label 统计来源
+    select.form-control(ng-model='form.type')
+        option(value='ga') Google 统计
+
+div.form-group
+    label 图表类型
+    select.form-control(ng-model='form.chartType',ng-init='form.chartType="pie"')
+        option(value='pie') 饼形图
+        option(value='column') 条形图
+        option(value='line') 折线图
+        option(value='area') 面积图
+
+
+div.form-group
+    label 站点
+    select.form-control(ng-model='form.option.ids')
+        option(value='ga:63911100') 事件统计
+        option(value='ga:62079070') 全站 
+        option(value='ga:644469') WWW首页
+        option(value='ga:61918595') WAP站
+        option(value='ga:644519') BBS论坛
+        option(value='ga:16257208') 知识
+        option(value='ga:67437444') 播爱达人
+        option(value='ga:648824') 个人中心
+
+
+div(class='form-group')
+    label 开始日期，格式为 2013-05-08 或者天数，即多少天前，如30
+    input(ng-model='form.option["start-date"]',class='form-control',require)
+
+
+div(class='form-group')
+    label 结束日期，同上
+    input(ng-model='form.option["end-date"]',class='form-control',require)
+
+
+div(class='form-group')
+    label 横坐标(日期 ga:date)
+    input(ng-model='form.option.dimensions',class='form-control',require)
+
+div(class='form-group')
+    label 纵坐标值 (访问次数: ga:uservisit)
+    input(ng-model='form.option.metrics',class='form-control',require)
+
+div(class='form-group')
+    label 筛选
+    input(ng-model='form.option.filters',class='form-control')  
+
+
+div(class='form-group')
+    label 排序
+    input(ng-model='form.option.sort',class='form-control')
+
+div(class='form-group')
+    label 最大结果数
+    input(ng-model='form.option["max-results"]',class='form-control')
+
+
+
+div.form-group
+    input(ng-click='submitData()',class='btn btn-primary',type='button',value='添加') 

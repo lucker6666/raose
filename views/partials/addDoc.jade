@@ -1,0 +1,20 @@
+div.form-group
+    label 文档标题
+    input.form-control(ng-model='form.title')
+
+div.form-group
+    label 从Gist导入
+    select.form-control(ng-model='form.useGist',ng-init='form.useGist="0"')
+        option(value='0') 否
+        option(value='1') 是
+
+div.form-group
+    label Gist Raw 地址
+    input.form-control(ng-model='form.rawUrl')
+
+div.form-group
+    label 文档内容
+    textarea.form-control(ng-model='form.content')
+
+div.form-gropu
+    button.btn.btn-primary(ng-click='submitDoc()') 添加 

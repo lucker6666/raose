@@ -238,3 +238,16 @@ body {
 .content {margin-left:140px;overflow:hidden;padding:15px;}
 hr {color:#ececec;background-color:#ececec;border:none;border-bottom:1px solid #ececec;}
 p {color:#666;}
+.vivid {color:#EA578C;}
+.center {text-align:center;}
+.no-lg {font-size:80px;}
+.no-sm {font-size:40px;}
+.no-smm {font-size:20px;}
+.gray {color:#888;font-family:Arial;font-size:12px;}
+.rate {color:#EA578C;}
+
+
+.data-box {height:155px;}
+.data-box-2h {height:300px;}
+.data-box-3h {height:450px;}
+.data-box-4h {height:600px;}
