@@ -52,7 +52,17 @@ var Issues = mongoose.model('Issue', {
   // 用户
   author: String,
   title: String,
+  // 影响范围
+  site: String,
+  // URL 
+  url: String,
   content: String,
+  // 来源
+  from: String,
+  // 提交人
+  submit: String,
+  // 影响范围
+  area: String,
   // 时间
   date: {
     type: Date,
@@ -304,7 +314,7 @@ exports.issues = {
   add: function(req, res) {
     req.body.author = req.user.username;
     var issue = new Issues(req.body);
-    issue.save(function(err) {
+    issue.save(function(err, rs) {
       if (err) {
         res.send({
           erro: -1,
@@ -314,7 +324,8 @@ exports.issues = {
       }
       res.send({
         error: 0,
-        msg: '添加成功'
+        msg: '添加成功',
+        data: rs
       });
     });
   },

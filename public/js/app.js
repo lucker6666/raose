@@ -2,6 +2,19 @@
 
 // Declare app level module which depends on filters, and services
 angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'angularFileUpload']).
+filter("rate", function() {
+  var filterfun = function(person, sep) {
+    sep = sep || " ";
+    person = person || {};
+    person.first = person.first || "";
+    person.last = person.last || "";
+    return person.first + sep + person.last;
+  };
+  return function(rate) {
+    if (rate < 0) return '<span class="vivid">' + rate + '%</span>';
+    return rate;
+  };
+}).
 config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider.
@@ -57,7 +70,7 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/viewIssue',
       controller: ViewIssueCtrl
     }).
-    when('/addIssue', {
+    when('/issues/add', {
       templateUrl: 'partials/addIssue',
       controller: AddIssueCtrl
     }).
@@ -105,6 +118,10 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/addTopic',
       controller: AddTopicCtrl
     }).
+    when('/data/ad', {
+      templateUrl: 'partials/viewAdData',
+      controller: ViewAdCtrl
+    }).
     when('/data/:id', {
       templateUrl: 'partials/viewData',
       controller: ViewDataCtrl
@@ -125,13 +142,31 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/viewDoc',
       controller: ViewDocCtrl
     }).
-    when('/data/ad',{
-      templateUrl:'partials/viewAdData',
-      controller:ViewAdCtrl
+    when('/settings', {
+      templateUrl: 'partials/settings',
+      controller: SettingsCtrl
     }).
     otherwise({
       redirectTo: '/'
     });
     $locationProvider.html5Mode(true);
   }
-]);
+])
+  .directive('ngPaste', function() {
+    var obj = {
+      compile: function(element, attrs) {
+        console.log('paste');
+        return function(scope, elem, attrs) {
+          elem.bind('paste', function() {
+            var funcName = attrs.ngPaste.replace('(', '').replace(')', '');
+            if (typeof(scope[funcName]) == 'function') {
+              setTimeout(function() {
+                scope.$apply(scope[funcName]);
+              }, 10);
+            }
+          });
+        };
+      }
+    };
+    return obj;
+  });

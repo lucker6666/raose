@@ -1,5 +1,10 @@
-a(href='/topics/add') 添加话题
-li(ng-repeat='one in topics')
-    p @{{one.author}} {{one.title}}
-    p {{one.content}}
-    a(href='/topic/{{one._id}}') 查看
+div.form-group
+    a.btn.btn-primary(href='/topics/add') 添加话题
+
+table.table
+    tbody
+        tr(ng-repeat='one in topics')
+            td
+                a(href='/topic/{{one._id}}') {{one.title}}
+            td
+                {{one.author}} 

@@ -373,7 +373,7 @@ var config = {
 }
 // 访问数据
 // all ga:62079070
-var renderVisitData = function(option, offset, target) {
+var renderVisitData = function(option, offset, target, chartOption) {
 
     var api = '';
 
@@ -387,29 +387,50 @@ var renderVisitData = function(option, offset, target) {
             'max-results': 1000
         };
         $.extend(eventOption, option.option);
-        api = API + '/api/ga.json?' + $.param(eventOption)
+        api = 'http://173.208.199.49:8888' + '/api/ga.json?' + $.param(eventOption)
     } else if (option.type === 'umeng') {
+        api = option.api;
+        console.log(api);
+    } else if (option.type === 'seedit') {
         api = option.api;
     }
     $.get(api, function(data) {
         var start;
         var datas = [];
 
+        if (option.startTimeFormatter) {
+            start = option.startTimeFormatter(data);
+            console.log(option.type, start);
+        }
+
         if (option.dataFormatter) {
             datas = option.dataFormatter(data);
-            start = option.startTimeFormatter(data);
-            //console.log(datas)
-            //console.log(start)
         }
 
         if (option.type === 'ga') {
             var raw = data.rows;
-            var datas = raw.map(function(one) {
+            datas = raw.map(function(one) {
                 return one[1] * 1;
             });
             var start = data['query']['start-date'] // daysAgo(offset);
             start = start.split('-');
             start[1]--;
+        }
+
+        if (option.type === 'umeng') {
+            /*datas = data.map(function(one) {
+                return one[1] * 1;
+            });
+
+            console.log(datas);*/
+        }
+
+        if (option.type === 'seedit') {
+            datas = data.map(function(one) {
+                return one[1] * 1;
+            });
+
+            console.log(datas);
         }
 
         // console.log(start)
@@ -463,11 +484,14 @@ var renderVisitData = function(option, offset, target) {
                             y2: 1
                         },
                         stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                            [0, chartOption && chartOption['color'] ? chartOption['color'][0] : Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(chartOption && chartOption['color'] ? chartOption['color'][0] : Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
                         ]
                     },
                     lineWidth: 1, // 线条宽
+                    lineColor: (function() {
+                        return chartOption && chartOption['lineColor'] ? chartOption['lineColor'] : Highcharts.getOptions().colors[0];
+                    })(),
                     marker: {
                         enabled: false
                     },
@@ -502,7 +526,7 @@ var parseOption = function(option) {
         option['end-date'] = daysAgo(option['end-date']);
     }
     var params = $.param(option);
-    var API = 'http://106.3.38.38:8888/api/ga.json?' + params;
+    var API = 'http://173.208.199.49:8888/api/ga.json?' + params;
     return API;
 }
 
@@ -560,9 +584,27 @@ var renderColumn = function(option, id, chartOption) {
         // begin
         // 获取x轴时间坐标 
         var raw = data.rows;
+
+        var series = [];
+        var raw = data.rows;
+        var len = raw[0].length - 1;
+        for (var i = 1; i <= len; i++) {
+            series.push({
+                name: chartOption['dataTitle'] && chartOption['dataTitle'][i - 1] ? chartOption['dataTitle'][i - 1] : '数据',
+                data: (function() {
+                    return raw.map(function(one) {
+                        return one[i] * 1;
+                    });
+                })()
+            });
+        }
+
         var x = (function() {
             return raw.map(function(one) {
-                return one[0].slice(4);
+                if (chartOption.sliceX === true) {
+                    return one[0].slice(4);
+                }
+                return one[0];
             });
         })();
 
@@ -583,17 +625,20 @@ var renderColumn = function(option, id, chartOption) {
                 text: null //'Source: WorldClimate.com'
             },
             xAxis: {
-                categories: x
+                categories: x,
+                labels: {
+                    step: 10 //THIS WILLS KIP EVERY OTHER LABEL
+                }
             },
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Rainfall (mm)'
+                    text: '数据'
                 }
             },
             tooltip: {
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} 次</b></td></tr>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -604,12 +649,155 @@ var renderColumn = function(option, id, chartOption) {
                     borderWidth: 0
                 }
             },
-            series: [{
-                name: '事件总数',
-                data: y
-
-            }]
+            series: series
         });
         // end
     });
+};
+
+var renderLine = function(option, id, chartOption) {
+    var API = parseOption(option);
+    $.get(API).success(function(data) {
+
+        var series = [];
+        var raw = data.rows;
+        var len = raw[0].length - 1;
+        for (var i = 1; i <= len; i++) {
+            series.push({
+                name: chartOption['dataTitle'] && chartOption['dataTitle'][i - 1] ? chartOption['dataTitle'][i - 1] : '数据',
+                data: (function() {
+                    return raw.map(function(one) {
+                        return one[i] * 1;
+                    });
+                })()
+            });
+        }
+        raw.forEach(function(one) {
+            one[1] *= 1;
+        });
+
+        var x = (function() {
+            return raw.map(function(one) {
+                return one[0].slice(4);
+            });
+        })();
+
+        var y = (function() {
+            return raw.map(function(one) {
+                return one[1] * 1;
+            });
+        })();
+
+        $('#' + id).highcharts({
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: null,
+                x: -20 //center
+            },
+            subtitle: {
+                text: null,
+                x: -20
+            },
+            xAxis: {
+                categories: x
+            },
+            yAxis: {
+                title: {
+                    text: '次数'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: '次'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: series
+        });
+    });
+
+}
+
+var iRenderArea = function(option, id, chartOption) {
+    var API = parseOption(option);
+    $.get(API).success(function(data) {
+
+        var series = [];
+        var raw = data.rows;
+        var len = raw[0].length - 1;
+        for (var i = 1; i <= len; i++) {
+            series.push({
+                name: chartOption['dataTitle'][i - 1],
+                data: (function() {
+                    return raw.map(function(one) {
+                        return one[i] * 1;
+                    });
+                })()
+            });
+        }
+        console.log(series);
+        $('#' + id).highcharts({
+            chart: {
+                type: 'areaspline'
+            },
+            title: {
+                text: 'Average fruit consumption during one week'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 150,
+                y: 100,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: '#FFFFFF'
+            },
+            xAxis: {
+                categories: [
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
+                    'Sunday'
+                ],
+                plotBands: [{ // visualize the weekend
+                    from: 4.5,
+                    to: 6.5,
+                    color: 'rgba(68, 170, 213, .2)'
+                }]
+            },
+            yAxis: {
+                title: {
+                    text: 'Fruit units'
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueSuffix: ' units'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                areaspline: {
+                    fillOpacity: 0.5
+                }
+            },
+            series: series
+        });
+    });
+
 }

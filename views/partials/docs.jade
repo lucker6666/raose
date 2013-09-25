@@ -1,4 +1,15 @@
-a.btn.btn-primary(href='/docs/add') 添加文档
-li(ng-repeat='one in docs')
-    p @{{one.author}}   
-         a(href='/doc/{{one._id}}') {{one.title}}
+div.form-group
+    a.btn.btn-primary(href='/docs/add') 添加文档
+
+div.panel.panel-default
+    div.panel-heading 文档列表
+    table.table
+        tbody
+            tr(ng-repeat='one in docs')  
+                td
+                    a(href='/doc/{{one._id}}') {{one.title}}
+                td
+                    span {{one.author}}   
+
+
+    

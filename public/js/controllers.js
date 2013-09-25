@@ -100,11 +100,19 @@ var ViewTopicCtrl = function($scope, $http, $routeParams) {
   // 获取话题内容
   $http.get('/api/topic/' + $routeParams.id).success(function(data) {
     $scope.form = data.data;
+    $scope.discussion = {
+      typeId: data.data._id,
+      type: 'topic'
+    };
   });
   // 获取评论
   $http.get('/api/topic/' + $routeParams.id + '/discussions').success(function(data) {
     $scope.list = data.data;
   });
+
+  $scope.paste = function() {
+    console.log(arguments);
+  }
   // 评论关联信息
 
   // 提交评论
@@ -116,6 +124,7 @@ var ViewTopicCtrl = function($scope, $http, $routeParams) {
     console.log($scope.discussion);
     $http.post('/api/topic/' + $routeParams.id + '/discussions', $scope.discussion).success(function(data) {
       console.log(data);
+      $scope.list.unshift($scope.discussion);
     });
   };
 };
@@ -131,15 +140,26 @@ var ViewTodoCtrl = function($scope, $http, $routeParams) {
 var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
   $http.get('/api/data/' + $routeParams.id).success(function(data) {
     $scope.form = data.data;
+
+    // 饼状图
     if ($scope.form['chartType'] === 'pie') {
       renderPie(data.data.option, 'data_' + $scope.form._id);
     }
 
+    // 条形图
     if ($scope.form['chartType'] === 'column') {
       renderColumn(data.data.option, 'data_' + $scope.form._id, {
         title: data.name
       });
     }
+
+    // 折线图
+    if ($scope.form['chartType'] === 'line') {
+      renderLine(data.data.option, 'data_' + $scope.form._id, {
+        title: data.name
+      });
+    }
+
   });
   $scope.deleteData = function() {
     $http.delete('/api/data/' + $routeParams.id).success(function(data) {
@@ -317,14 +337,14 @@ var IssuesCtrl = function($scope, $http) {
 };
 
 // 添加issue
-var AddIssueCtrl = function($scope, $http) {
+var AddIssueCtrl = function($scope, $http, $location) {
   $scope.form = {};
   $scope.submitIssue = function() {
-    $http.post('/api/issues', $scope.form, function(data) {
+    $http.post('/api/issues', $scope.form).success(function(data) {
       if (data['error'] === 0) {
-        alert('添加成功');
+        $location.path('/issue/' + data.data._id);
       }
-    })
+    });
   }
 };
 
@@ -368,6 +388,18 @@ var WeeklyDataCtrl = function($scope, $http) {
     "zhishi": "ga:16257208"
   };
 
+  renderColumn({
+    "metrics": "ga:visits,ga:pageviews",
+    "end-date": "2",
+    "start-date": "365",
+    "dimensions": "ga:week",
+    "ids": "ga:62079070",
+    "max-results": 366
+  }, 'site-all', {
+    dataTitle: ['访问次数', '页面浏览量'],
+    sliceX: false
+  });
+
   var siteArray = (function() {
     var tmp = [];
     for (var i in site) {
@@ -379,43 +411,89 @@ var WeeklyDataCtrl = function($scope, $http) {
     return tmp;
   })();
 
+  ['', 'organic', 'referral', '(none)'].forEach(function(one) {
+    var option = {
+      "metrics": "ga:visits",
+      "end-date": "2",
+      "start-date": "30",
+      "dimensions": "ga:date",
+      "ids": "ga:644519",
+      "max-results": 366,
+    };
+
+    if (one === '(none)') {
+      one = 'none';
+      option.filters = 'ga:medium==(none)';
+    }
+
+    if (one === '') {
+
+    }
+    renderLine(option, 'bbs-traffic-' + one, {
+      dataTitle: ['访问次数', '页面浏览量'],
+      sliceX: false
+    });
+  });
+
   siteArray.forEach(function(one) {
+    renderLine({
+      "metrics": "ga:visits,ga:pageviews",
+      "end-date": "2",
+      "start-date": "30",
+      "dimensions": "ga:date",
+      "ids": one.ga,
+      "max-results": 366
+    }, 'site-traffic-' + one.name, {
+      dataTitle: ['访问次数', '页面浏览量'],
+      sliceX: false
+    });
+
     // 全站流量
-    renderVisitData({
+    /*  renderVisitData({
       type: 'ga',
       option: {
         ids: one.ga,
         dimensions: 'ga:nthWeek'
       }
-    }, 90, '#site-traffic-' + one.name);
+    }, 90, '#site-traffic-' + one.name);*/
   });
 
-  // 广告数据
-  /*
-  "filters": "ga:eventCategory==广告统计;ga:eventAction!=基础体温",
-            "dimensions": "ga:eventAction",
-            "metrics": "ga:totalEvents",
-             "option": {
-              "start-date":"2013-06-26"
-             }*/
+  ['reply', 'topic', 'topic_web', 'topic_ios', 'topic_android', 'topic_wap', 'reply_web', 'reply_wap', 'reply_ios', 'reply_android'].forEach(function(one) {
+    renderVisitData({
+      type: 'seedit',
+      api: 'http://106.3.38.38:8888/api/status.json?type=' + one,
+      startTimeFormatter: function(one) {
+        var start = [];
+        start[0] = one[0][0].slice(0, 4);
+        start[1] = one[0][0].slice(4, 6);
+        start[2] = one[0][0].slice(6, 8);
+        return start;
+      },
+      format: function(one) {
 
-  renderVisitData({
-    type: 'ga',
-    option: {
-      ids: 'ga:63911100',
-      metrics: 'ga:totalEvents',
-      filters: "ga:eventCategory==流量交换;ga:eventAction==39"
-    }
-  }, 14, '#exchange-input');
+      }
+    }, 0, '#site-' + one);
+  });
 
-  renderVisitData({
-    type: 'ga',
-    option: {
-      ids: 'ga:63911100',
-      metrics: 'ga:totalEvents',
-      filters: "ga:eventCategory==广告位点击统计;ga:eventAction==帖内广告;ga:eventLabel=@流量交换位"
-    }
-  }, 14, '#exchange-output');
+  ['signup', 'signin'].forEach(function(one) {
+    renderVisitData({
+      type: 'seedit',
+      api: 'http://106.3.38.38:8888/api/status.json?type=' + one,
+      startTimeFormatter: function(one) {
+        var start = [];
+        start[0] = one[0][0].slice(0, 4);
+        start[1] = one[0][0].slice(4, 6);
+        start[2] = one[0][0].slice(6, 8);
+        return start;
+      },
+      format: function(one) {
+
+      }
+    }, 0, '#site-' + one, {
+      color: ['#b94a48'],
+      lineColor: '#b94a48'
+    });
+  });
 
   // app安装
   renderVisitData({
@@ -455,9 +533,6 @@ var WeeklyDataCtrl = function($scope, $http) {
     }
   }, 0, '#app-launch');
 
-  // $http.get('http://106.3.38.38:8888/api/app.json?type=monthly_install').success(function(data) {
-  // 渲染图表
-  // });
 }
 
 // 登录
@@ -474,4 +549,9 @@ var SigninCtrl = function($scope, $http, $location) {
 
 var ViewAdCtrl = function($scope, $http) {
   // view ad data
+
 };
+
+var SettingsCtrl = function() {
+
+}

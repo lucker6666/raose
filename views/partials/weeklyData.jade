@@ -1,14 +1,27 @@
 div(class='row')
     div(class='col-md-12')  
         div(class='panel panel-info')
-            div(class='panel-heading')全站3个月内流量趋势(用户访问数)
+            div(class='panel-heading')全站1年内流量趋势(按周算)
             div(class='panel-body') 
-                div(id='all-userview',style='height:250px;')
+                div(id='site-all',style='height:250px;')
+                p 
+                    img(src='http://chart.googleapis.com/chart?cht=pc&chs=55x55&chf=bg%2Cs%2CFFFFFF00&chco=bce8f1%2CE6E6E6%2CE6E6E6&chd=e%3A%2C%2C..')
+                    span 日均访问次数: 
+                    span.no.no-smm{{site.uv.all.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm {{site.uv.rate.all}}%
+                    
+                    img(src='http://chart.googleapis.com/chart?cht=pc&chs=55x55&chf=bg%2Cs%2CFFFFFF00&chco=bce8f1%2CEA578C%2CE6E6E6&chd=e%3A%2C%2C..')
+
+                    span 日均浏览量: 
+                    span.no.no-smm {{site.pv.all.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm(ng-bind-html-unsafe='site.pv.rate.all | rate')
+                
 
 
 
-div(class='alert alert-info') 子站流量概览
-
+div(class='alert alert-info') 子站流量概览(访问次数/周)
 // 全站流量数据
 div.row 
     div.col-md-6
@@ -16,12 +29,32 @@ div.row
             div.panel-heading 全站流量
             div.panel-body
                 div#site-traffic-all.data-box
+                p 
+                    span 日均访问次数: 
+                    span.no.no-smm{{site.uv.all.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm {{site.uv.rate.all}}%
+                p
+                    span 日均浏览量: 
+                    span.no.no-smm {{site.pv.all.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm(ng-bind-html-unsafe='site.pv.rate.all | rate')%
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading BBS流量
             div.panel-body
                 div#site-traffic-bbs.data-box
+                p 
+                    span 日均访问次数: 
+                    span.no.no-smm{{site.uv.bbs.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm {{site.uv.rate.bbs}}%
+                p
+                    span 日均浏览量: 
+                    span.no.no-smm {{site.pv.bbs.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm(ng-bind-html-unsafe='site.pv.rate.bbs | rate')%
 
 
     div.col-md-6
@@ -29,24 +62,64 @@ div.row
             div.panel-heading 知识流量
             div.panel-body
                 div#site-traffic-zhishi.data-box
+                p 
+                    span 日均访问次数: 
+                    span.no.no-smm{{site.uv.zhishi.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm {{site.uv.rate.zhishi}}%
+                p
+                    span 日均浏览量: 
+                    span.no.no-smm {{site.pv.zhishi.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm(ng-bind-html-unsafe='site.pv.rate.zhishi | rate')%
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading 日记流量
             div.panel-body
                 div#site-traffic-riji.data-box
+                p 
+                    span 日均访问次数: 
+                    span.no.no-smm{{site.uv.riji.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm {{site.uv.rate.riji}}%
+                p
+                    span 日均浏览量: 
+                    span.no.no-smm {{site.pv.riji.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm(ng-bind-html-unsafe='site.pv.rate.riji | rate')%
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading 播爱达人
             div.panel-body
                 div#site-traffic-i.data-box
+                p 
+                    span 日均访问次数: 
+                    span.no.no-smm{{site.uv.i.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm {{site.uv.rate.i}}%
+                p
+                    span 日均浏览量: 
+                    span.no.no-smm {{site.pv.i.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm(ng-bind-html-unsafe='site.pv.rate.i | rate')%
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading WAP
             div.panel-body
                 div#site-traffic-wap.data-box
+                p 
+                    span 日均访问次数: 
+                    span.no.no-smm{{site.uv.m.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm {{site.uv.rate.m}}%
+                p
+                    span 日均浏览量: 
+                    span.no.no-smm {{site.pv.m.thisWeek}}; 
+                    span 周环比增长 
+                    span.no.no-smm(ng-bind-html-unsafe='site.pv.rate.m | rate')%
 
 
 
@@ -54,29 +127,47 @@ div(class='alert alert-info') 论坛流量来源
 
 div.row
 
-    div.col-md-6
+   // div.col-md-6
         div.panel.panel-info
             div.panel-heading 全部来源
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#bbs-traffic-.data-box
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading 搜索引擎来源
             div.panel-body
-                div#bbs-traffic-referral.data-box
+                div#bbs-traffic-organic.data-box
+                p 
+                    img(src='http://chart.googleapis.com/chart?cht=pc&chs=55x55&chf=bg%2Cs%2CFFFFFF00&chco=bce8f1%2CE6E6E6%2CE6E6E6&chd=e%3A%2C%2C..')
+                    span 日均访问次数: 
+                    span.no.no-smm{{site.uv.bbs.thisFrom[0][1]}}; 
+                    span 周环比增长 
+                    span.no.no-smm(ng-bind-html-unsafe='site.uv.bbs.organicRate | rate')
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading 直接访问
             div.panel-body
                 div#bbs-traffic-none.data-box
+                p 
+                    img(src='http://chart.googleapis.com/chart?cht=pc&chs=55x55&chf=bg%2Cs%2CFFFFFF00&chco=bce8f1%2CE6E6E6%2CE6E6E6&chd=e%3A%2C%2C..')
+                    span 日均访问次数: 
+                    span.no.no-smm{{site.uv.bbs.thisFrom[2][1]}}; 
+                    span 周环比增长 
+                    span.no.no-smm(ng-bind-html-unsafe='site.uv.bbs["<none>Rate"] | rate')
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading 引荐来源
             div.panel-body
-                div#site-traffic-riji.data-box
+                div#bbs-traffic-referral.data-box
+                p 
+                    img(src='http://chart.googleapis.com/chart?cht=pc&chs=55x55&chf=bg%2Cs%2CFFFFFF00&chco=bce8f1%2CE6E6E6%2CE6E6E6&chd=e%3A%2C%2C..')
+                    span 日均访问次数: 
+                    span.no.no-smm{{site.uv.bbs.thisFrom[1][1]}}; 
+                    span 周环比增长 
+                    span.no.no-smm(ng-bind-html-unsafe='site.uv.bbs["referralRate"] | rate')
 
 
 
@@ -88,32 +179,57 @@ div.row
         div.panel.panel-info
             div.panel-heading  发贴
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-topic.data-box
+                p 
+                    span 日均发贴 
+                    span.no.no-smm{{seedit.thisWeek.topic_avg}}  
+                    span 周环比增长 
+                    span(ng-bind-html-unsafe='seedit.compare.topic_avg | rate')
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading  WEB发贴
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-topic_web.data-box
+                p 
+                    span 日均发贴 
+                    span.no.no-smm{{seedit.thisWeek.topic_by_web_avg}}  
+                    span 周环比增长 
+                    span(ng-bind-html-unsafe='seedit.compare.topic_by_web_avg | rate')
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading  WAP发贴
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-topic_wap.data-box
+                p 
+                    span 日均发贴 
+                    span.no.no-smm{{seedit.thisWeek.topic_by_wap_avg}}  
+                    span 周环比增长 
+                    span(ng-bind-html-unsafe='seedit.compare.topic_by_wap_avg | rate')
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading  Android发贴
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-topic_android.data-box
+                p 
+                    span 日均发贴 
+                    span.no.no-smm{{seedit.thisWeek.topic_by_android_avg}}  
+                    span 周环比增长 
+                    span(ng-bind-html-unsafe='seedit.compare.topic_by_android_avg | rate')
 
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading  IOS发贴
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-topic_ios.data-box
+                p 
+                    span 日均发贴 
+                    span.no.no-smm{{seedit.thisWeek.topic_by_ios_avg}}  
+                    span 周环比增长 
+                    span(ng-bind-html-unsafe='seedit.compare.topic_by_ios_avg | rate')
 
 
 
@@ -123,47 +239,101 @@ div.row
         div.panel.panel-info
             div.panel-heading  回复
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-reply.data-box
+                p 
+                    span 日均发贴 
+                    span.no.no-smm{{seedit.thisWeek.reply_avg}}  
+                    span 周环比增长 
+                    span(ng-bind-html-unsafe='seedit.compare.reply_avg | rate')
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading  WEB回复
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-reply_web.data-box
+                p 
+                span 日均回复
+                span.no.no-smm{{seedit.thisWeek.reply_by_web_avg}}  
+                span 周环比增长 
+                span(ng-bind-html-unsafe='seedit.compare.reply_by_web_avg | rate')
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading  WAP回复
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-reply_wap.data-box
+                p 
+                span 日均回复
+                span.no.no-smm{{seedit.thisWeek.reply_by_wap_avg}}  
+                span 周环比增长 
+                span(ng-bind-html-unsafe='seedit.compare.reply_by_wap_avg | rate')
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading  Android回复
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-reply_android.data-box
+                p 
+                span 日均回复
+                span.no.no-smm{{seedit.thisWeek.reply_by_android_avg}}  
+                span 周环比增长 
+                span(ng-bind-html-unsafe='seedit.compare.reply_by_android_avg | rate')
 
 
     div.col-md-6
         div.panel.panel-info
             div.panel-heading  IOS回复
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-reply_ios.data-box
+                p 
+                span 日均回复
+                span.no.no-smm{{seedit.thisWeek.reply_by_ios_avg}}  
+                span 周环比增长 
+                span(ng-bind-html-unsafe='seedit.compare.reply_by_ios_avg | rate')
 
+
+div(class='alert alert-danger') 注册登录数据
+
+
+div.row
     div.col-md-6
-        div.panel.panel-info
+        div.panel.panel-danger
             div.panel-heading  注册
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-signup.data-box
+                p 
+                span 日均注册
+                span.no.no-smm{{seedit.thisWeek.signup_avg}}  
+                span 周环比增长 
+                span(ng-bind-html-unsafe='seedit.compare.signup_avg | rate')注册
 
 
     div.col-md-6
-        div.panel.panel-info
+        div.panel.panel-danger
             div.panel-heading  登录
             div.panel-body
-                div#bbs-traffic-all.data-box
+                div#site-signin.data-box
+                p 
+                span 日均登录
+                span.no.no-smm{{seedit.thisWeek.signin_avg}}  
+                span 周环比增长 
+                span(ng-bind-html-unsafe='seedit.compare.signin_avg | rate')注册
+
+
+    
+
+div(class='alert alert-success') App相关数据
 
 div(class='row')
+    
+    div(class='col-md-12')  
+        div(class='panel panel-success')
+            div(class='panel-heading') 日新增用户
+            div(class='panel-body') 
+                div(id='app-install',style='height:325px;')
+                span(class='no') {{app.thisWeekInstallAvg}} 
+                周环比增长 {{app.weeklyInstallSum}}
+
     div(class='col-md-2')  
         div(class='panel panel-danger')
             div(class='panel-heading') APP当前排名
@@ -175,120 +345,18 @@ div(class='row')
                 span(class='gray') {{appRank.time}}
 
 
-
-
-
-div(class='row')
-    div(class='col-md-3')  
-        div(class='panel panel-info')
-            div(class='panel-heading') 子站流量数据
-            div(class='panel-body',style='padding:15px 5px 15px 5px;') 
-                ul
-                    li WWW流量 
-                        span(class='no no-smm') {{site.www.thisWeek}} 
-                        span {{site.www.rate}}
-                    li  BBS流量
-                        span(class='no no-smm') {{site.bbs.thisWeek}} 
-                        span {{site.bbs.rate}}
-                    // li  WAP流量 {{site.wap.thisWeek}} {{site.wap.rate}}
-                    li  RIJI流量 
-                        span(class='no no-smm') {{site.riji.thisWeek}} 
-                        span {{site.riji.rate}}
-                    li  ZHISHI流量 
-                        span(class='no no-smm') {{site.zhishi.thisWeek}} 
-                        span {{site.zhishi.rate}}
-
-    div(class='col-md-3')  
-        div(class='panel panel-info')
-            div(class='panel-heading') BBS流量来源数据
-            div(class='panel-body') 
-                p 搜索引擎 
-                    span(class='no no-smm') {{site.bbs.thisFrom[0][1]}} 
-                    span {{site.bbs.organicRate}}
-                p 引荐 
-                    span(class='no no-smm') {{site.bbs.thisFrom[1][1]}} 
-                    span {{site.bbs.referralRate}}
-                p 其他 
-                    span(class='no no-smm') {{site.bbs.thisFrom[2][1]}} 
-                    // span {{site.bbs['<none>Rate']}}
-
-    div(class='col-md-3')  
-        div(class='panel panel-info')
-            div(class='panel-heading') 发帖数
-            div(class='panel-body') 
-                span(class='no') {{seedit.thisWeek.topic}} 
-                span {{seedit.compare.topic}}
-
-
-    div(class='col-md-3')  
-        div(class='panel panel-info')
-            div(class='panel-heading') 回复数
-            div(class='panel-body') 
-                span(class='no') {{seedit.thisWeek.reply}} 
-                img(src='http://chart.googleapis.com/chart?cht=pc&chs=55x55&chf=bg%2Cs%2CFFFFFF00&chco=bce8f1%2CE6E6E6%2CE6E6E6&chd=e%3A%2C%2C..') 
-                span {{seedit.compare.reply}}
-
-
-div(class='alert alert-danger') 注册登录数据
-
-div(class='row')
-
-    div(class='col-md-6')  
-        div(class='panel panel-danger')
-            div(class='panel-heading') 注册趋势
-            div(class='panel-body') 
-            span(class='no') {{seedit.thisWeek.signup_avg}} 
-            span {{seedit.compare.signup_avg}}
-
-    div(class='col-md-6')  
-        div(class='panel panel-danger')
-            div(class='panel-heading') 登录趋势
-            div(class='panel-body')   
-            span(class='no') {{seedit.thisWeek.signin_avg}} 
-            span {{seedit.compare.signin_avg}}
-
-
-div(class='alert alert-success') App相关数据
-
-div(class='row')
-
-    div(class='col-md-6')  
-        div(class='panel panel-success')
-            div(class='panel-heading') 日新增用户
-            div(class='panel-body') 
-                div(id='app-install',style='height:325px;')
-                span(class='no') {{app.thisWeekInstallAvg}} 
-                {{app.weeklyInstallSum}}
-
-    div(class='col-md-6')  
+    div(class='col-md-5')  
         div(class='panel panel-success')
             div(class='panel-heading') 日活跃用户
             div(class='panel-body') 
                 div(id='app-active',style='height:100px;')
                 span(class='no no-sm') {{app.thisWeekActiveAvg}} 
-                {{app.weeklyActiveSum}}
+                周环比增长 {{app.weeklyActiveSum}}
 
-    div(class='col-md-6')  
+    div(class='col-md-5')  
         div(class='panel panel-success')
             div(class='panel-heading') 日启动用户
             div(class='panel-body') 
                 div(id='app-launch',style='height:100px;')
                 span(class='no-sm') {{app.thisWeekLaunchesAvg}} 
-                {{app.weeklyLaunchesSum}}
-
-
-div(class='alert alert-info') 流量交换
-
-
-div(class='row')
-    div(class='col-md-6')
-        div(class='panel panel-info')
-            div(class='panel-heading') 导入流量
-            div(class='panel-body')  
-                div(id='exchange-input',style='height:120px;')
-
-    div(class='col-md-6')
-        div(class='panel panel-info')
-            div(class='panel-heading') 导出流量
-            div(class='panel-body') 
-                div(id='exchange-output',style='height:120px;')
+                周环比增长 {{app.weeklyLaunchesSum}}

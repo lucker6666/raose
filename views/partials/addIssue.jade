@@ -1,9 +1,51 @@
-h2 添加新Issue
-label(for='title') 名字: 
-input(ng-model='form.title')
-label(for='content')
-input(ng-model='form.content')
-label(for='level') 优先级
-input(ng-model='form.level')
-input(ng-model='form.labels')
-button(ng-click='submitIssue()') 确定
+div.form-group
+    label(for='title') 名字: 
+    input.form-control(ng-model='form.title')
+
+div.form-group
+    label(for='level') 优先级
+    select.form-control(ng-model='form.level',ng-init='form.level="01"')
+        option(value='01') 必须赶紧做
+        option(value='02') 必须做
+        option(value='03') 最好做
+        option(value='04') 可以做
+
+div.form-group
+    label 影响模块
+    select.form-control(ng-model='form.site',ng-init='form.site="all"')
+        option(value='all') 所有
+        option(value='www') WWW
+        option(value='bbs') 论坛
+        option(value='zhishi') 知识
+        option(value='riji') 日记
+        option(value='i') 播爱
+
+div.form-group
+    label 影响范围
+    select.form-control(ng-model='form.area',ng-init='form.area="some"')
+        option(value='single') 单个用户
+        option(value='some') 部分用户
+        option(value='all') 全部用户
+
+div.form-group
+    label URL
+    input.form-control(ng-model='form.url')
+
+div.form-group
+    label 来源
+    input.form-control(ng-model='form.from')
+
+div.form-group
+    label 提交
+    input.form-control(ng-model='form.submit')
+
+div.form-group
+    label 标签
+    input.form-control(ng-model='form.labels')
+
+div.form-group    
+    label(for='content') 内容
+    textarea.form-control(ng-model='form.content')
+
+div.form-group
+    button.btn.btn-primary(ng-click='submitIssue()') 确定

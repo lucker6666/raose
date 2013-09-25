@@ -10,7 +10,7 @@ div(class='form-group')
 	input(type='hidden',value='{{form._id}}',ng-model='discussion.typeId')
 	input(type='hidden',value='topic',ng-model='discussion.type')
 	label 评论一下呗
-	textarea(class='form-control',ng-model='discussion.content')
+	textarea(class='form-control',ng-model='discussion.content',ng-paste='paste()')
 
 div(class='form-group')
 	button(class='btn btn-primary',ng-click='submitDiscussion()') 提交 

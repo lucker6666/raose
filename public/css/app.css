@@ -251,3 +251,6 @@ p {color:#666;}
 .data-box-2h {height:300px;}
 .data-box-3h {height:450px;}
 .data-box-4h {height:600px;}
+
+
+svg>text>tspan {display:none;}
