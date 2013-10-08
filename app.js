@@ -1,6 +1,20 @@
 /**
  * Module dependencies.
  */
+var nodeExcel = require('excel-export');
+
+var httpGet = function(url, callback) {
+  var http = require('http');
+  http.get(url, function(rs) {
+    var data = '';
+    rs.on('data', function(chunk) {
+      data += chunk;
+    });
+    rs.on('end', function() {
+      callback(data);
+    });
+  })
+};
 
 var express = require('express'),
   routes = require('./routes'),
@@ -43,15 +57,15 @@ app.use(flash());
 app.use(app.router);
 
 passport.serializeUser(function(user, done) {
-  done(null, user.username);
+  done(null, user);
 });
 
-passport.deserializeUser(function(username, done) {
+passport.deserializeUser(function(user, done) {
   /* done(null, {
     username: username
   });*/
   User.findOne({
-    username: username
+    username: user.username
   }, function(err, user) {
     done(err, user);
   });
@@ -98,7 +112,8 @@ app.get('/api/usercheck', function(req, res) {
     res.send({
       error: 0,
       data: {
-        hasSignin: true
+        hasSignin: true,
+        user: req.user
       }
     });
   }
@@ -123,7 +138,7 @@ app.delete('/api/status/:id', api.status.delete);
  *-----------------------文档相关-------------------
  */
 // 从Gist更新文档
-app.get('/api/doc/_fetch',api.docs.fetchFromGist);
+app.get('/api/doc/_fetch', api.docs.fetchFromGist);
 // 获取所有文档
 app.get('/api/docs', api.docs.list);
 // 获取单个文档
@@ -135,7 +150,6 @@ app.post('/api/docs', api.docs.add);
 // 删除单个文档
 app.delete('/api/doc/:id', api.docs.delete);
 
-
 /**
  *-----------------------Issue相关-------------------
  */
@@ -145,11 +159,11 @@ app.get('/api/issues', api.issues.list);
 // 获取单个状态
 app.get('/api/issue/:id', api.issues.get);
 // 更新单个状态
-app.put('/api/issues/:id', api.issues.update);
+app.put('/api/issue/:id', api.issues.update);
 // 添加单个状态
 app.post('/api/issues', api.issues.add);
 // 删除单个状态
-app.delete('/api/issues/:id', api.issues.delete);
+app.delete('/api/issue/:id', api.issues.delete);
 
 /**
  *-----------------------todo相关---------------------
@@ -157,6 +171,7 @@ app.delete('/api/issues/:id', api.issues.delete);
 app.get('/api/todos', api.todo.list);
 app.post('/api/todos', api.todo.add);
 app.get('/api/todo/:id', api.todo.get);
+app.delete('/api/todo/:id', api.todo.delete);
 
 /**
  * ----------------------需求相关-------------------------
@@ -174,6 +189,7 @@ app.get('/api/datas', api.data.list);
 app.post('/api/datas', api.data.add);
 app.get('/api/data/:id', api.data.get);
 app.delete('/api/data/:id', api.data.delete);
+app.put('/api/data/:id', api.data.put);
 
 /**
  * ----------------------讨论-------------------------
@@ -207,7 +223,7 @@ app.get('/account/signin', function(req, res) {
     res.redirect('back');
     return;
   }
-  res.send('<form action="/account/signin" method="post">\
+  /*  res.send('<form action="/account/signin" method="post">\
     <div>\
         <label>Username:</label>\
         <input type="text" name="username"/>\
@@ -219,7 +235,13 @@ app.get('/account/signin', function(req, res) {
     <div>\
         <input type="submit" value="Log In"/>\
     </div>\
-</form>');
+</form>');*/
+  res.render('index', {
+    user: {
+      username: null,
+      flag: 1
+    }
+  });
 });
 
 app.get('/account/signup', function(req, res) {
@@ -315,6 +337,372 @@ app.post('/api/upload', function(req, res) {
       });
     });
   });
+});
+
+// 数据接口
+// 使用美帝VPS做代理
+app.get('/api/ga.json', function(req, res) {
+  var search = req.originalUrl.replace('/api/ga.json?', ''),
+    proxyUrl = 'http://173.208.199.49:8888' + req.originalUrl,
+    http = require('http');
+  http.get(proxyUrl, function(res1) {
+    var data = '';
+    res1.on('data', function(chunk) {
+      data += chunk;
+    })
+    res1.on('end', function() {
+      if (data.length) {
+        res.send(JSON.parse(data));
+      } else {
+        res.send({
+          error: 'has some problem'
+        });
+      }
+    })
+  });
+});
+
+app.get('/excel/:site', function(req, res) {
+  var site = req.params.site;
+  // 获取全站数据
+  httpGet('http://173.208.199.49:8888/api/ga.json?max-results=10000&ids=ga%3A62079070&dimensions=ga%3Adate&start-date=2013-06-15&end-date=2013-09-27&metrics=ga%3Apageviews%2Cga%3Avisits', function(data) {
+    console.log(data);
+  });
+
+  var conf = {};
+  conf.cols = [{
+    caption: '日期',
+    type: 'string'
+  }, {
+    caption: '浏览量',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '日均浏览量',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: '访问次数',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '日均访问次数',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }];
+
+  conf.rows = require('./cron/' + site + '.json');
+  var result = nodeExcel.execute(conf);
+  //var fs = require('fs');
+  // fs.writeFileSync('all.xlsx', result, 'binary');
+  res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+  res.setHeader("Content-Disposition", "attachment; filename=" + site + ".xlsx");
+  res.end(result, 'binary');
+});
+
+app.get('/api/excel/app', function(req, res) {
+  //var site = req.params.site;
+  // 获取全站数据
+  var conf = {};
+  conf.cols = [{
+    caption: '日期',
+    type: 'string'
+  }, {
+    caption: '新增用户',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: '活跃用户',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: '启动用户',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }];
+
+  conf.rows = require('./cron/allapp_parse.json');
+  console.log(conf.rows);
+  var result = nodeExcel.execute(conf);
+  //var fs = require('fs');
+  // fs.writeFileSync('all.xlsx', result, 'binary');
+  res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+  res.setHeader("Content-Disposition", "attachment; filename=" + "app.xlsx");
+  res.end(result, 'binary');
+});
+
+app.get('/api/excel/bbs', function(req, res) {
+  //var site = req.params.site;
+  // 获取全站数据
+  var conf = {};
+  conf.cols = [{
+    caption: '日期',
+    type: 'string'
+  }, {
+    caption: '全部来源',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: '搜索引擎',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: '直接访问',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: '引荐来源',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }];
+
+  conf.rows = require('./cron/allbbs_parse.json');
+  console.log(conf.rows);
+  var result = nodeExcel.execute(conf);
+  //var fs = require('fs');
+  // fs.writeFileSync('all.xlsx', result, 'binary');
+  res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+  res.setHeader("Content-Disposition", "attachment; filename=" + "bbs_source.xlsx");
+  res.end(result, 'binary');
+});
+
+app.get('/api/excel/site', function(req, res) {
+  //var site = req.params.site;
+  // 获取全站数据
+  var conf = {};
+  conf.cols = [{
+    caption: '日期',
+    type: 'string'
+  }, {
+    caption: '全部发贴',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: 'WAP发贴',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: 'IOS发贴',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: 'Android发贴',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: 'WEB发贴',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: '全部回复',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: 'Android回复',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: 'WAP回帖',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: 'IOS回贴',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: 'WEB回贴',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: '日记',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: '注册',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }, {
+    caption: '登录',
+    type: 'number'
+  }, {
+    caption: '日环比增长',
+    type: 'string'
+  }, {
+    caption: '周均',
+    type: 'number'
+  }, {
+    caption: '周环比增长',
+    type: 'string'
+  }];
+
+  conf.rows = require('./cron/allsite_parse.json');
+  console.log(conf.rows);
+  var result = nodeExcel.execute(conf);
+  //var fs = require('fs');
+  // fs.writeFileSync('all.xlsx', result, 'binary');
+  res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+  res.setHeader("Content-Disposition", "attachment; filename=" + "seedit.xlsx");
+  res.end(result, 'binary');
 });
 
 // redirect all others to the index (HTML5 history)

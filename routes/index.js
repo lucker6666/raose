@@ -5,11 +5,26 @@
 exports.index = function(req, res) {
     if (!req.user) {
         res.redirect('/account/signin');
+        return;
     }
-    res.render('index');
+    // var isAdmin = (req.user.flag === 0) ? 'show' : 'hid';
+    // console.log(req.user, isAdmin, req.user.flag, typeof req.user.flag, req.user.flag === 0);
+    res.render('index', {
+        showWeeklyReport: true,
+        user: req.user ? req.user : {
+            username: 'null'
+        }
+    });
 };
 
 exports.partials = function(req, res) {
     var name = req.params.name;
-    res.render('partials/' + name);
+    // var isAdmin = (req.user.flag === 0) ? 'show' : 'hid';
+    // console.log(req.user, isAdmin, req.user.flag, typeof req.user.flag, req.user.flag === 0);
+    res.render('partials/' + name, {
+        showWeeklyReport: true,
+        user: req.user ? req.user : {
+            username: 'null'
+        }
+    });
 };

@@ -325,7 +325,6 @@ var renderArea = function(data, id, title, avg, showAll, multi, lessLabel) {
             urls.push({
                 url: 'http://106.3.38.38:8888/api/ga.json?' + $.param(eventOption)
             });
-
         });
 
         var url1 = (function() {
@@ -347,9 +346,6 @@ var renderArea = function(data, id, title, avg, showAll, multi, lessLabel) {
                 url: url2
             })).then(function(resp1, resp2) {
             //this callback will be fired once all ajax calls have finished.
-            //console.log('done!!');
-            //console.log(resp1[0]);
-            //console.log(resp2[0]);
             // 合并row数据
             var data = resp1[0],
                 data2 = resp2[0];
@@ -390,7 +386,6 @@ var renderVisitData = function(option, offset, target, chartOption) {
         api = 'http://173.208.199.49:8888' + '/api/ga.json?' + $.param(eventOption)
     } else if (option.type === 'umeng') {
         api = option.api;
-        console.log(api);
     } else if (option.type === 'seedit') {
         api = option.api;
     }
@@ -400,7 +395,6 @@ var renderVisitData = function(option, offset, target, chartOption) {
 
         if (option.startTimeFormatter) {
             start = option.startTimeFormatter(data);
-            console.log(option.type, start);
         }
 
         if (option.dataFormatter) {
@@ -417,23 +411,14 @@ var renderVisitData = function(option, offset, target, chartOption) {
             start[1]--;
         }
 
-        if (option.type === 'umeng') {
-            /*datas = data.map(function(one) {
-                return one[1] * 1;
-            });
-
-            console.log(datas);*/
-        }
+        if (option.type === 'umeng') {}
 
         if (option.type === 'seedit') {
             datas = data.map(function(one) {
                 return one[1] * 1;
             });
-
-            console.log(datas);
         }
 
-        // console.log(start)
         $(target).highcharts({
             chart: {
                 zoomType: 'x',
@@ -509,7 +494,7 @@ var renderVisitData = function(option, offset, target, chartOption) {
                 type: 'area',
                 name: '访问次数',
                 pointInterval: 24 * 3600 * 1000,
-                pointStart: Date.UTC(start[0], start[1], start[2]),
+                pointStart: Date.UTC(start[0], start[1] - 1, start[2]),
                 data: datas
             }]
         });
@@ -627,7 +612,7 @@ var renderColumn = function(option, id, chartOption) {
             xAxis: {
                 categories: x,
                 labels: {
-                    step: 10 //THIS WILLS KIP EVERY OTHER LABEL
+                    //step: 10 //THIS WILLS KIP EVERY OTHER LABEL
                 }
             },
             yAxis: {
@@ -658,7 +643,6 @@ var renderColumn = function(option, id, chartOption) {
 var renderLine = function(option, id, chartOption) {
     var API = parseOption(option);
     $.get(API).success(function(data) {
-
         var series = [];
         var raw = data.rows;
         var len = raw[0].length - 1;
@@ -673,6 +657,8 @@ var renderLine = function(option, id, chartOption) {
             });
         }
         raw.forEach(function(one) {
+            one[0] = one[0] + ''; // 第一个转换为字符
+            console.log(one[0]);
             one[1] *= 1;
         });
 
@@ -701,7 +687,10 @@ var renderLine = function(option, id, chartOption) {
                 x: -20
             },
             xAxis: {
-                categories: x
+                categories: x,
+                labels: {
+                    step: 10 //THIS WILLS KIP EVERY OTHER LABEL
+                }
             },
             yAxis: {
                 title: {

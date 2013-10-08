@@ -12,7 +12,7 @@ filter("rate", function() {
   };
   return function(rate) {
     if (rate < 0) return '<span class="vivid">' + rate + '%</span>';
-    return rate;
+    return rate + '%';
   };
 }).
 config(['$routeProvider', '$locationProvider',
@@ -122,6 +122,10 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/viewAdData',
       controller: ViewAdCtrl
     }).
+    when('/data/:id/:action', {
+      templateUrl: 'partials/addData',
+      controller: EditDataCtrl
+    }).
     when('/data/:id', {
       templateUrl: 'partials/viewData',
       controller: ViewDataCtrl
@@ -130,7 +134,7 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/weeklyData',
       controller: WeeklyDataCtrl
     }).
-    when('/signin', {
+    when('/account/signin', {
       templateUrl: 'partials/signin',
       controller: SigninCtrl
     }).
@@ -169,4 +173,12 @@ config(['$routeProvider', '$locationProvider',
       }
     };
     return obj;
+  }).run(function($rootScope, $http) {
+    $rootScope.$on('$routeChangeSuccess', function(ev, data) {
+      $http.get('/api/usercheck').success(function(data) {
+        if (data.data.hasSignin === false) {
+          $rootScope.hideNav = true;
+        }
+      });
+    });
   });

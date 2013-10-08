@@ -1,3 +1,8 @@
+div.alert.alert-info 
+    p 请在专业人员指导下使用。。
+    p
+        a(href='https://developers.google.com/analytics/devguides/reporting/core/dimsmets',target='_blank') API文档 
+
 div.form-group
     label 名字
     input.form-control(ng-model='form.name',require)
@@ -16,7 +21,6 @@ div.form-group
         option(value='line') 折线图
         option(value='area') 面积图
 
-
 div.form-group
     label 站点
     select.form-control(ng-model='form.option.ids')
@@ -28,7 +32,7 @@ div.form-group
         option(value='ga:16257208') 知识
         option(value='ga:67437444') 播爱达人
         option(value='ga:648824') 个人中心
-
+        option(value='ga:74817277') 账户中心
 
 div(class='form-group')
     label 开始日期，格式为 2013-05-08 或者天数，即多少天前，如30
@@ -41,11 +45,11 @@ div(class='form-group')
 
 
 div(class='form-group')
-    label 横坐标(日期 ga:date)
+    label 横坐标(举例:按天取数据 ga:date)
     input(ng-model='form.option.dimensions',class='form-control',require)
 
 div(class='form-group')
-    label 纵坐标值 (访问次数: ga:uservisit)
+    label 纵坐标值 (举例:页面浏览数: ga:pageviews)
     input(ng-model='form.option.metrics',class='form-control',require)
 
 div(class='form-group')
@@ -61,7 +65,10 @@ div(class='form-group')
     label 最大结果数
     input(ng-model='form.option["max-results"]',class='form-control')
 
-
-
+div.form-group
+    div(class='alert alert-success {{show-success}}',ng-show='showSuccess') {{success_tip}}
+    
 div.form-group
     input(ng-click='submitData()',class='btn btn-primary',type='button',value='添加') 
+    input.btn.btn-primary(ng-click='updateData()',value='更新',type='button');
+

@@ -243,6 +243,7 @@ p {color:#666;}
 .no-lg {font-size:80px;}
 .no-sm {font-size:40px;}
 .no-smm {font-size:20px;}
+.no-50 {font-size:50px;}
 .gray {color:#888;font-family:Arial;font-size:12px;}
 .rate {color:#EA578C;}
 
@@ -254,3 +255,8 @@ p {color:#666;}
 
 
 svg>text>tspan {display:none;}
+
+.ios_from,.android_from {display:none;}
+.ios_from_0,.android_from_0 {display:block;}
+
+.table tfoot>tr>td.table-middle {vertical-align: middle;}

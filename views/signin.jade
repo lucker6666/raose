@@ -1,45 +1,6 @@
 extends layout
 
 block body
-  nav(class='main-nav')
-    ul
-      li(class='txt-center')
-        img(class='avatar',src='img/avatar.png',width='60',height='60')
-      li
-        a(href='/') 首页
-
-      li
-        a(href='/weeklyData') 数据周报
-
-      li
-        a(href='/adData') 广告数据
-
-     // li
-     //   a(href='/features') 需求
-
-     // li
-     //   a(href='/todos') Todo
-
-     // li 
-       // a(href='/topics') 讨论
-
-     
-
-     // li
-     //   a(href='/design') 设计稿讨论
-
-     // li
-     //   a(href='/issues') issue 列表
-
-     // li
-     //   a(href='/docs') 文档
-
-      li
-        a(href='/datas') 数据源
-
-      li 
-        a(href='/settings') 设置
-
   div(class='content',ng-view)
     partials('views/signin')
   script(src='js/jquery-1.10.2.min.js')

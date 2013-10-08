@@ -41,9 +41,19 @@ var AddDocCtrl = function($scope, $http, $location) {
 // 查看文档 
 
 var ViewDocCtrl = function($scope, $http, $routeParams, $location) {
-  $http.get('/api/doc/' + $routeParams.id).success(function(data) {
+  var id = $routeParams.id;
+  $http.get('/api/doc/' + id).success(function(data) {
     $scope.doc = data.data;
   });
+  $scope.deleteDoc = function() {
+    if (confirm('确定要删除么，删没了你要自己负责哦')) {
+      $http.delete('/api/doc/' + id).success(function(data) {
+        if (data['error'] === 0) {
+          $location.path('/docs');
+        }
+      });
+    }
+  }
 };
 
 // 话题页面
@@ -110,9 +120,7 @@ var ViewTopicCtrl = function($scope, $http, $routeParams) {
     $scope.list = data.data;
   });
 
-  $scope.paste = function() {
-    console.log(arguments);
-  }
+  $scope.paste = function() {}
   // 评论关联信息
 
   // 提交评论
@@ -121,19 +129,23 @@ var ViewTopicCtrl = function($scope, $http, $routeParams) {
       type: 'topic',
       typeId: $routeParams.id
     };
-    console.log($scope.discussion);
     $http.post('/api/topic/' + $routeParams.id + '/discussions', $scope.discussion).success(function(data) {
-      console.log(data);
       $scope.list.unshift($scope.discussion);
     });
   };
 };
 
 // 查看 todo
-var ViewTodoCtrl = function($scope, $http, $routeParams) {
-  $http.get('/api/todo/' + $routeParams.id).success(function(data) {
+var ViewTodoCtrl = function($scope, $http, $routeParams, $location) {
+  var id = $routeParams.id;
+  $http.get('/api/todo/' + id).success(function(data) {
     $scope.form = data.data;
-  })
+  });
+  $scope.deleteTodo = function() {
+    $http.delete('/api/todo/' + id).success(function(data) {
+      if (data['error'] === 0) $location.path('/todos');
+    });
+  };
 };
 
 // 查看数据
@@ -170,6 +182,26 @@ var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
   };
 };
 
+var EditDataCtrl = function($scope, $http, $location, $routeParams, $timeout) {
+  $http.get('/api/data/' + $routeParams.id).success(function(data) {
+    $scope.form = data.data;
+    $scope.action = 'update';
+    $scope.actionName = '更新';
+    $scope.updateData = function() {
+      $http.put('/api/data/' + $routeParams.id, $scope.form).success(function(data) {
+        if (data.error === 0) {
+          $scope.showSuccess = true;
+          $scope.success_tip = '更新成功';
+          $location.path('/data/' + $routeParams.id);
+          /* $timeout(function() {
+            $scope.showSuccess = false;
+          }, 1000);*/
+        }
+      });
+    };
+  });
+};
+
 function AddPostCtrl($scope, $http, $location) {
   $scope.form = {};
   $scope.submitPost = function() {
@@ -182,7 +214,8 @@ function AddPostCtrl($scope, $http, $location) {
 
 // 添加数据
 
-function AddDataCtrl($scope, $http, $location) {
+function AddDataCtrl($scope, $http, $location, $routeParams) {
+  console.log($routeParams.action);
   $scope.form = {
     type: 'ga',
     option: {
@@ -191,12 +224,14 @@ function AddDataCtrl($scope, $http, $location) {
       'dimensions': 'ga:date'
     }
   };
+  $scope.actionName = '添加';
   $scope.submitData = function() {
     $http.post('/api/datas', $scope.form).
     success(function(data) {
       $location.path('/datas');
     });
   };
+
 }
 
 function AddStatusCtrl($scope, $http, $location) {
@@ -212,7 +247,6 @@ function AddStatusCtrl($scope, $http, $location) {
 function ViewStatusCtrl($scope, $http, $routeParams, $location) {
   $scope.form = {};
   $http.get('/api/status/' + $routeParams.id).success(function(data) {
-    console.log(data);
     $scope.form = data.data[0];
   });
   $scope.updateStatus = function() {
@@ -220,13 +254,12 @@ function ViewStatusCtrl($scope, $http, $routeParams, $location) {
       name: $scope.form.name,
       desc: $scope.form.desc
     }).success(function(data) {
-      console.log(data);
+
     })
   };
 
   $scope.deleteStatus = function() {
     $http.delete('/api/status/' + $routeParams.id).success(function(data) {
-      console.log(data);
       $location.path('/status');
     })
   }
@@ -349,14 +382,20 @@ var AddIssueCtrl = function($scope, $http, $location) {
 };
 
 // 编辑issue页面
-var ViewIssueCtrl = function($scope, $http, $routeParams) {
+var ViewIssueCtrl = function($scope, $http, $routeParams, $location) {
   var id = $routeParams.id;
   $http.get('/api/issue/' + id).success(function(data) {
     $scope.form = data.data;
   });
+  $scope.deleteIssue = function() {
+    $http.delete('/api/issue/' + id).success(function(data) {
+      if (data['error'] === 0) $location.path('/issues');
+    });
+  };
 };
 
 var WeeklyDataCtrl = function($scope, $http) {
+
   $http.get('http://106.3.38.38:8888/api/site.json').success(function(data) {
     $scope.site = data;
   });
@@ -368,15 +407,12 @@ var WeeklyDataCtrl = function($scope, $http) {
   $http.get('http://106.3.38.38:8888/api/seedit.json').success(function(data) {
     $scope.seedit = data;
   });
-  // 获取app排名
 
+  // 获取app排名
   $http.get('http://106.3.38.38:8888/api/app.json?type=lates_rank').success(function(data) {
     $scope.appRank = data;
   });
 
-  /*renderVisitData(function(data) {
-    renderArea(data, 'all-userview', 'lala');
-  });*/
   var site = {
     "all": "ga:62079070",
     "bbs": "ga:644519",
@@ -388,7 +424,7 @@ var WeeklyDataCtrl = function($scope, $http) {
     "zhishi": "ga:16257208"
   };
 
-  renderColumn({
+  renderLine({
     "metrics": "ga:visits,ga:pageviews",
     "end-date": "2",
     "start-date": "365",
@@ -399,6 +435,9 @@ var WeeklyDataCtrl = function($scope, $http) {
     dataTitle: ['访问次数', '页面浏览量'],
     sliceX: false
   });
+
+  $scope.siteStartDate = daysAgo(30);
+  $scope.siteEndDate = daysAgo(2);
 
   var siteArray = (function() {
     var tmp = [];
@@ -447,15 +486,6 @@ var WeeklyDataCtrl = function($scope, $http) {
       dataTitle: ['访问次数', '页面浏览量'],
       sliceX: false
     });
-
-    // 全站流量
-    /*  renderVisitData({
-      type: 'ga',
-      option: {
-        ids: one.ga,
-        dimensions: 'ga:nthWeek'
-      }
-    }, 90, '#site-traffic-' + one.name);*/
   });
 
   ['reply', 'topic', 'topic_web', 'topic_ios', 'topic_android', 'topic_wap', 'reply_web', 'reply_wap', 'reply_ios', 'reply_android'].forEach(function(one) {
@@ -469,9 +499,7 @@ var WeeklyDataCtrl = function($scope, $http) {
         start[2] = one[0][0].slice(6, 8);
         return start;
       },
-      format: function(one) {
-
-      }
+      format: function(one) {}
     }, 0, '#site-' + one);
   });
 
@@ -493,6 +521,57 @@ var WeeklyDataCtrl = function($scope, $http) {
       color: ['#b94a48'],
       lineColor: '#b94a48'
     });
+  });
+
+  $http.get('http://106.3.38.38:8888/api/app.json?type=status').success(function(data) {
+    var installAll = data['stats'][0]['install_all'] + data['stats'][1]['install_all'];
+    $scope.app.installAll = installAll;
+  });
+
+  $http.get('http://106.3.38.38:8888/api/app.json?type=thisWeekIosFrom').success(function(data) {
+    data.stats.forEach(function(one, index) {
+      data.stats[index]['data'] = data.stats[index]['data'].reduce(function(pre, next) {
+        return pre + next;
+      });
+    });
+    $scope.app.from = data.stats;
+    $scope.app.fromIosSum = (function() {
+      var sum = 0;
+      data.stats.forEach(function(one) {
+        sum += one.data
+      });
+      return sum;
+    })();
+  });
+
+  $http.get('http://106.3.38.38:8888/api/app.json?type=thisWeekAndroidFrom').success(function(data) {
+    data.stats.forEach(function(one, index) {
+      data.stats[index]['data'] = data.stats[index]['data'].reduce(function(pre, next) {
+        return pre + next;
+      });
+    });
+    data.stats.sort(function(one, two) {
+      if (one.data > two.data) return -1;
+      return 1;
+    });
+    $scope.app.fromAndroid = data.stats;
+    $scope.app.fromAndroidSum = (function() {
+      var sum = 0;
+      data.stats.forEach(function(one) {
+        sum += one.data
+      });
+      return sum;
+    })();
+  });
+
+  // 所有渠道来源
+
+  $http.get('http://106.3.38.38:8888/api/app.json?type=allAndroidFrom').success(function(data) {
+    $scope.app.allFromAndroid = data.stats;
+  });
+
+  $http.get('http://106.3.38.38:8888/api/app.json?type=allIosFrom').success(function(data) {
+    $scope.app.allFromIos = data.stats;
   });
 
   // app安装
@@ -539,8 +618,8 @@ var WeeklyDataCtrl = function($scope, $http) {
 var SigninCtrl = function($scope, $http, $location) {
   $scope.login = function() {
     $http.post('/api/signin', $scope.form).success(function(data) {
-      console.log(data);
       if (data['error'] === 0) {
+        $scope.hideNav = false;
         $location.path('/');
       }
     });
@@ -549,9 +628,6 @@ var SigninCtrl = function($scope, $http, $location) {
 
 var ViewAdCtrl = function($scope, $http) {
   // view ad data
-
 };
 
-var SettingsCtrl = function() {
-
-}
+var SettingsCtrl = function() {}

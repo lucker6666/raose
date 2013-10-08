@@ -484,8 +484,17 @@ exports.todo = {
     Todo.findById(req.params.id, function(err, data) {
       if (err) throw err;
       res.send({
-        erro: 0,
+        error: 0,
         data: data
+      });
+    })
+  },
+  delete: function(req, res) {
+    Todo.findByIdAndRemove(req.params.id, function(err) {
+      if (err) throw err;
+      res.send({
+        error: 0,
+        msg: '删除成功'
       });
     })
   }
@@ -754,6 +763,24 @@ exports.data = {
         msg: '保存成功'
       });
     });
+  },
+  put: function(req, res) {
+    var id = req.params.id;
+    delete(req.body._id);
+    Data.findByIdAndUpdate(id, req.body, function(err) {
+      if (err) {
+        res.send({
+          error: 1,
+          msg: err
+        });
+      }
+
+      res.send({
+        error: 0,
+        msg: err
+      });
+    })
+
   },
   get: function(req, res) {
     var id = req.params.id;

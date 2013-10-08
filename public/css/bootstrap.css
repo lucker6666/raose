@@ -4640,6 +4640,19 @@ a.list-group-item:focus {
 .panel-info > .panel-footer + .panel-collapse .panel-body {
   border-bottom-color: #bce8f1;
 }
+.panel-simple {
+  border-color:#ececec;
+}
+.panel-simple>.panel-heading {
+  color:#4d759e;
+  background-color:#fff;
+  border-bottom:none;
+  text-align:center;
+  font-family:宋体;
+  font-size:16px;
+  font-weight:bold;
+}
+
 .well {
   min-height: 20px;
   padding: 19px;

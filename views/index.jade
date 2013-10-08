@@ -1,18 +1,19 @@
 extends layout
 
 block body
-  nav(class='main-nav')
+  nav(class='main-nav',ng-hide='hideNav')
     ul
       li(class='txt-center')
         img(class='avatar',src='img/avatar.png',width='60',height='60')
+
+      li
+        a()='Hi,'+user.username
+
       li
         a(href='/') 首页
 
-      li
+      li(class=showWeeklyReport)
         a(href='/weeklyData') 数据周报
-
-      li
-        a(href='/data/ad') 广告数据
 
       li
         a(href='/datas') 数据源
@@ -23,7 +24,7 @@ block body
       li 
         a(href='/settings') 设置
 
-      //li 
+      // li 
         a(href='/topics') 讨论
 
       li
@@ -32,15 +33,17 @@ block body
       li
         a(href='/issues') issue 列表
 
-
      // li
      //   a(href='/features') 需求
 
-     
      // li
      //   a(href='/design') 设计稿讨论
 
-    
+     // li
+        a(href='/data/ad') 广告数据
+
+
+
   div(class='content',ng-view)
   script(src='js/jquery-1.10.2.min.js')
   script(src='js/hightchart/highcharts.js')

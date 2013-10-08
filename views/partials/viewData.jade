@@ -1,3 +1,5 @@
+div.alert.alert-danger 统计数据每天第一次请求时会生成缓存，第一次请求一般会比较慢。。
+
 h2 {{form.name}}
 
 hr
@@ -13,5 +15,9 @@ div.row
                     div.progress.progress-striped.active
                         div.progress-bar('style="width:100%;"')
 
-//div.form-group
-    button.btn.btn-primary(ng-click='deleteData()') 删除
+div.form-group
+    
+    a.btn.btn-primary(href='/data/{{form._id}}/edit') 编辑
+   // button.btn.btn-primary(ng-click='deleteData()') 删除
+
+    
