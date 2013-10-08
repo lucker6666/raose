@@ -71,38 +71,6 @@
      });
    })
  }
- //var $ = require('jQuery');
- var querystring = require('querystring');
- ['', 'organic', 'referral', '(none)'].forEach(function(one) {
-   var option = {
-     "metrics": "ga:visits",
-     "end-date": "2013-10-06",
-     "start-date": "2013-06-15",
-     "dimensions": "ga:date",
-     "ids": "ga:644519",
-     "max-results": 10000,
-   };
-
-   if (one !== '') {
-     option.filters = 'ga:medium==' + one;
-   }
-
-   if (one === '(none)') {
-     one = 'none';
-     option.filters = 'ga:medium==(none)';
-   }
-
-   var API = 'http://106.3.38.38:8888/api/ga.json?' + querystring.stringify(option);
-
-   (function(one) {
-     httpGet(API, function(data) {
-       //console.log(data);
-       data = JSON.parse(data);
-       fs.writeFileSync('bbs_' + one + '.json', JSON.stringify(data['rows'], null, 4));
-     });
-   })(one);
-
- });
 
  var all = require('./bbs_.json');
  var bbs01 = require('./bbs_organic.json');
