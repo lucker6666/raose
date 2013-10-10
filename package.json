@@ -41,7 +41,8 @@
     "grunt": "~0.4.1",
     "node-zip": "1.x",
     "excel-export": "",
-    "exec-sync": ""
+    "exec-sync": "",
+    "cron": ""
   },
   "keywords": []
 }
