@@ -559,17 +559,28 @@ exports.docs = {
       });
     })
   },
+  // 更新文档
   update: function(req, res) {
+    var body = req.body;
+    delete(body._id);
+    Doc.findByIdAndUpdate(req.params.id, body, function(err, data) {
+      res.send({
+        error: 0,
+        data: data
+      });
+    });
     // 更新文档
   },
   // 获取单条
   get: function(req, res) {
     Doc.findById(req.params.id, function(err, data) {
       if (err) throw err;
-      if (data.useGist === true) {
+      //if (data.useGist === true) {
+      if (req.query.raw !== '1') {
         var md = require("node-markdown").Markdown;
         data.content = md(data.content);
       }
+      //}
       res.send({
         error: 0,
         data: data

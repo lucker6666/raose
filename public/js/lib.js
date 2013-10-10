@@ -658,7 +658,6 @@ var renderLine = function(option, id, chartOption) {
         }
         raw.forEach(function(one) {
             one[0] = one[0] + ''; // 第一个转换为字符
-            console.log(one[0]);
             one[1] *= 1;
         });
 

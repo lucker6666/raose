@@ -1,20 +1,22 @@
 div.form-group
     label 文档标题
-    input.form-control(ng-model='form.title')
+    input.form-control(ng-model='doc.title')
 
 div.form-group
     label 从Gist导入
-    select.form-control(ng-model='form.useGist',ng-init='form.useGist="0"')
+    select.form-control(ng-model='doc.useGist',ng-init='doc.useGist="0"')
         option(value='0') 否
         option(value='1') 是
 
 div.form-group
     label Gist Raw 地址
-    input.form-control(ng-model='form.rawUrl')
+    input.form-control(ng-model='doc.rawUrl')
 
 div.form-group
     label 文档内容
-    textarea.form-control(ng-model='form.content')
+    textarea.form-control(ng-model='doc.content',style="height:")
 
 div.form-gropu
     button.btn.btn-primary(ng-click='submitDoc()') 添加 
+    button.btn.btn-primary(ng-click='updateDoc()') 更新啦
+    a.btn.btn-info(href='/doc/{{doc._id}}') 查看

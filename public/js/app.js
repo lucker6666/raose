@@ -142,6 +142,10 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/addDoc',
       controller: AddDocCtrl
     }).
+    when('/doc/:id/edit', {
+      templateUrl: 'partials/addDoc',
+      controller: EditDocCtrl
+    }).
     when('/doc/:id', {
       templateUrl: 'partials/viewDoc',
       controller: ViewDocCtrl

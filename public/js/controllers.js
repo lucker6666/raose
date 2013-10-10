@@ -30,10 +30,24 @@ var DocsCtrl = function($scope, $http) {
 
 var AddDocCtrl = function($scope, $http, $location) {
   $scope.submitDoc = function() {
-    $http.post('/api/docs', $scope.form).success(function(data) {
+    $http.post('/api/docs', $scope.doc).success(function(data) {
       if (data['error'] === 0) {
         $location.path('/docs');
       }
+    });
+  }
+};
+
+// 编辑文档
+var EditDocCtrl = function($scope, $http, $location, $routeParams) {
+  var id = $routeParams.id;
+  $http.get('/api/doc/' + id + '?raw=1').success(function(data) {
+    $scope.doc = data.data;
+  });
+
+  $scope.updateDoc = function() {
+    $http.put('/api/doc/' + id, $scope.doc).success(function(data) {
+      console.log(data);
     });
   }
 };
