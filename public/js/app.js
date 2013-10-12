@@ -3,17 +3,15 @@
 // Declare app level module which depends on filters, and services
 angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'angularFileUpload']).
 filter("rate", function() {
-  var filterfun = function(person, sep) {
-    sep = sep || " ";
-    person = person || {};
-    person.first = person.first || "";
-    person.last = person.last || "";
-    return person.first + sep + person.last;
-  };
   return function(rate) {
     if (rate < 0) return '<span class="vivid">' + rate + '%</span>';
     return rate + '%';
   };
+}).
+filter('time', function() {
+  return function(time) {
+    return (new Date(time)).toLocaleDateString();
+  }
 }).
 config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
@@ -42,7 +40,7 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/addStatus',
       controller: AddStatusCtrl
     }).
-    when('/addTodo', {
+    when('/todos/add', {
       templateUrl: 'partials/addTodo',
       controller: AddTodoCtrl
     }).
@@ -153,6 +151,10 @@ config(['$routeProvider', '$locationProvider',
     when('/settings', {
       templateUrl: 'partials/settings',
       controller: SettingsCtrl
+    }).
+    when('/visitData', {
+      templateUrl: 'partials/visitData',
+      controller: VisitDataCtrl
     }).
     otherwise({
       redirectTo: '/'

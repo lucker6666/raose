@@ -1,10 +1,13 @@
-h2 添加新状态
-label(for='title') 名字: 
-input(ng-model='form.title')
-label(for='cat')
-input(ng-model='form.cat')
-button(ng-click='submitTodo()') 确定
-
-
-li(ng-repeat='one in todo')
-    h3 {{one.title}}
+h2 addTodo
+hr
+.form-group
+    label(for='title') 标题: 
+    input.form-control(ng-model='form.title')
+.form-group
+    label(for='cat') 描述
+    textarea.form-control(ng-model='form.desc')
+.form-group
+    label 指派给
+    input.form-control(ng-model='form.owner')
+.form-group
+    button.btn.btn-primary(ng-click='submitTodo()') 确定

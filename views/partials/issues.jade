@@ -1,14 +1,27 @@
 div.form-group
     a.btn.btn-primary(href='issues/add') 添加issue
     
-div(ng-repeat='one in issues')
-  h3 {{one.title}}
-  p {{one.content}}
-  p {{one.author}}
-  p {{one.date}}
-  p {{one.labels}}
+div
+    table.table
+        thead
+            tr
+                th 标题
+                th 内容
+                th 作者
+                th 日期
+                th 标签
+                th 操作
+
+        tbody
+            tr(ng-repeat='one in issues')
+                td
+                    a(href='/issue/{{one._id}}')  {{one.title}}
+                td{{one.content}}
+                td{{one.author}}
+                td{{one.date | time}}
+                td{{one.labels}}
+                td 
+                    span(class='label label-danger') {{one.level}}
 
 
-  span(class='label label-danger') {{one.level}}
-  a(href='/issue/{{one._id}}',class='btn btn-primary btn-xs') 编辑
-  hr
+hr

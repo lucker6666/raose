@@ -284,9 +284,9 @@ function ViewStatusCtrl($scope, $http, $routeParams, $location) {
 function AddTodoCtrl($scope, $http, $location) {
   $scope.form = {};
   $scope.submitTodo = function() {
-    $http.post('/api/todo', $scope.form).
+    $http.post('/api/todos', $scope.form).
     success(function(data) {
-      $scope.todo.unshift(data);
+      $location.path('/todos');
     });
   };
   // 取得列表
@@ -645,3 +645,10 @@ var ViewAdCtrl = function($scope, $http) {
 };
 
 var SettingsCtrl = function() {}
+
+var VisitDataCtrl = function($scope, $http) {
+  console.log('hello');
+  $http.get('http://172.16.5.90:8004/api/iData/siteRate').success(function(data) {
+    $scope.data = data;
+  });
+}

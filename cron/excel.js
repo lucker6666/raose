@@ -66,7 +66,8 @@ var config = {
     "m": "61918595",
     "i": "67437444",
     "riji": "648824",
-    "zhishi": "16257208"
+    "zhishi": "16257208",
+    "account": "74817277"
 }
 
 for (var i in config) {

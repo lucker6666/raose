@@ -192,6 +192,15 @@ app.delete('/api/data/:id', api.data.delete);
 app.put('/api/data/:id', api.data.put);
 
 /**
+ *---------------------数据接口------------------------------
+ */
+app.get('/api/iData/:name', function(req, res) {
+  var type = req.params.name;
+  var data = require('./cron/data/' + type + '.json');
+  res.send(data);
+});
+
+/**
  * ----------------------讨论-------------------------
  */
 // 相关到需求或者todo

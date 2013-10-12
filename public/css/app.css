@@ -259,4 +259,12 @@ svg>text>tspan {display:none;}
 .ios_from,.android_from {display:none;}
 .ios_from_0,.android_from_0 {display:block;}
 
-.table tfoot>tr>td.table-middle {vertical-align: middle;}
+.table tfoot>tr>td.table-middle,table tbody>tr>td.table-middle {vertical-align: middle;}
+
+
+
+/**
+* 列表
+*/
+.sd-list-items {list-style:none;padding:0;}
+.sd-list-items li {border-bottom:1px solid #ececec;padding:15px 0 ;}

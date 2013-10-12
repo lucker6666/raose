@@ -1,0 +1,4 @@
+var cronJob = require('cron').CronJob;
+new cronJob('02 18 * * * *', function() {
+    console.log('You will see this message every second');
+}, null, true, "Asia/Hong_Kong");

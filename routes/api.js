@@ -28,6 +28,42 @@ var Status = mongoose.model('Status', {
   desc: String
 });
 
+// 站内消息
+var Message = mongoose.model('Message', {
+  // 日期
+  data: {
+    type: Date,
+    default: Date.now
+  },
+  // 发送方
+  from: {
+    type: String,
+    default: '系统'
+  },
+  // 接收方
+  to: String,
+  // 是否已读
+  read: {
+    type: Boolean,
+    default: false
+  },
+  //消息内容
+  content: {
+    // 添加了数据源
+    action: String,
+    // BBS流量来源
+    target: String,
+    // 链接
+    link: String
+  }
+});
+
+exports.message = {
+  add: function(req, res) {
+
+  }
+}
+
 // 数据源
 var Data = mongoose.model('Data', {
   name: String,
@@ -39,12 +75,30 @@ var Data = mongoose.model('Data', {
 // todo 
 
 var Todo = mongoose.model('Todo', {
+  // 标题
   title: String,
+  // 时间
   date: {
     type: Date,
     default: Date.now
   },
-  cat: String
+  // todo描述
+  desc: String,
+  // 状态
+  status: {
+    type: String,
+    default: '待处理'
+  },
+  // 作者
+  author: {
+    type: String,
+    default: '管理员'
+  },
+  // 指派给
+  owner: {
+    type: String,
+    default: '无指派'
+  }
 });
 
 // issue 
@@ -464,6 +518,7 @@ exports.topic = {
 exports.todo = {
   // 添加
   add: function(req, res) {
+    req.body.author = req.user.username;
     var todo = new Todo(req.body);
     todo.save(function(err) {
       if (err) console.log('保存todo出错鸟');
@@ -473,7 +528,11 @@ exports.todo = {
   },
   // 列表
   list: function(req, res) {
-    Todo.find({}, function(err, data) {
+    Todo.find({}, null, {
+      sort: {
+        date: -1
+      }
+    }, function(err, data) {
       res.json({
         error: 0,
         data: data
