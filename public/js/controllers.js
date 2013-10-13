@@ -291,7 +291,9 @@ function AddTodoCtrl($scope, $http, $location) {
   $scope.submitTodo = function() {
     $http.post('/api/todos', $scope.form).
     success(function(data) {
-      $location.path('/todos');
+      if (data.error === 0) {
+        $location.path('/todos');
+      }
     });
   };
   // 取得列表

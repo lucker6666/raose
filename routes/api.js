@@ -58,6 +58,16 @@ var Message = mongoose.model('Message', {
   }
 });
 
+// 消息操作模型
+var MessageModel = {
+  add: function(data, callback) {
+    var message = new Message(data);
+    message.save(function(err, item) {
+      callback.call(this, err, item);
+    });
+  }
+};
+
 exports.message = {
   add: function(req, res) {
 
@@ -437,11 +447,23 @@ exports.issues = {
         });
         return;
       }
-      res.send({
-        error: 0,
-        msg: '添加成功',
-        data: rs
+
+      MessageModel.add({
+        from: req.user.username,
+        to: req.body.owner,
+        content: {
+          action: '指交了Issue',
+          target: req.body.title,
+          link: '/issue/' + rs._id
+        }
+      }, function(err, item) {
+        res.send({
+          error: 0,
+          msg: '添加成功',
+          data: rs
+        });
       });
+
     });
   },
 
@@ -591,11 +613,27 @@ exports.todo = {
       req.body.owner = req.user.username;
     }
     var todo = new Todo(req.body);
-    todo.save(function(err) {
+    todo.save(function(err, item) {
       if (err) console.log('保存todo出错鸟');
-      console.log('todo保存成功');
+      MessageModel.add({
+        from: req.user.username,
+        to: req.body.owner,
+        content: {
+          action: '指派了Todo任务',
+          target: req.body.title,
+          link: '/todo/' + item._id
+        }
+      }, function(err, item) {
+        console.log(err);
+        console.log(item);
+        res.json({
+          error: 0,
+          data: item
+        });
+      });
+
     });
-    res.json(req.body);
+
   },
   // 列表
   list: function(req, res) {

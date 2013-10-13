@@ -2,12 +2,12 @@
 hr
 
 
-h2 Messages
-ul
-    li(ng-repeat='message in messages')
-        {{message.from}}
-
-hr
+h2 Messages({{messages.length}})
+ul.sd-list-items
+    li.sd-list-item(ng-repeat='message in messages')
+        {{message.from}} {{message.content.action}} 
+        a(href='{{message.content.link}}'){{message.content.target}}&nbsp;
+        给你
 
 h2 Todos({{todos.length}})
 ol.sd-list-items
