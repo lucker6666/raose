@@ -4,6 +4,7 @@
 angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'angularFileUpload']).
 filter("rate", function() {
   return function(rate) {
+    if (!rate) return '0%';
     if (rate < 0) return '<span class="vivid">' + rate + '%</span>';
     return rate + '%';
   };
@@ -22,6 +23,18 @@ filter('toMinute', function() {
     var minute = '0' + Math.floor(time / 60);
     var sec = '0' + time % 60;
     return minute.slice(-2) + ':' + sec.slice(-2);
+  }
+}).
+filter('issueLevel', function() {
+  return function(level) {
+    var map = {
+      1: '不赶紧做会死',
+      2: '必须做',
+      3: '最好做',
+      4: '可以做',
+      5: '强迫症发作'
+    };
+    return map[level];
   }
 }).
 config(['$routeProvider', '$locationProvider',

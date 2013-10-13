@@ -42,7 +42,7 @@ div.form-group
     input.form-control(ng-model='form.submit')
 
 div.form-group
-    label 指派给
+    label 指派给 {{form.owner}}
     select.form-control(ng-model='form.owner')
         option(ng-repeat='user in users',value='{{user.username}}') {{user.username}}
 

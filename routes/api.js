@@ -81,22 +81,6 @@ exports.message = {
   }
 };
 
-exports.me = {
-  todos: function(req, res) {
-    Todo.find({
-      owner: req.user.username
-    }, function(err, data) {
-      res.send({
-        error: 0,
-        data: data
-      });
-    })
-  },
-  issues: function(req, res) {
-
-  }
-}
-
 // 数据源
 var Data = mongoose.model('Data', {
   name: String,
@@ -158,6 +142,8 @@ var Issues = mongoose.model('Issue', {
   // 用户
   author: String,
   title: String,
+  // 指派给
+  owner: String,
   // 影响范围
   site: String,
   // URL 
@@ -224,6 +210,29 @@ var Feature = mongoose.model('Feature', {
   title: String,
   content: String
 });
+
+exports.me = {
+  todos: function(req, res) {
+    Todo.find({
+      owner: req.user.username
+    }, function(err, data) {
+      res.send({
+        error: 0,
+        data: data
+      });
+    })
+  },
+  issues: function(req, res) {
+    Issues.find({
+      owner: req.user.username
+    }, function(err, data) {
+      res.send({
+        error: 0,
+        data: data
+      });
+    });
+  }
+}
 
 exports.feature = {
   add: function(req, res) {

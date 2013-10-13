@@ -418,15 +418,18 @@ var ViewIssueCtrl = function($scope, $http, $routeParams, $location) {
         if (data['error'] === 0) $location.path('/issues');
       });
     }
-    df
   };
 };
 
 var editIssueCtrl = function($scope, $http, $routeParams, $location) {
   var id = $routeParams.id;
-  $http.get('/api/issue/' + id).success(function(data) {
-    $scope.form = data.data;
+  $http.get('/api/users').success(function(data) {
+    $scope.users = data.data;
+    $http.get('/api/issue/' + id).success(function(data) {
+      $scope.form = data.data;
+    });
   });
+
   $scope.submitIssue = function() {
     $http.put('/api/issue/' + id, $scope.form).success(function(data) {
       if (data.error === 0) {
@@ -689,5 +692,10 @@ var meCtrl = function($http, $scope) {
   // 获取todos
   $http.get('/api/me/todos').success(function(data) {
     $scope.todos = data.data;
-  })
+  });
+
+  // 获取issues
+  $http.get('/api/me/issues').success(function(data) {
+    $scope.issues = data.data;
+  });
 }

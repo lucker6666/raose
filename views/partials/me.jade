@@ -10,7 +10,13 @@ ul
 hr
 
 h2 Todos({{todos.length}})
-hr
-ul
-    li(ng-repeat='todo in todos') 
+ol.sd-list-items
+    li.sd-list-item(ng-repeat='todo in todos') 
         a(href='/todo/{{todo._id}}'){{todo.title}}
+
+h2 Issues({{issues.length||0}})
+ul.sd-list-items
+    li.sd-list-item(ng-repeat='issue in issues') 
+        span.label.label-danger {{issue.level | issueLevel}}
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        a(href='/issue/{{issue._id}}'){{issue.title}}

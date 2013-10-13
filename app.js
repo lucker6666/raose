@@ -34,7 +34,7 @@ app.set('view options', {
 });
 // 图片上传到uploads
 app.use(express.bodyParser({
-  uploadDir: './uploads'
+  uploadDir: './public/uploads'
 }));
 app.use(express.methodOverride());
 app.use(express.static(__dirname + '/public'));
@@ -208,6 +208,7 @@ app.put('/api/data/:id', api.data.put);
  */
 app.get('/api/me/messages', api.message.list);
 app.get('/api/me/todos', api.me.todos);
+app.get('/api/me/issues', api.me.issues)
 
 /**
  *---------------------数据接口------------------------------
@@ -352,6 +353,7 @@ app.post('/api/upload', function(req, res) {
   var ext = name.slice(name.lastIndexOf('.'));
   // set where the file should actually exists - in this case it is in the "images" directory
   var target_path = req.files.file.path + ext;
+  console.log(tmp_path, target_path)
   // move the file from the temporary location to the intended location
   fs.rename(tmp_path, target_path, function(err) {
     if (err) throw err;
