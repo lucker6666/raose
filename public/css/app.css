@@ -268,3 +268,5 @@ svg>text>tspan {display:none;}
 */
 .sd-list-items {list-style:none;padding:0;}
 .sd-list-items li {border-bottom:1px solid #ececec;padding:15px 0 ;}
+
+.gray-link {color:#888;}

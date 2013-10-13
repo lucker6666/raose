@@ -403,8 +403,8 @@ var AddIssueCtrl = function($scope, $http, $location) {
       }
     });
   }
-  $scope.onpaste = function() {
-    console.log('paste');
+  $scope.onpaste = function($scope, elm, attrs) {
+    console.log($scope, elm, attrs);
   }
 };
 
@@ -701,3 +701,49 @@ var meCtrl = function($http, $scope) {
     $scope.issues = data.data;
   });
 }
+
+document.body.addEventListener("paste", function(e) {
+  for (var i = 0; i < e.clipboardData.items.length; i++) {
+    if (e.clipboardData.items[i].kind == "file" && e.clipboardData.items[i].type == "image/png") {
+      // get the blob
+      var imageFile = e.clipboardData.items[i].getAsFile();
+
+      // read the blob as a data URL
+      var fileReader = new FileReader();
+      fileReader.onloadend = function(e) {
+        // create an image
+        //var image = document.createElement("IMG");
+        //image.src = this.result;
+        var html = '<img src="' + this.result + '">';
+        console.log(html);
+        var box = document.querySelector('#img-box');
+        console.log(box)
+        if (box) {
+          var value = box.innerHTML;
+          console.log(value);
+          box.innerHTML = value + html;
+        }
+        /* // insert the image
+        var range = window.getSelection().getRangeAt(0);
+        range.insertNode(image);
+        range.collapse(false);
+
+        // set the selection to after the image
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);*/
+      };
+
+      // TODO: Error Handling!
+      // fileReader.onerror = ...
+
+      fileReader.readAsDataURL(imageFile);
+
+      // prevent the default paste action
+      e.preventDefault();
+
+      // only paste 1 image at a time
+      break;
+    }
+  }
+});

@@ -5,23 +5,22 @@ div
     table.table
         thead
             tr
+                th 优先级
                 th 标题
-                th 内容
                 th 作者
                 th 日期
                 th 标签
-                th 操作
+              
 
         tbody
             tr(ng-repeat='one in issues')
+                td 
+                    span(class='label label-danger') {{one.level | issueLevel}}
                 td
                     a(href='/issue/{{one._id}}')  {{one.title}}
-                td{{one.content}}
                 td{{one.author}}
                 td{{one.date | time}}
                 td{{one.labels}}
-                td 
-                    span(class='label label-danger') {{one.level}}
-
-
+               
+            
 hr

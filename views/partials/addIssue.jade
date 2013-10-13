@@ -52,7 +52,7 @@ div.form-group
 
 div.form-group    
     label(for='content') 内容
-    textarea.form-control(ng-model='form.content',rows='10',ng-paste="onpaste()")
+    div.form-control#img-box(contenteditable='true',ng-model='form.content',style='height:200px',ui-event="{ paste : 'onpaste()' }")
 
 div.form-group
     button.btn.btn-primary(ng-click='submitIssue()') 确定

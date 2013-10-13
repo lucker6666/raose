@@ -149,8 +149,14 @@ exports.user = {
 }
 // issue 
 var Issues = mongoose.model('Issue', {
+  // 是否开启
+  open: {
+    type: Boolean,
+    default: true
+  },
   // 用户
   author: String,
+  // 标题
   title: String,
   // 指派给
   owner: String,
@@ -498,13 +504,19 @@ exports.issues = {
   },
 
   list: function(req, res) {
-    Issues.find({}, function(err, data) {
-      if (err) throw err;
-      res.send({
-        error: 0,
-        data: data
+    Issues.find({}, null, {
+        sort: {
+          date: -1
+        }
+      },
+
+      function(err, data) {
+        if (err) throw err;
+        res.send({
+          error: 0,
+          data: data
+        })
       })
-    })
   },
 
   get: function(req, res) {

@@ -2,6 +2,49 @@
 
 // Declare app level module which depends on filters, and services
 angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'angularFileUpload']).
+directive('uiEvent', ['$parse',
+  function($parse) {
+    return function($scope, elm, attrs) {
+      var events = $scope.$eval(attrs.uiEvent);
+      angular.forEach(events, function(uiEvent, eventName) {
+        var fn = $parse(uiEvent);
+        elm.bind(eventName, function(evt) {
+          var params = Array.prototype.slice.call(arguments);
+          //Take out first paramater (event object);
+          params = params.splice(1);
+          fn($scope, {
+            $event: evt,
+            $params: params
+          });
+          if (!$scope.$$phase) {
+            $scope.$apply();
+          }
+        });
+      });
+    };
+  }
+]).
+directive('contenteditable', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, ctrl) {
+      // view -> model
+      element.bind('blur', function() {
+        scope.$apply(function() {
+          ctrl.$setViewValue(element.html());
+        });
+      });
+
+      // model -> view
+      ctrl.$render = function() {
+        element.html(ctrl.$viewValue);
+      };
+
+      // load init value from DOM
+      // ctrl.$setViewValue(element.html());
+    }
+  };
+}).
 filter("rate", function() {
   return function(rate) {
     if (!rate) return '0%';
@@ -11,7 +54,8 @@ filter("rate", function() {
 }).
 filter('time', function() {
   return function(time) {
-    return (new Date(time)).toLocaleDateString();
+    // return (new Date(time)).toLocaleDateString();
+    return friendlyDate(time);
   }
 }).
 filter('toMinute', function() {
