@@ -1,13 +1,16 @@
-h2 addTodo
+h2 添加待办
 hr
 .form-group
     label(for='title') 标题: 
     input.form-control(ng-model='form.title')
 .form-group
     label(for='cat') 描述
-    textarea.form-control(ng-model='form.desc')
+    textarea.form-control(ng-model='form.desc',rows='10')
+hr
 .form-group
-    label 指派给
-    input.form-control(ng-model='form.owner')
+    label 指派给(默认指派给自己)
+    select.form-control(ng-model='form.owner')
+        option(ng-repeat='user in users',value='{{user.username}}') {{user.username}}
+hr
 .form-group
     button.btn.btn-primary(ng-click='submitTodo()') 确定

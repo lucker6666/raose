@@ -2,4 +2,8 @@ h1 {{form.title}}
 hr
 p {{form.content}}
 
-button.btn.btn-primary(ng-click='deleteIssue()') 删除
+hr
+
+.form-group
+    a.btn.btn-info(href='/issue/{{form._id}}/edit') 编辑
+    button.btn.btn-primary(ng-click='deleteIssue()') 删除

@@ -5,20 +5,22 @@ div.form-group
 div.form-group
     label(for='level') 优先级
     select.form-control(ng-model='form.level',ng-init='form.level="01"')
-        option(value='01') 必须赶紧做
-        option(value='02') 必须做
-        option(value='03') 最好做
-        option(value='04') 可以做
+        option(value='1') 不赶紧做会死
+        option(value='2') 必须做
+        option(value='3') 最好做
+        option(value='4') 可以做
+        option(value='5') 强迫症发作
 
 div.form-group
     label 影响模块
     select.form-control(ng-model='form.site',ng-init='form.site="all"')
-        option(value='all') 所有
+        option(value='all') 全站
         option(value='www') WWW
         option(value='bbs') 论坛
         option(value='zhishi') 知识
         option(value='riji') 日记
         option(value='i') 播爱
+        option(value='account') 账户中心
 
 div.form-group
     label 影响范围
@@ -36,8 +38,13 @@ div.form-group
     input.form-control(ng-model='form.from')
 
 div.form-group
-    label 提交
+    label 提交者
     input.form-control(ng-model='form.submit')
+
+div.form-group
+    label 指派给
+    select.form-control(ng-model='form.owner')
+        option(ng-repeat='user in users',value='{{user.username}}') {{user.username}}
 
 div.form-group
     label 标签
@@ -45,7 +52,7 @@ div.form-group
 
 div.form-group    
     label(for='content') 内容
-    textarea.form-control(ng-model='form.content')
+    textarea.form-control(ng-model='form.content',rows='10',ng-paste="onpaste()")
 
 div.form-group
     button.btn.btn-primary(ng-click='submitIssue()') 确定

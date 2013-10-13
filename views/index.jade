@@ -7,7 +7,7 @@ block body
         img(class='avatar',src='img/avatar.png',width='60',height='60')
 
       li
-        a()='Hi,'+user.username
+        a(href='/me')='Hi,'+user.username
 
       li
         a(href='/') 首页
@@ -24,9 +24,6 @@ block body
       li
         a(href='/docs') 文档
 
-      li 
-        a(href='/settings') 设置
-
       // li 
         a(href='/topics') 讨论
 
@@ -39,12 +36,8 @@ block body
       li
         a(href='/features') 需求
 
-      li
-        a(href='/design') 设计稿讨论
-
-     // li
-        a(href='/data/ad') 广告数据
-
+      li 
+        a(href='/settings') 设置
 
 
   div(class='content',ng-view)

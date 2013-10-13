@@ -1,0 +1,16 @@
+.alert.alert-info='Hi,'+user.username
+hr
+
+
+h2 Messages
+ul
+    li(ng-repeat='message in messages')
+        {{message.from}}
+
+hr
+
+h2 Todos({{todos.length}})
+hr
+ul
+    li(ng-repeat='todo in todos') 
+        a(href='/todo/{{todo._id}}'){{todo.title}}

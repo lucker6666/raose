@@ -31,7 +31,7 @@ var Status = mongoose.model('Status', {
 // 站内消息
 var Message = mongoose.model('Message', {
   // 日期
-  data: {
+  date: {
     type: Date,
     default: Date.now
   },
@@ -60,6 +60,39 @@ var Message = mongoose.model('Message', {
 
 exports.message = {
   add: function(req, res) {
+
+  },
+  list: function(req, res) {
+    if (!req.user) {
+      res.send({
+        error: -1,
+        msg: 'not logined yet'
+      });
+      return;
+    }
+    Message.find({
+      to: req.user.username
+    }, function(err, data) {
+      res.send({
+        error: 0,
+        data: data
+      })
+    })
+  }
+};
+
+exports.me = {
+  todos: function(req, res) {
+    Todo.find({
+      owner: req.user.username
+    }, function(err, data) {
+      res.send({
+        error: 0,
+        data: data
+      });
+    })
+  },
+  issues: function(req, res) {
 
   }
 }
@@ -101,6 +134,25 @@ var Todo = mongoose.model('Todo', {
   }
 });
 
+var User = mongoose.model('User', {
+  username: String,
+  password: String,
+  flag: {
+    type: Number,
+    default: 0
+  }
+});
+
+exports.user = {
+  list: function(req, res) {
+    User.find({}, 'username flag', function(err, data) {
+      res.send({
+        error: 0,
+        data: data
+      });
+    });
+  }
+}
 // issue 
 var Issues = mongoose.model('Issue', {
   // 用户
@@ -398,11 +450,17 @@ exports.issues = {
     });
   },
   update: function(req, res) {
+    delete req.body._id;
     Issues.findByIdAndUpdate(req.params.id, req.body, function(err) {
       if (err === null) {
         res.send({
           error: 0,
           msg: '更新成功'
+        })
+      } else {
+        res.send({
+          error: -1,
+          msg: err
         })
       }
     })
@@ -519,6 +577,10 @@ exports.todo = {
   // 添加
   add: function(req, res) {
     req.body.author = req.user.username;
+    // 无指派时为自己
+    if (!req.body.owner) {
+      req.body.owner = req.user.username;
+    }
     var todo = new Todo(req.body);
     todo.save(function(err) {
       if (err) console.log('保存todo出错鸟');

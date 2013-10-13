@@ -156,9 +156,11 @@ var ViewTodoCtrl = function($scope, $http, $routeParams, $location) {
     $scope.form = data.data;
   });
   $scope.deleteTodo = function() {
-    $http.delete('/api/todo/' + id).success(function(data) {
-      if (data['error'] === 0) $location.path('/todos');
-    });
+    if (confirm('确定要删除么')) {
+      $http.delete('/api/todo/' + id).success(function(data) {
+        if (data['error'] === 0) $location.path('/todos');
+      });
+    }
   };
 };
 
@@ -283,6 +285,9 @@ function ViewStatusCtrl($scope, $http, $routeParams, $location) {
 
 function AddTodoCtrl($scope, $http, $location) {
   $scope.form = {};
+  $http.get('/api/users').success(function(data) {
+    $scope.users = data.data;
+  });
   $scope.submitTodo = function() {
     $http.post('/api/todos', $scope.form).
     success(function(data) {
@@ -386,6 +391,9 @@ var IssuesCtrl = function($scope, $http) {
 // 添加issue
 var AddIssueCtrl = function($scope, $http, $location) {
   $scope.form = {};
+  $http.get('/api/users').success(function(data) {
+    $scope.users = data.data;
+  });
   $scope.submitIssue = function() {
     $http.post('/api/issues', $scope.form).success(function(data) {
       if (data['error'] === 0) {
@@ -393,20 +401,40 @@ var AddIssueCtrl = function($scope, $http, $location) {
       }
     });
   }
+  $scope.onpaste = function() {
+    console.log('paste');
+  }
 };
 
-// 编辑issue页面
+// 查看issue页面
 var ViewIssueCtrl = function($scope, $http, $routeParams, $location) {
   var id = $routeParams.id;
   $http.get('/api/issue/' + id).success(function(data) {
     $scope.form = data.data;
   });
   $scope.deleteIssue = function() {
-    $http.delete('/api/issue/' + id).success(function(data) {
-      if (data['error'] === 0) $location.path('/issues');
-    });
+    if (confirm('确定要删除么')) {
+      $http.delete('/api/issue/' + id).success(function(data) {
+        if (data['error'] === 0) $location.path('/issues');
+      });
+    }
+    df
   };
 };
+
+var editIssueCtrl = function($scope, $http, $routeParams, $location) {
+  var id = $routeParams.id;
+  $http.get('/api/issue/' + id).success(function(data) {
+    $scope.form = data.data;
+  });
+  $scope.submitIssue = function() {
+    $http.put('/api/issue/' + id, $scope.form).success(function(data) {
+      if (data.error === 0) {
+        $location.path('/issue/' + id);
+      }
+    });
+  }
+}
 
 var WeeklyDataCtrl = function($scope, $http) {
 
@@ -648,7 +676,18 @@ var SettingsCtrl = function() {}
 
 var VisitDataCtrl = function($scope, $http) {
   console.log('hello');
-  $http.get('http://172.16.5.90:8004/api/iData/siteRate').success(function(data) {
+  $http.get('/api/iData/siteRate').success(function(data) {
     $scope.data = data;
   });
+}
+
+var meCtrl = function($http, $scope) {
+  // 获取消息
+  $http.get('/api/me/messages').success(function(data) {
+    $scope.messages = data.data;
+  });
+  // 获取todos
+  $http.get('/api/me/todos').success(function(data) {
+    $scope.todos = data.data;
+  })
 }

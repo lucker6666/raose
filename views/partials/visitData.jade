@@ -8,7 +8,7 @@ table.table.table-bordered.table-striped
     td 
         span 站点平均访问时间
         br
-        span.no.vivid{{data.all.avgTimeOnSite}}
+        span.no.vivid{{data.all.avgTimeOnSite | toMinute}}
     td 
         span 单次访问页面数
         br
@@ -29,7 +29,7 @@ table.table.table-bordered.table-striped
         td 
             span 站点平均访问时间
             br
-            span.no.vivid{{data.bbs.avgTimeOnSite}}
+            span.no.vivid{{data.bbs.avgTimeOnSite | toMinute}}
         td 
             span 单次访问页面数
             br
@@ -48,7 +48,7 @@ table.table.table-bordered.table-striped
         td 
             span 站点平均访问时间
             br
-            span.no.vivid{{data.m.avgTimeOnSite}}
+            span.no.vivid{{data.m.avgTimeOnSite | toMinute}}
         td 
             span 单次访问页面数
             br
@@ -69,7 +69,7 @@ table.table.table-bordered.table-striped
         td 
             span 站点平均访问时间
             br
-            span.no.vivid{{data.www.avgTimeOnSite}}
+            span.no.vivid{{data.www.avgTimeOnSite | toMinute}}
         td 
             span 单次访问页面数
             br
@@ -91,7 +91,7 @@ table.table.table-bordered.table-striped
         td 
             span 站点平均访问时间
             br
-            span.no.vivid{{data.zhishi.avgTimeOnSite}}
+            span.no.vivid{{data.zhishi.avgTimeOnSite | toMinute}}
         td 
             span 单次访问页面数
             br
@@ -111,7 +111,7 @@ table.table.table-bordered.table-striped
             td 
                 span 站点平均访问时间
                 br
-                span.no.vivid{{data.riji.avgTimeOnSite}}
+                span.no.vivid{{data.riji.avgTimeOnSite | toMinute}}
             td 
                 span 单次访问页面数
                 br
@@ -131,7 +131,7 @@ table.table.table-bordered.table-striped
             td 
                 span 站点平均访问时间
                 br
-                span.no.vivid{{data.i.avgTimeOnSite}}
+                span.no.vivid{{data.i.avgTimeOnSite | toMinute}}
             td 
                 span 单次访问页面数
                 br

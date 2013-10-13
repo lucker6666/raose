@@ -66,7 +66,7 @@ passport.deserializeUser(function(user, done) {
   });*/
   User.findOne({
     username: user.username
-  }, function(err, user) {
+  }, 'username flag', function(err, user) {
     done(err, user);
   });
 });
@@ -98,6 +98,18 @@ passport.use(new LocalStrategy(
 
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
+
+// API接口的登录验证
+app.get('/api/*', function(req, res, next) {
+  if (!req.user) {
+    res.send({
+      error: -1,
+      msg: 'not logined yet'
+    });
+    return;
+  }
+  next();
+})
 
 // 登录检测
 app.get('/api/usercheck', function(req, res) {
@@ -192,6 +204,12 @@ app.delete('/api/data/:id', api.data.delete);
 app.put('/api/data/:id', api.data.put);
 
 /**
+ *----------------------消息--------------------------
+ */
+app.get('/api/me/messages', api.message.list);
+app.get('/api/me/todos', api.me.todos);
+
+/**
  *---------------------数据接口------------------------------
  */
 app.get('/api/iData/:name', function(req, res) {
@@ -222,7 +240,7 @@ app.post('/api/topics', api.topic.add);
 //app.delete('/api/discussion/:id', api.discussion.delete);
 
 //成员相关
-// app.get('/api/members',api.members.list);
+app.get('/api/users', api.user.list);
 // 成员信息
 // app.get('/api/members/:name',api.members.get);
 // 所有话题 

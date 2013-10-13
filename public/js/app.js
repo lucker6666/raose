@@ -13,6 +13,17 @@ filter('time', function() {
     return (new Date(time)).toLocaleDateString();
   }
 }).
+filter('toMinute', function() {
+  return function(time) {
+    if (!time) {
+      return '00:00';
+    }
+    var time = Math.round(time);
+    var minute = '0' + Math.floor(time / 60);
+    var sec = '0' + time % 60;
+    return minute.slice(-2) + ':' + sec.slice(-2);
+  }
+}).
 config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider.
@@ -63,6 +74,10 @@ config(['$routeProvider', '$locationProvider',
     when('/issues', {
       templateUrl: 'partials/issues',
       controller: IssuesCtrl
+    }).
+    when('/issue/:id/edit', {
+      templateUrl: 'partials/addIssue',
+      controller: editIssueCtrl
     }).
     when('/issue/:id', {
       templateUrl: 'partials/viewIssue',
@@ -155,6 +170,10 @@ config(['$routeProvider', '$locationProvider',
     when('/visitData', {
       templateUrl: 'partials/visitData',
       controller: VisitDataCtrl
+    }).
+    when('/me', {
+      templateUrl: 'partials/me',
+      controller: meCtrl
     }).
     otherwise({
       redirectTo: '/'
