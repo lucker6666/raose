@@ -233,7 +233,7 @@ config(['$routeProvider', '$locationProvider',
       controller: meCtrl
     }).
     otherwise({
-      redirectTo: '/'
+      redirectTo: '/me'
     });
     $locationProvider.html5Mode(true);
   }

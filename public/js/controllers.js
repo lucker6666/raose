@@ -667,7 +667,8 @@ var SigninCtrl = function($scope, $http, $location) {
     $http.post('/api/signin', $scope.form).success(function(data) {
       if (data['error'] === 0) {
         $scope.hideNav = false;
-        $location.path('/');
+        document.location.href = '/me';
+        //$location.path('/me');
       }
     });
   };
