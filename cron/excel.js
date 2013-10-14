@@ -74,7 +74,7 @@ for (var i in config) {
     var ids = config[i];
 
     (function(i, ids) {
-        httpGet('http://173.208.199.49:8888/api/ga.json?max-results=10000&ids=ga%3A' + ids + '&dimensions=ga%3Adate&start-date=2013-06-15&end-date=2013-10-06&metrics=ga%3Apageviews%2Cga%3Avisits', function(data) {
+        httpGet('http://173.208.199.49:8888/api/ga.json?max-results=10000&ids=ga%3A' + ids + '&dimensions=ga%3Adate&start-date=2013-06-15&end-date=2013-10-11&metrics=ga%3Apageviews%2Cga%3Avisits', function(data) {
             var raw = data.rows;
             // 处理浏览量日增
             raw.forEach(function(one, index) {

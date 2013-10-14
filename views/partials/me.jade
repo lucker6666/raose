@@ -1,6 +1,21 @@
 .alert.alert-info='Hi,'+user.username
 hr
 
+.row
+    .col-md-6
+        h2 Todos({{todos.length}})
+        ol.sd-list-items
+            li.sd-list-item(ng-repeat='todo in todos') 
+                a(href='/todo/{{todo._id}}'){{todo.title}}
+
+    .col-md-6
+        h2 Issues({{issues.length||0}})
+        ul.sd-list-items
+            li.sd-list-item(ng-repeat='issue in issues') 
+                span.label.label-danger {{issue.level | issueLevel}}
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                a(href='/issue/{{issue._id}}'){{issue.title}}
+
 
 h2 Messages({{messages.length}})
 ul.sd-list-items
@@ -10,14 +25,3 @@ ul.sd-list-items
         给你 
         span.gray-link ({{message.date | time}})
 
-h2 Todos({{todos.length}})
-ol.sd-list-items
-    li.sd-list-item(ng-repeat='todo in todos') 
-        a(href='/todo/{{todo._id}}'){{todo.title}}
-
-h2 Issues({{issues.length||0}})
-ul.sd-list-items
-    li.sd-list-item(ng-repeat='issue in issues') 
-        span.label.label-danger {{issue.level | issueLevel}}
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        a(href='/issue/{{issue._id}}'){{issue.title}}

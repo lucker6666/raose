@@ -3,18 +3,18 @@ div.form-group
     input.form-control(ng-model='doc.title')
 
 div.form-group
-    label 从Gist导入
+    label 从URL导入
     select.form-control(ng-model='doc.useGist',ng-init='doc.useGist="0"')
         option(value='0') 否
         option(value='1') 是
 
 div.form-group
-    label Gist Raw 地址
+    label 若为从URL导入，请填写URL地址(任意一个公网可访问的文本地址，内容应为Markdown格式)
     input.form-control(ng-model='doc.rawUrl')
 
 div.form-group
     label 文档内容
-    textarea.form-control(ng-model='doc.content',style="height:")
+    textarea.form-control(ng-model='doc.content',rows='10')
 
 div.form-gropu
     button.btn.btn-primary(ng-click='submitDoc()') 添加 

@@ -36,7 +36,7 @@
  ['', 'organic', 'referral', '(none)'].forEach(function(one) {
    var option = {
      "metrics": "ga:visits",
-     "end-date": "2013-10-06",
+     "end-date": "2013-10-11",
      "start-date": "2013-06-15",
      "dimensions": "ga:date",
      "ids": "ga:644519",

@@ -450,7 +450,8 @@ var renderVisitData = function(option, offset, target, chartOption) {
                     text: null //隐藏y坐标轴标题
                 },
                 gridLineWidth: 1,
-                gridLineColor: '#ececec'
+                gridLineColor: '#ececec',
+                min: 0
             },
 
             tooltip: {
@@ -770,7 +771,9 @@ var iRenderArea = function(option, id, chartOption) {
             yAxis: {
                 title: {
                     text: 'Fruit units'
-                }
+                },
+                min: 0,
+                startOnTick: false
             },
             tooltip: {
                 shared: true,
