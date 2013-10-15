@@ -5,6 +5,7 @@ div
     table.table
         thead
             tr
+                th open
                 th 优先级
                 th 标题
                 th 作者
@@ -14,6 +15,8 @@ div
 
         tbody
             tr(ng-repeat='one in issues')
+                td 
+                    span.label.label-info(ng-show='{{one.open}}') 开启
                 td 
                     span(class='label label-danger') {{one.level | issueLevel}}
                 td

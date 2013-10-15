@@ -129,6 +129,22 @@ div.row
                                     span 周环比增长 
                                     span.no.no-smm(ng-bind-html-unsafe='site.pv.rate.m | rate')%
 
+                    div.col-md-6
+                        div.panel.panel-info.panel-simple
+                            div.panel-heading WWW{{siteStartDate}}~{{siteEndDate}})
+                            div.panel-body
+                                div#site-traffic-www.data-box
+                                p 
+                                    span 日均访问次数: 
+                                    span.no.no-smm{{site.uv.www.thisWeek}}; 
+                                    span 周环比增长 
+                                    span.no.no-smm(ng-bind-html-unsafe='site.uv.rate.www | rate')%
+                                p
+                                    span 日均浏览量: 
+                                    span.no.no-smm {{site.pv.www.thisWeek}}; 
+                                    span 周环比增长 
+                                    span.no.no-smm(ng-bind-html-unsafe='site.pv.rate.www | rate')%
+
 
 
 
