@@ -242,6 +242,8 @@ app.post('/api/topics', api.topic.add);
 
 //成员相关
 app.get('/api/users', api.user.list);
+app.get('/api/user/:id', api.user.get);
+
 // 成员信息
 // app.get('/api/members/:name',api.members.get);
 // 所有话题 
