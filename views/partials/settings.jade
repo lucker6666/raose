@@ -1,1 +1,25 @@
-div.alert.alert-info 暂时没有设置哦
+.form-group
+    label 用户名
+    input.form-control(value='{{user.username}}',disabled);
+.form-group
+    label 姓名
+    input.form-control(ng-model='user.realname')
+.form-group
+    label 邮箱
+    input.form-control(ng-model='user.email')
+
+hr
+.form-group
+    label 原密码,不更改密码请留空
+    input.form-control(type='password',ng-model='user.oldPwd')
+.form-group
+    label 新密码,不更改密码请留空
+    input.form-control(type='password',ng-model='user.password')
+hr
+
+.form-group
+    button.btn.btn-primary(ng-click='updateProfile()') 更新
+
+
+.alert.alert-success(ng-show='showSuccess') {{message}}
+.alert.alert-danger(ng-show='showFail') {{message}}

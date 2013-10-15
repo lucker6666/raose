@@ -12,11 +12,17 @@ var User = mongoose.model('User', {
         default: 0
     },
     // 真实姓名
-    realname: String,
+    realname: {
+        type: String,
+        default: ''
+    },
     // 邮箱
-    email: String
+    email: {
+        type: String,
+        default: ''
+    }
 });
-
+exports.Model = User;
 exports.user = {
     // 获取用户列表
     list: function(req, res) {
@@ -26,8 +32,19 @@ exports.user = {
     },
     // 获取单用户信息
     get: function(req, res) {
-        User.findById(req.params.id, '-password', function(err, data) {
-            json(res, err, data);
-        });
+        // 如果带id
+        if (req.params.id) {
+            User.findById(req.params.id, '-password', function(err, data) {
+                json(res, err, data);
+            });
+        } else {
+            var username = req.user.username;
+            User.find({
+                username: username
+            }, '-password', function(err, data) {
+                json(res, err, data);
+            })
+        }
+
     }
 };

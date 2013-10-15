@@ -678,14 +678,37 @@ var ViewAdCtrl = function($scope, $http) {
   // view ad data
 };
 
-var SettingsCtrl = function() {}
+// 设置
+var SettingsCtrl = function($scope, $http, $timeout) {
+  $http.get('/api/me/profile').success(function(data) {
+    $scope.user = data.data;
+  });
+
+  $scope.updateProfile = function() {
+    $http.put('/api/me/profile', $scope.user).success(function(data) {
+      if (data.error === 0) {
+        $scope.showSuccess = true;
+        $scope.message = '更新成功鸟';
+        $timeout(function() {
+          $scope.showSuccess = false;
+        }, 2000);
+      } else {
+        $scope.showFail = true;
+        $scope.message = data.msg;
+        $timeout(function() {
+          $scope.showFail = false;
+        }, 2000);
+      }
+    });
+  }
+};
 
 var VisitDataCtrl = function($scope, $http) {
   console.log('hello');
   $http.get('/api/iData/siteRate').success(function(data) {
     $scope.data = data;
   });
-}
+};
 
 var meCtrl = function($http, $scope) {
   // 获取消息

@@ -208,7 +208,9 @@ app.put('/api/data/:id', api.data.put);
  */
 app.get('/api/me/messages', api.message.list);
 app.get('/api/me/todos', api.me.todos);
-app.get('/api/me/issues', api.me.issues)
+app.get('/api/me/issues', api.me.issues);
+app.get('/api/me/profile', api.me.profile);
+app.put('/api/me/profile', api.me.updateProfile);
 
 /**
  *---------------------数据接口------------------------------
@@ -242,7 +244,7 @@ app.post('/api/topics', api.topic.add);
 
 //成员相关
 app.get('/api/users', api.user.list);
-app.get('/api/user/:id', api.user.get);
+app.get('/api/user/:id?', api.user.get);
 
 // 成员信息
 // app.get('/api/members/:name',api.members.get);
