@@ -731,7 +731,6 @@ document.body.addEventListener("paste", function(e) {
     if (e.clipboardData.items[i].kind == "file" && e.clipboardData.items[i].type == "image/png") {
       // get the blob
       var imageFile = e.clipboardData.items[i].getAsFile();
-
       // read the blob as a data URL
       var fileReader = new FileReader();
       fileReader.onloadend = function(e) {
@@ -757,7 +756,6 @@ document.body.addEventListener("paste", function(e) {
         selection.removeAllRanges();
         selection.addRange(range);*/
       };
-
       // TODO: Error Handling!
       // fileReader.onerror = ...
 
@@ -771,3 +769,38 @@ document.body.addEventListener("paste", function(e) {
     }
   }
 });
+
+// 获取拖进来的文件
+setTimeout(function() {
+  var dragArea = document.querySelector('#drag-area');
+  console.log(dragArea);
+  dragArea.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.stopPropagation()
+    console.log('over');
+  }, false);
+  dragArea.addEventListener('drop', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    var dt = e.dataTransfer;
+    var files = dt.files;
+    for (var i = 0; i < files.length; i++) {
+      var file = files[i];
+      var reader = new FileReader();
+      var formData = new FormData();
+      formData.append('file', file);
+      var xhr = new XMLHttpRequest()
+      //xhr.upload.addEventListener("progress", uploadProgress, false)
+      //xhr.addEventListener("load", uploadComplete, false)
+      //xhr.addEventListener("error", uploadFailed, false)
+      //xhr.addEventListener("abort", uploadCanceled, false)
+      xhr.open("POST", "/api/upload")
+      //scope.progressVisible = true
+      xhr.send(formData)
+
+      //attach event handlers here...
+      reader.readAsDataURL(file);
+    }
+    return false;
+  }, false);
+}, 3000);

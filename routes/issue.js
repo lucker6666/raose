@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var MessageModel = require('./message.js').MessageModel;
 // issue 
 var Issues = mongoose.model('Issue', {
     // 是否开启
@@ -46,7 +47,6 @@ exports.issues = {
                 });
                 return;
             }
-
             MessageModel.add({
                 from: req.user.username,
                 to: req.body.owner,
@@ -102,7 +102,6 @@ exports.issues = {
                     date: -1
                 }
             },
-
             function(err, data) {
                 if (err) throw err;
                 res.send({

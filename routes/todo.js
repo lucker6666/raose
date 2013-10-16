@@ -1,5 +1,6 @@
 // todo 
 var mongoose = require('mongoose');
+var MessageModel = require('./message.js').MessageModel;
 var Todo = mongoose.model('Todo', {
   // 标题
   title: String,
