@@ -12,6 +12,9 @@ hr
         h2 Issues({{issues.length||0}})
         ul.sd-list-items
             li.sd-list-item(ng-repeat='issue in issues') 
+                span.label.label-info(ng-show='issue.open') 开启
+                span.label.label-danger(ng-hide='issue.open') 关闭
+                &nbsp;&nbsp;
                 span.label.label-danger {{issue.level | issueLevel}}
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 a(href='/issue/{{issue._id}}'){{issue.title}}
