@@ -93,14 +93,69 @@ var TodosCtrl = function($scope, $http) {
 
 // 添加需求
 
-var AddFeatureCtrl = function($scope, $http, $location) {
+var AddFeatureCtrl = function($scope, $http, $location, $timeout) {
   $scope.addFeature = function() {
     $http.post('/api/features', $scope.form).success(function(data) {
       if (data['error'] === 0) {
         $location.path('/features');
       }
-    })
+    });
   }
+
+  $scope.files = [];
+  // 获取拖进来的文件
+  $timeout(function() {
+    var dragArea = document.querySelector('#drag-area');
+
+    // 一定要进行 dragover 绑定
+    dragArea.addEventListener('dragover', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+    });
+    dragArea.addEventListener('dragenter', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      dragArea.style.borderColor = 'red'
+    });
+    dragArea.addEventListener('dragleave', function(e) {
+      dragArea.style.borderColor = '#ccc'
+    });
+
+    dragArea.addEventListener('drop', function(e) {
+      dragArea.style.borderColor = '#ccc'
+      console.log('droped');
+      e.stopPropagation();
+      e.preventDefault();
+      var dt = e.dataTransfer;
+      var files = dt.files;
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        var reader = new FileReader();
+        var formData = new FormData();
+        formData.append('file', file);
+        var xhr = new XMLHttpRequest()
+        //xhr.upload.addEventListener("progress", uploadProgress, false)
+        xhr.addEventListener("load", function(x) {
+          var res = JSON.parse(x.target.responseText);
+
+          $scope.$apply(function($scope) {
+            $scope.files.push(res);
+          });
+
+          console.log($scope.files);
+        }, false)
+        //xhr.addEventListener("error", uploadFailed, false)
+        //xhr.addEventListener("abort", uploadCanceled, false)
+        xhr.open("POST", "/api/upload")
+        //scope.progressVisible = true
+        xhr.send(formData)
+
+        //attach event handlers here...
+        reader.readAsDataURL(file);
+      }
+      return false;
+    }, false);
+  }, 0);
 };
 
 var AddTopicCtrl = function($scope, $http, $location) {
@@ -769,38 +824,3 @@ document.body.addEventListener("paste", function(e) {
     }
   }
 });
-
-// 获取拖进来的文件
-setTimeout(function() {
-  var dragArea = document.querySelector('#drag-area');
-  console.log(dragArea);
-  dragArea.addEventListener('dragover', function(e) {
-    e.preventDefault();
-    e.stopPropagation()
-    console.log('over');
-  }, false);
-  dragArea.addEventListener('drop', function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    var dt = e.dataTransfer;
-    var files = dt.files;
-    for (var i = 0; i < files.length; i++) {
-      var file = files[i];
-      var reader = new FileReader();
-      var formData = new FormData();
-      formData.append('file', file);
-      var xhr = new XMLHttpRequest()
-      //xhr.upload.addEventListener("progress", uploadProgress, false)
-      //xhr.addEventListener("load", uploadComplete, false)
-      //xhr.addEventListener("error", uploadFailed, false)
-      //xhr.addEventListener("abort", uploadCanceled, false)
-      xhr.open("POST", "/api/upload")
-      //scope.progressVisible = true
-      xhr.send(formData)
-
-      //attach event handlers here...
-      reader.readAsDataURL(file);
-    }
-    return false;
-  }, false);
-}, 3000);
