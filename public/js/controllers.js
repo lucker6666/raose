@@ -469,10 +469,36 @@ var ViewIssueCtrl = function($scope, $http, $routeParams, $location) {
   $http.get('/api/issue/' + id).success(function(data) {
     $scope.form = data.data;
   });
+
+  $http.get('/api/issue/' + id + '/messages').success(function(data) {
+    $scope.messages = data.data;
+  });
+
   $scope.deleteIssue = function() {
     if (confirm('确定要删除么')) {
       $http.delete('/api/issue/' + id).success(function(data) {
         if (data['error'] === 0) $location.path('/issues');
+      });
+    }
+  };
+  $scope.closeIssue = function() {
+    if (confirm('确定要关闭么')) {
+      $http.put('/api/issue/' + id, {
+        action: 'closeIssue'
+      }).success(function(data) {
+        console.log(data);
+        $scope.form = data.data;
+      });
+    }
+  };
+
+  $scope.reopenIssue = function() {
+    if (confirm('确定要重新开启么')) {
+      $http.put('/api/issue/' + id, {
+        action: 'reopenIssue'
+      }).success(function(data) {
+        console.log(data);
+        $scope.form = data.data;
       });
     }
   };

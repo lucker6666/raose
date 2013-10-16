@@ -169,6 +169,7 @@ app.delete('/api/doc/:id', api.docs.delete);
 // 获取所有状态
 app.get('/api/issues', api.issues.list);
 // 获取单个状态
+app.get('/api/issue/:id/messages', api.issues.messages);
 app.get('/api/issue/:id', api.issues.get);
 // 更新单个状态
 app.put('/api/issue/:id', api.issues.update);
@@ -208,7 +209,9 @@ app.put('/api/data/:id', api.data.put);
  */
 app.get('/api/me/messages', api.message.list);
 app.get('/api/me/todos', api.me.todos);
-app.get('/api/me/issues', api.me.issues)
+app.get('/api/me/issues', api.me.issues);
+app.get('/api/me/profile', api.me.profile);
+app.put('/api/me/profile', api.me.updateProfile);
 
 /**
  *---------------------数据接口------------------------------
@@ -242,7 +245,7 @@ app.post('/api/topics', api.topic.add);
 
 //成员相关
 app.get('/api/users', api.user.list);
-app.get('/api/user/:id', api.user.get);
+app.get('/api/user/:id?', api.user.get);
 
 // 成员信息
 // app.get('/api/members/:name',api.members.get);
@@ -349,24 +352,35 @@ app.get('/api/account/doActive', api.account.doActive);
 // 图片上传接口
 app.post('/api/upload', function(req, res) {
   var fs = require('fs');
+  var target_path = null;
   // get the temporary location of the file
   var tmp_path = req.files.file.path;
+  console.log(tmp_path);
   var name = req.files.file.name;
   var ext = name.slice(name.lastIndexOf('.'));
   // set where the file should actually exists - in this case it is in the "images" directory
-  var target_path = req.files.file.path + ext;
-  console.log(tmp_path, target_path)
+  target_path = req.files.file.path + ext;
+
   // move the file from the temporary location to the intended location
   fs.rename(tmp_path, target_path, function(err) {
     if (err) throw err;
-    // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-    fs.unlink(tmp_path, function() {
-      if (err) throw err;
-      res.send({
-        error: 0,
-        path: target_path
-      });
+    res.send({
+      error: 0,
+      data: {
+        ext: ext.slice(1),
+        name: req.files.file.path.split('/')[2],
+        date: new Date()
+      }
     });
+    // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+    //fs.unlink(tmp_path, function(err) {
+    //if (err) throw err;
+    /*    console.log(tmp_path, target_path);
+    res.send({
+      error: 0,
+      path: target_path
+    });*/
+    //});
   });
 });
 

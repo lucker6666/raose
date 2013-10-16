@@ -22,6 +22,6 @@ ul.sd-list-items
     li.sd-list-item(ng-repeat='message in messages')
         {{message.from}} {{message.content.action}} 
         a(href='{{message.content.link}}'){{message.content.target}}&nbsp;
-        给你 
+        span(ng-hide='message.to=="all"')给你 
         span.gray-link ({{message.date | time}})
 
