@@ -54,7 +54,6 @@ filter("rate", function() {
 }).
 filter('time', function() {
   return function(time) {
-    // return (new Date(time)).toLocaleDateString();
     return friendlyDate(time);
   }
 }).
@@ -85,8 +84,8 @@ config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider.
     when('/', {
-      templateUrl: 'partials/index',
-      controller: IndexCtrl
+      templateUrl: 'partials/me',
+      controller: meCtrl
     }).
     when('/addPost', {
       templateUrl: 'partials/addPost',
