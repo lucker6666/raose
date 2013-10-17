@@ -40,7 +40,12 @@ var Issues = mongoose.model('Issue', {
     // 标签
     labels: String,
     // 优先级
-    level: Number
+    level: Number,
+    //分类
+    typeInfo: {
+        type: String,
+        id: String
+    }
 });
 exports.Model = Issues;
 exports.issues = {
