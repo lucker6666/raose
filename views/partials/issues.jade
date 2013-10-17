@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 div.form-group
     a.btn.btn-primary(href='issues/add') 添加issue
     
@@ -27,4 +28,35 @@ div
                 td{{one.labels}}
                
             
+=======
+div.form-group
+    a.btn.btn-primary(href='issues/add') 添加issue
+    
+div
+    table.table
+        thead
+            tr
+                th open
+                th 优先级
+                th 标题
+                th 提交
+                th 日期
+                th 标签
+              
+
+        tbody
+            tr(ng-repeat='one in issues')
+                td 
+                    span.label.label-info(ng-show='one.open') 开启
+                    span.label.label-danger(ng-hide='one.open') 关闭
+                td 
+                    span(class='label label-danger') {{one.level | issueLevel}}
+                td
+                    a(href='/issue/{{one._id}}')  {{one.title}}
+                td{{one.submit}}
+                td{{one.date | time}}
+                td{{one.labels}}
+               
+            
+>>>>>>> d063e913ee5805104959f06354390e4116869184
 hr

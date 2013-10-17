@@ -169,6 +169,7 @@ app.delete('/api/doc/:id', api.docs.delete);
 // 获取所有状态
 app.get('/api/issues', api.issues.list);
 // 获取单个状态
+app.get('/api/issue/:id/messages', api.issues.messages);
 app.get('/api/issue/:id', api.issues.get);
 // 更新单个状态
 app.put('/api/issue/:id', api.issues.update);

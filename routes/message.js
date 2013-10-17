@@ -62,7 +62,6 @@ exports.message = {
 exports.MessageModel = {
   add: function(data, callback) {
     var message = new Message(data);
-    console.log(data);
     message.save(function(err, item) {
       callback.call(this, err, item);
     });
