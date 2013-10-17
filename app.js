@@ -365,16 +365,20 @@ app.post('/api/upload', function(req, res) {
     if (err) throw err;
     res.send({
       error: 0,
-      path: target_path
+      data: {
+        ext: ext.slice(1),
+        name: req.files.file.path.split('/')[2],
+        date: new Date()
+      }
     });
     // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
     //fs.unlink(tmp_path, function(err) {
-    if (err) throw err;
-    console.log(tmp_path, target_path);
+    //if (err) throw err;
+    /*    console.log(tmp_path, target_path);
     res.send({
       error: 0,
       path: target_path
-    });
+    });*/
     //});
   });
 });
