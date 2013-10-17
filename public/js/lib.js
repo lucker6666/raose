@@ -793,8 +793,13 @@ var iRenderArea = function(option, id, chartOption) {
 
 }
 
+/**
+ * get friendly date
+ * @param string time
+ * @return string
+ */
 var friendlyDate = friendlyDate || function(time) {
-        var date = (typeof time === 'number') ? new Date(time) : new Date((time || "").replace(/-/g, "/").replace(/[TZ]/g, " ")),
+        var date = new Date((time || "")),
             diff = (((new Date()).getTime() - date.getTime()) / 1000),
             day_diff = Math.floor(diff / 86400);
 
