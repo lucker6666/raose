@@ -50,6 +50,10 @@ exports.message = {
       to: {
         $in: [req.user.username, 'all']
       }
+    }, null, {
+      sort: {
+        date: -1
+      }
     }, function(err, data) {
       res.send({
         error: 0,
