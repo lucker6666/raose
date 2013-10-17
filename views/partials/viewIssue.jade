@@ -2,8 +2,17 @@ h1 {{form.title}}
 hr
 p(ng-bind-html-unsafe='form.content') 
 
+
+ul
+    li(ng-repeat='message in messages')
+        span {{message.content.action}}
+
+
+
 hr
 
 .form-group
     a.btn.btn-info(href='/issue/{{form._id}}/edit') 编辑
     button.btn.btn-primary(ng-click='deleteIssue()') 删除
+    button.btn.btn-primary(ng-click='closeIssue()',ng-show='form.open') 关闭
+    button.btn.btn-primary(ng-click='reopenIssue()',ng-hide='form.open') 重新开启
