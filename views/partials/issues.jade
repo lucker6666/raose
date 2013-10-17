@@ -12,6 +12,7 @@ div
                 th 优先级
                 th 标题
                 th 提交
+                th 影响
                 th 日期
                 th 标签
               
@@ -26,6 +27,7 @@ div
                 td
                     a(href='/issue/{{one._id}}')  {{one.title}}
                 td{{one.submit}}
+                td{{one.site}}
                 td{{one.date | time}}
                 td{{one.labels}}
 
