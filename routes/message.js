@@ -25,9 +25,14 @@ var Message = mongoose.model('Message', {
     target: String,
     // 链接
     link: String
+  },
+  // 类型
+  typeInfo: {
+    type: String,
+    id: String
   }
 });
-
+exports.Model = Message;
 exports.message = {
   add: function(req, res) {
 
@@ -40,8 +45,11 @@ exports.message = {
       });
       return;
     }
+    // 获取个人及公开消息
     Message.find({
-      to: req.user.username
+      to: {
+        $in: [req.user.username, 'all']
+      }
     }, function(err, data) {
       res.send({
         error: 0,
@@ -54,6 +62,7 @@ exports.message = {
 exports.MessageModel = {
   add: function(data, callback) {
     var message = new Message(data);
+    console.log(data);
     message.save(function(err, item) {
       callback.call(this, err, item);
     });
