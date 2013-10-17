@@ -29,6 +29,33 @@ var Todo = mongoose.model('Todo', {
 });
 exports.Model = Todo;
 exports.todo = {
+  // 更新
+  put: function(req, res) {
+    var id = req.params.id;
+    var action = req.body.action;
+    Todo.findByIdAndUpdate(id, req.body, function(err, item) {
+      // 更新状态
+      if (action === 'updateStatus') {
+        MessageModel.add({
+          from: req.user.username,
+          to: 'all',
+          content: {
+            action: '更新处理状态',
+            target: item.title,
+            link: '/todo/' + item._id,
+            end: item.status
+          }
+        }, function(err, msg) {
+          res.send({
+            error: 0,
+            msg: '更新成功',
+            data: item,
+            msg: msg
+          });
+        });
+      }
+    });
+  },
   // 添加
   add: function(req, res) {
     req.body.author = req.user.username;

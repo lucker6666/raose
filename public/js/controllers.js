@@ -217,6 +217,17 @@ var ViewTodoCtrl = function($scope, $http, $routeParams, $location) {
       });
     }
   };
+  // 更改状态
+  $scope.updateStatus = function() {
+    if (confirm('确定要更新状态?')) {
+      $http.put('/api/todo/' + id, {
+        action: 'updateStatus',
+        status: $scope.form.status
+      }).success(function(data) {
+        console.log(data);
+      });
+    }
+  };
 };
 
 // 查看数据

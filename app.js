@@ -184,6 +184,7 @@ app.delete('/api/issue/:id', api.issues.delete);
 app.get('/api/todos', api.todo.list);
 app.post('/api/todos', api.todo.add);
 app.get('/api/todo/:id', api.todo.get);
+app.put('/api/todo/:id', api.todo.put);
 app.delete('/api/todo/:id', api.todo.delete);
 
 /**

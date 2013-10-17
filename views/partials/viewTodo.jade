@@ -5,3 +5,14 @@ p {{form.desc}}
 hr
 .form-group
     button.btn.btn-primary(ng-click='deleteTodo()') 删除
+
+hr
+.form-group 
+    label 更改状态
+    select.form-control(ng-model='form.status')
+        option(value='处理中') 处理中
+        option(value='待处理') 待处理
+        option(value='处理完成') 处理完成
+        option(value='暂时不处理') 暂时不处理
+.form
+    button.btn.btn-primary(ng-click='updateStatus()') 更改

@@ -24,7 +24,12 @@ var Message = mongoose.model('Message', {
     // BBS流量来源
     target: String,
     // 链接
-    link: String
+    link: String,
+    // 末尾其他信息
+    end: {
+      type: String,
+      default: ''
+    }
   },
   // 类型
   typeInfo: {

@@ -8,7 +8,11 @@ table.table
     tbody
         tr(ng-repeat ='one in todos')
             td
-                span.label.label-info {{one.status}}
+                span.label.label-danger(ng-show='one.status=="暂时不处理"') 暂时不处理
+                span.label.label-info(ng-show='one.status=="待处理"') 待处理
+                span.label.label-success(ng-show='one.status=="处理完成"') 处理完成
+                span.label.label-warning(ng-show='one.status=="处理中"') 处理中
+
             td
                 a(href='/todo/{{one._id}}') {{one.title}}
             td
