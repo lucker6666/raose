@@ -161,7 +161,7 @@ exports.issues = {
     },
 
     list: function(req, res) {
-        Issues.find({}, null, {
+        Issues.find({}, '-content', {
                 sort: {
                     date: -1
                 }
