@@ -33,7 +33,7 @@ exports.feature = {
     });
   },
   list: function(req, res) {
-    Feature.find({}, function(err, data) {
+    Feature.find({}, '-content', function(err, data) {
       if (err) throw err;
       res.send({
         error: 0,
