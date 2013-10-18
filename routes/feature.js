@@ -43,7 +43,7 @@ exports.feature = {
   },
   get: function(req, res) {
     var id = req.params.id;
-    Feature.findById(id, function(err, data) {
+    Feature.findById(id, '-content', function(err, data) {
       if (err) throw err;
       res.send({
         error: 0,
