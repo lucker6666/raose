@@ -2,7 +2,8 @@ h1 {{form.title}}
 hr
 p 编辑者： {{form.author}}
 p 内容：
-    div {{form.content}}
+    div(ng-bind-html-unsafe='form.content')
+    
 p 时间： {{form.date | time}}
 p 成员: 
     span(ng-repeat='member in form.members') {{member}} 
