@@ -121,13 +121,7 @@ app.get('/api/usercheck', function(req, res) {
       }
     });
   } else {
-    res.send({
-      error: 0,
-      data: {
-        hasSignin: true,
-        user: req.user
-      }
-    });
+    api.me.profile.call(this, req, res);
   }
 
 });

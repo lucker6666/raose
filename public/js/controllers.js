@@ -908,9 +908,3 @@ document.body.addEventListener("paste", function(e) {
     }
   }
 });
-
-//更改avatar
-/*var scope = angular.element($("#avatar")).scope();
-scope.$apply(function() {
-  scope.avatar = 'Superhero';
-});*/
