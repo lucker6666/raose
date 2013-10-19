@@ -264,17 +264,14 @@ config(['$routeProvider', '$locationProvider',
         if (data.data.hasSignin === false) {
           $rootScope.hideNav = true;
         }
-        console.log(data.data.avatar);
         if (data.data.avatar) {
           setTimeout(function() {
             var scope = angular.element($("#avatar")).scope();
             scope.$apply(function() {
               scope.avatar = data.data.avatar;
             });
-          }, 0)
-
+          }, 0);
         }
-
       });
     });
   });
