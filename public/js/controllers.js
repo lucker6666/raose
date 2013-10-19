@@ -747,6 +747,18 @@ var WeeklyDataCtrl = function($scope, $http) {
     $scope.app.allFromIos = data.stats;
   });
 
+  $http.get('http://106.3.38.38:8888/api/status.json?type=member').success(function(data) {
+    data = data.reverse();
+    $scope.member = data[0][1];
+  });
+
+  ['member', 'beiyun_member_num', 'chanhou_member_num', 'huaiyun_member_num'].forEach(function(one) {
+    $http.get('http://106.3.38.38:8888/api/status.json?type=' + one).success(function(data) {
+      data = data.reverse();
+      $scope[one] = data[0][1];
+    });
+  });
+
   // app安装
   renderVisitData({
     type: 'umeng',
@@ -864,7 +876,7 @@ document.body.addEventListener("paste", function(e) {
         // create an image
         //var image = document.createElement("IMG");
         //image.src = this.result;
-        var html = '<img src="' + this.result + '">';
+        var html = '<img class="content-img" src="' + this.result + '">';
         console.log(html);
         var box = document.querySelector('#img-box');
         console.log(box)

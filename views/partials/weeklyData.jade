@@ -3,7 +3,19 @@ div.well
     span.no.no-smm.vivid {{site.time[2]}}  
     span.vivid ~
     span.no.no-smm.vivid {{site.time[3]}}
-  
+
+hr
+div(style="display:inline-block;") 注册用户
+    span.no.vivid.no-sm {{member}}
+div(style="display:inline-block;") 备孕用户
+    span.no.vivid.no-sm {{beiyun_member_num}}
+div(style="display:inline-block;") 怀孕用户
+    span.no.vivid.no-sm {{huaiyun_member_num}}
+div(style="display:inline-block;") 产后用户
+    span.no.vivid.no-sm {{chanhou_member_num}}
+
+hr
+
 div(class='row')
     div(class='col-md-12')  
         div(class='panel panel-info')
@@ -24,6 +36,7 @@ div(class='row')
                     span 周环比增长 
                     span.no.no-smm(ng-bind-html-unsafe='site.pv.rate.all | rate')
                 
+
 
 div.row
     div.col-md-12
