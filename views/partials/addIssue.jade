@@ -46,7 +46,7 @@ div.intro
     div.form-group
         label 指派给 {{form.owner}}
         select.form-control(ng-model='form.owner')
-            option(ng-repeat='user in users',value='{{user.username}}') {{user.username}}
+            option(ng-repeat='user in users',value='{{user.username}}') {{user.username}} ({{user.realname}})
 
     div.alert.alert-success
         p 页面布局问题，兼容问题给 
