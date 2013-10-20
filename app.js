@@ -101,7 +101,7 @@ app.get('/partials/:name', routes.partials);
 
 // API接口的登录验证
 app.get('/api/*', function(req, res, next) {
-  if (!req.user) {
+  if (!req.user && !req.body.username && !req.body.password) {
     res.send({
       error: -1,
       msg: 'not logined yet'
@@ -382,25 +382,46 @@ app.post('/api/upload', function(req, res) {
 
 // 数据接口
 // 使用美帝VPS做代理
-app.get('/api/ga.json', function(req, res) {
-  var search = req.originalUrl.replace('/api/ga.json?', ''),
-    proxyUrl = 'http://173.208.199.49:8888' + req.originalUrl,
-    http = require('http');
-  http.get(proxyUrl, function(res1) {
-    var data = '';
-    res1.on('data', function(chunk) {
-      data += chunk;
-    })
-    res1.on('end', function() {
-      if (data.length) {
-        res.send(JSON.parse(data));
-      } else {
-        res.send({
-          error: 'has some problem'
-        });
-      }
-    })
+app.post('/api/ga.json', function(req, res) {
+
+  var user = req.body;
+  if (!user.username || !user.password) {
+    res.send({
+      error: -2,
+      msg: '鉴权信息不完整'
+    });
+    return;
+  };
+
+  User.findOne(req.body, function(err, user) {
+    console.log(err, user);
+    if (user) {
+      var search = req.originalUrl.replace('/api/ga.json?', ''),
+        proxyUrl = 'http://173.208.199.49:8888' + req.originalUrl,
+        http = require('http');
+      http.get(proxyUrl, function(res1) {
+        var data = '';
+        res1.on('data', function(chunk) {
+          data += chunk;
+        })
+        res1.on('end', function() {
+          if (data.length) {
+            res.send(JSON.parse(data));
+          } else {
+            res.send({
+              error: 'has some problem'
+            });
+          }
+        })
+      });
+    } else {
+      res.send({
+        error: -1,
+        msg: '登录失败了'
+      })
+    }
   });
+
 });
 
 app.get('/excel/:site', function(req, res) {
