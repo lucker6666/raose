@@ -41,18 +41,39 @@ div.form-group
     label 提交者
     input.form-control(ng-model='form.submit')
 
-div.form-group
-    label 指派给 {{form.owner}}
-    select.form-control(ng-model='form.owner')
-        option(ng-repeat='user in users',value='{{user.username}}') {{user.username}}
+
+div.intro
+    div.form-group
+        label 指派给 {{form.owner}}
+        select.form-control(ng-model='form.owner')
+            option(ng-repeat='user in users',value='{{user.username}}') {{user.username}} ({{user.realname}})
+
+    div.alert.alert-success
+        p 页面布局问题，兼容问题给 
+            strong airyland(李政)
+            或者
+            strong yyy(映昱)
+        p 建议什么的需要讨论确定的给  
+            strong ibz(壮伟) 
+        p APP相关问题给 
+            strong rayz(邹磊)
 
 div.form-group
     label 标签
     input.form-control(ng-model='form.labels')
 
+
 div.form-group    
     label(for='content') 内容
     div.form-control#img-box(contenteditable='true',ng-model='form.content',style='height:auto;min-height:200px',ui-event="{ paste : 'onpaste()' }")
+
+div.alert.alert-success
+    p 可以直接在上面输入框内粘贴 
+        strong  QQ截图 
+        或者 
+        strong 屏幕截图(Print Screen键) 
+        以及 
+        strong 网页上右键复制的图片 
 
 div.form-group
     button.btn.btn-primary(ng-click='submitIssue()') 确定

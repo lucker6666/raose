@@ -3,13 +3,19 @@ div(class='form-group')
     input(ng-model='form.title',class='form-control')
 div(class='form-group')
     label 内容
-    textarea(ng-model='form.content',class='form-control')
+    div#img-box(contentEditable='true',ng-model='form.content',class='form-control',style='height:auto;min-height:400px') {{form.content}}
 
 .form-group#drag-area(style='height:100px;border:1px dashed #ccc;text-align:center;line-height:100px;color:#ccc;font-size:25px;border-radius:10px;') 拖拽文件到这里上传
 
-ul
-    li(ng-repeat='file in files') 
-        a(href='/uploads/{{file.data.name}}.{{file.data.ext}}',target='_blank') {{file.data.name}}
-        span.label.label-danger {{file.data.ext}}
 
-a(ng-click='addFeature()',class='btn btn-primary') 添加
+h3 附件
+table.table
+    tr(ng-repeat='file in form.files') 
+        td 
+            a(href='/uploads/{{file.name}}.{{file.ext}}',target='_blank') {{file.name}}.{{file.ext}} 
+            {{file.author}}
+            上传于{{file.date | time}}
+hr    
+
+a(ng-click='addFeature()',class='btn btn-primary',ng-show='showAdd') 添加
+a(ng-click='updateFeature()',class='btn btn-primary',ng-show='showUpdate') 更新

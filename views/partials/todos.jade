@@ -5,6 +5,13 @@ hr
 
 
 table.table 
+    thead
+        tr
+            th 处理状态
+            th 标题
+            th 编辑
+            th 指派
+            th 时间
     tbody
         tr(ng-repeat ='one in todos')
             td
@@ -12,6 +19,8 @@ table.table
                 span.label.label-info(ng-show='one.status=="待处理"') 待处理
                 span.label.label-success(ng-show='one.status=="处理完成"') 处理完成
                 span.label.label-warning(ng-show='one.status=="处理中"') 处理中
+                span.label.label-warning(ng-show='one.status=="测试中"') 测试中
+                span.label.label-warning(ng-show='one.status=="等待上线"') 等待上线
 
             td
                 a(href='/todo/{{one._id}}') {{one.title}}
