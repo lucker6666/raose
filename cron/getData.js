@@ -1,4 +1,11 @@
  var fs = require('fs');
+ // 日期格式化
+ var format = function(date) {
+   var month = (date.getMonth() + 1) + '',
+     day = date.getDate() + '',
+     rs = date.getFullYear() + '-' + (month.length === 1 ? '0' + month : month) + '-' + (day.length === 1 ? '0' + day : day);
+   return rs;
+ };
  var httpGet = function(url, callback) {
    var http = require('http');
    http.get(url, function(rs) {
@@ -7,36 +14,46 @@
        data += chunk;
      });
      rs.on('end', function() {
-       callback(data);
+       callback(JSON.parse(data));
      });
-   })
- }
+   });
+ };
+
+ // 取得几天前数据 
+ var daysAgo = function(day, date, isFormat) {
+   var today;
+   if (date) {
+     today = +new Date(date);
+   } else {
+     today = +new Date();
+   }
+   var offset = day * 24 * 3600 * 1000;
+   if (isFormat && isFormat === false) return new Date(today - offset);
+   return format(new Date(today - offset));
+ };
 
  httpGet('http://106.3.38.38:8888/api/app.json?type=3month_install', function(data) {
    console.log('monthly install fetched successfully');
-   data = JSON.parse(data);
+   console.log(data);
    fs.writeFileSync('install.json', JSON.stringify(data, null, 4))
  });
  httpGet('http://106.3.38.38:8888/api/app.json?type=3month_active', function(data) {
    console.log('monthly active fetched successfully');
-   data = JSON.parse(data);
    fs.writeFileSync('active.json', JSON.stringify(data, null, 4))
  });
  httpGet('http://106.3.38.38:8888/api/app.json?type=3month_launch', function(data) {
    console.log('monthly launch fetched successfully');
-   data = JSON.parse(data);
    fs.writeFileSync('launches.json', JSON.stringify(data, null, 4))
  });
  httpGet('http://106.3.38.38:8888/cache/process/status.json', function(data) {
    console.log('seedit analytics data fetched successfully');
-   data = JSON.parse(data);
    fs.writeFileSync('status_all.json', JSON.stringify(data, null, 4));
  });
  var querystring = require('querystring');
  ['', 'organic', 'referral', '(none)'].forEach(function(one) {
    var option = {
      "metrics": "ga:visits",
-     "end-date": "2013-10-11",
+     "end-date": daysAgo(2),
      "start-date": "2013-06-15",
      "dimensions": "ga:date",
      "ids": "ga:644519",
@@ -57,7 +74,6 @@
    (function(one) {
      httpGet(API, function(data) {
        console.log('bbs_' + one + ' install fetched successfully');
-       data = JSON.parse(data);
        fs.writeFileSync('bbs_' + one + '.json', JSON.stringify(data['rows'], null, 4));
      });
    })(one);
