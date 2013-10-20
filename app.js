@@ -121,13 +121,7 @@ app.get('/api/usercheck', function(req, res) {
       }
     });
   } else {
-    res.send({
-      error: 0,
-      data: {
-        hasSignin: true,
-        user: req.user
-      }
-    });
+    api.me.profile.call(this, req, res);
   }
 
 });
@@ -370,7 +364,8 @@ app.post('/api/upload', function(req, res) {
       data: {
         ext: ext.slice(1),
         name: req.files.file.path.split('/')[2],
-        date: new Date()
+        date: new Date(),
+        author: req.user.username
       }
     });
     // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
