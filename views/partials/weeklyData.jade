@@ -3,7 +3,19 @@ div.well
     span.no.no-smm.vivid {{site.time[2]}}  
     span.vivid ~
     span.no.no-smm.vivid {{site.time[3]}}
-  
+
+hr
+div(style="display:inline-block;") 注册用户
+    span.no.vivid.no-sm {{member}}
+div(style="display:inline-block;") 备孕用户
+    span.no.vivid.no-sm {{beiyun_member_num}}
+div(style="display:inline-block;") 怀孕用户
+    span.no.vivid.no-sm {{huaiyun_member_num}}
+div(style="display:inline-block;") 产后用户
+    span.no.vivid.no-sm {{chanhou_member_num}}
+
+hr
+
 div(class='row')
     div(class='col-md-12')  
         div(class='panel panel-info')
@@ -24,6 +36,7 @@ div(class='row')
                     span 周环比增长 
                     span.no.no-smm(ng-bind-html-unsafe='site.pv.rate.all | rate')
                 
+
 
 div.row
     div.col-md-12
@@ -477,30 +490,30 @@ div.row
             div(class='panel-body') 
                 div.form-group
                     .btn-group
-                        a.btn.btn-primary(href='http://172.16.5.90:8004/api/excel/site',target='_blank') 网站写操作数据导出
+                        a.btn.btn-primary(href='api/excel/site',target='_blank') 网站写操作数据导出
 
-                        a.btn.btn-primary(href='http://172.16.5.90:8004/api/excel/app',target='_blank') APP数据导出
+                        a.btn.btn-primary(href='api/excel/app',target='_blank') APP数据导出
 
-                        a.btn.btn-primary(href='http://172.16.5.90:8004/api/excel/bbs',target='_blank') BBS来源数据导出
+                        a.btn.btn-primary(href='api/excel/bbs',target='_blank') BBS来源数据导出
 
                 hr
 
                 div.form-group
                     .btn-group
-                        a.btn.btn-primary(href='http://172.16.5.90:8004/excel/all',target='_blank') 全站浏览数据
+                        a.btn.btn-primary(href='excel/all',target='_blank') 全站浏览数据
                     
-                        a.btn.btn-primary(href='http://172.16.5.90:8004/excel/www',target='_blank') WWW浏览数据
+                        a.btn.btn-primary(href='excel/www',target='_blank') WWW浏览数据
 
-                        a.btn.btn-primary(href='http://172.16.5.90:8004/excel/bbs',target='_blank') BBS浏览数据
+                        a.btn.btn-primary(href='excel/bbs',target='_blank') BBS浏览数据
 
-                        a.btn.btn-primary(href='http://172.16.5.90:8004/excel/i',target='_blank') 播爱浏览数据
+                        a.btn.btn-primary(href='excel/i',target='_blank') 播爱浏览数据
 
-                        a.btn.btn-primary(href='http://172.16.5.90:8004/excel/m',target='_blank') WAP浏览数据
+                        a.btn.btn-primary(href='excel/m',target='_blank') WAP浏览数据
 
-                        a.btn.btn-primary(href='http://172.16.5.90:8004/excel/zhishi',target='_blank') 知识浏览数据
+                        a.btn.btn-primary(href='excel/zhishi',target='_blank') 知识浏览数据
 
-                        a.btn.btn-primary(href='http://172.16.5.90:8004/excel/riji',target='_blank') 日记浏览数据
+                        a.btn.btn-primary(href='excel/riji',target='_blank') 日记浏览数据
                 hr
 
                 div.form-group   
-                    a.btn.btn-primary(target='_blank',href='http://172.16.5.90:8004/img/week.png') 导出图片
+                    a.btn.btn-primary(target='_blank',href='img/week.png') 导出图片
