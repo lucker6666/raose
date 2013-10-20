@@ -151,10 +151,6 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/addFeature',
       controller: AddFeatureCtrl
     }).
-    when('/feature/:id/edit', {
-      templateUrl: '/partials/addFeature',
-      controller: AddFeatureCtrl
-    }).
     when('/feature/:id', {
       templateUrl: 'partials/viewFeature',
       controller: ViewFeatureCtrl

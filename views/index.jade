@@ -4,7 +4,7 @@ block body
   nav(class='main-nav',ng-hide='hideNav')
     ul
       li(class='txt-center')
-        img#avatar(class='avatar',width='60',height='60',ng-src='{{avatar}}',ng-init='avatar="img/avatar.png"')
+        img(class='avatar',src='img/avatar.png',width='60',height='60')
 
       li
         a(href='/me')='Hi,'+user.username

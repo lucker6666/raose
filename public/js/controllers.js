@@ -91,43 +91,18 @@ var TodosCtrl = function($scope, $http) {
   })
 };
 
-// 更新需求
-
 // 添加需求
 
-var AddFeatureCtrl = function($scope, $http, $location, $timeout, $routeParams) {
+var AddFeatureCtrl = function($scope, $http, $location, $timeout) {
   $scope.addFeature = function() {
     $http.post('/api/features', $scope.form).success(function(data) {
       if (data['error'] === 0) {
         $location.path('/features');
       }
     });
-  };
-  $scope.form = {};
-  $scope.form.files = [];
-  $scope.updateFeature = function() {
-    $http.put('/api/feature/' + $routeParams.id, $scope.form).success(function(data) {
-      console.log(data);
-      if (data.error === 0) {
-        $location.path('/feature/' + $routeParams.id);
-      }
-    });
   }
 
-  var isUpdate = document.location.href.indexOf('edit') !== -1;
-
-  if (isUpdate) {
-    $scope.showUpdate = true;
-    $scope.showAdd = false;
-    $http.get('/api/feature/' + $routeParams.id).success(function(data) {
-      $scope.form = data.data;
-    });
-  } else {
-    $scope.showUpdate = false;
-    $scope.showAdd = true;
-  }
-
-  //$scope.form.files = [];
+  $scope.files = [];
   // 获取拖进来的文件
   $timeout(function() {
     var dragArea = document.querySelector('#drag-area');
@@ -148,6 +123,7 @@ var AddFeatureCtrl = function($scope, $http, $location, $timeout, $routeParams) 
 
     dragArea.addEventListener('drop', function(e) {
       dragArea.style.borderColor = '#ccc'
+      console.log('droped');
       e.stopPropagation();
       e.preventDefault();
       var dt = e.dataTransfer;
@@ -163,7 +139,7 @@ var AddFeatureCtrl = function($scope, $http, $location, $timeout, $routeParams) 
           var res = JSON.parse(x.target.responseText);
 
           $scope.$apply(function($scope) {
-            $scope.form.files.push(res.data);
+            $scope.files.push(res);
           });
 
           console.log($scope.files);
@@ -192,20 +168,10 @@ var AddTopicCtrl = function($scope, $http, $location) {
   }
 };
 
-// 查看issue
-var ViewFeatureCtrl = function($scope, $http, $location, $routeParams) {
+var ViewFeatureCtrl = function($scope, $http, $routeParams) {
   $http.get('/api/feature/' + $routeParams.id).success(function(data) {
     $scope.form = data.data;
-  });
-  $scope.deleteFeature = function() {
-    if (confirm('确定要删除该需求么')) {
-      $http.delete('/api/feature/' + $routeParams.id).success(function(data) {
-        if (data.error === 0) {
-          $location.path('/features');
-        }
-      });
-    }
-  };
+  })
 };
 
 // 查看话题
@@ -853,7 +819,6 @@ var meCtrl = function($http, $scope) {
 }
 
 document.body.addEventListener("paste", function(e) {
-  console.log('paste');
   for (var i = 0; i < e.clipboardData.items.length; i++) {
     if (e.clipboardData.items[i].kind == "file" && e.clipboardData.items[i].type == "image/png") {
       // get the blob
@@ -896,9 +861,3 @@ document.body.addEventListener("paste", function(e) {
     }
   }
 });
-
-//更改avatar
-/*var scope = angular.element($("#avatar")).scope();
-scope.$apply(function() {
-  scope.avatar = 'Superhero';
-});*/

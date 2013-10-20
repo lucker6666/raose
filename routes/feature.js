@@ -17,9 +17,7 @@ var Feature = mongoose.model('Feature', {
   // 内容
   content: String,
   // 成员
-  members: Array,
-  // 文件列表
-  files: Array
+  members: Array
 });
 
 exports.feature = {
@@ -35,11 +33,7 @@ exports.feature = {
     });
   },
   list: function(req, res) {
-    Feature.find({}, '-content', {
-      sort: {
-        date: -1
-      }
-    }, function(err, data) {
+    Feature.find({}, function(err, data) {
       if (err) throw err;
       res.send({
         error: 0,
@@ -62,21 +56,16 @@ exports.feature = {
     Feature.findByIdAndRemove(id, function(err) {
       if (err) throw err;
       res.send({
-        error: 0,
+        erro: 0,
         msg: '删除成功'
       });
     })
   },
   put: function(req, res) {
     var id = req.params.id;
-    delete req.body._id;
     Feature.findByIdAndUpdate(id, req.body, function(err, item) {
-      if (err) {
-        throw err;
-        return;
-      }
       res.send({
-        error: 0,
+        errro: 0,
         data: item
       });
     });

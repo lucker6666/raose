@@ -1,22 +1,7 @@
-h1 一大波需求
-    a(href='/features/add',class='btn btn-primary',style="float:right") 添加需求
+a(href='/features/add',class='btn btn-primary') 添加需求
 hr
-
-
-
-table.table
-    thead
-        tr
-            th 标题
-            th 时间
-            th 编辑
-            th 操作
-    tbody
-        tr(ng-repeat='one in features')
-            td
-                a(href='/feature/{{one._id}}') {{one.title}}
-            td {{one.date | time}}
-            td {{one.author}}
-            td 操作
-
+ul.sd-list-items
+    li.sd-list-item(ng-repeat='one in features')
+        a(href='/feature/{{one._id}}') @{{one.author}} {{one.title}}
+        p {{one.content}}
      

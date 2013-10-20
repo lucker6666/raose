@@ -20,11 +20,6 @@ var User = mongoose.model('User', {
     email: {
         type: String,
         default: ''
-    },
-    //头像
-    avatar: {
-        type: String,
-        default: ''
     }
 });
 exports.Model = User;
