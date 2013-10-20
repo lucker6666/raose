@@ -173,5 +173,4 @@ for (var i in config) {
         });
 
     })(i, ids);
-
 }
