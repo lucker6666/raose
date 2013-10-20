@@ -151,6 +151,10 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/addFeature',
       controller: AddFeatureCtrl
     }).
+    when('/feature/:id/edit', {
+      templateUrl: '/partials/addFeature',
+      controller: AddFeatureCtrl
+    }).
     when('/feature/:id', {
       templateUrl: 'partials/viewFeature',
       controller: ViewFeatureCtrl
@@ -259,6 +263,14 @@ config(['$routeProvider', '$locationProvider',
       $http.get('/api/usercheck').success(function(data) {
         if (data.data.hasSignin === false) {
           $rootScope.hideNav = true;
+        }
+        if (data.data.avatar) {
+          setTimeout(function() {
+            var scope = angular.element($("#avatar")).scope();
+            scope.$apply(function() {
+              scope.avatar = data.data.avatar;
+            });
+          }, 0);
         }
       });
     });
