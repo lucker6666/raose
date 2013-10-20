@@ -18,6 +18,10 @@ exports.index = function(req, res) {
 };
 
 exports.partials = function(req, res) {
+    if (!req.user && req.params.name !== 'signin') {
+        res.send('<div class="alert alert-danger">鉴权失败</div>');
+        return;
+    }
     var name = req.params.name;
     // var isAdmin = (req.user.flag === 0) ? 'show' : 'hid';
     // console.log(req.user, isAdmin, req.user.flag, typeof req.user.flag, req.user.flag === 0);
