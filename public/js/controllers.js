@@ -767,9 +767,7 @@ var WeeklyDataCtrl = function($scope, $http) {
       return data['stats'][0]['data'];
     },
     startTimeFormatter: function(data) {
-      var rs = data['stats'][0]['dates'][0].split('-');
-      rs[1]--;
-      return rs;
+      return data['stats'][0]['dates'][0].split('-');
     }
   }, 0, '#app-install');
 
@@ -780,9 +778,7 @@ var WeeklyDataCtrl = function($scope, $http) {
       return data['stats'][0]['data'];
     },
     startTimeFormatter: function(data) {
-      var rs = data['stats'][0]['dates'][0].split('-');
-      rs[1]--;
-      return rs;
+      return data['stats'][0]['dates'][0].split('-');
     }
   }, 0, '#app-active');
 
@@ -790,6 +786,7 @@ var WeeklyDataCtrl = function($scope, $http) {
     type: 'umeng',
     api: 'http://106.3.38.38:8888/api/app.json?type=monthly_launch',
     dataFormatter: function(data) {
+      console.log(data['stats'][0]['data']);
       return data['stats'][0]['data'];
     },
     startTimeFormatter: function(data) {
