@@ -18,11 +18,12 @@ exports.data = {
     },
     add: function(req, res) {
         var data = new Data(req.body);
-        data.save(function(err) {
+        data.save(function(err, item) {
             if (err) throw err;
             res.send({
                 error: 0,
-                msg: '保存成功'
+                msg: '保存成功',
+                data: item
             });
         });
     },

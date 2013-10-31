@@ -301,8 +301,7 @@ var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
 var EditDataCtrl = function($scope, $http, $location, $routeParams, $timeout) {
   $http.get('/api/data/' + $routeParams.id).success(function(data) {
     $scope.form = data.data;
-    $scope.action = 'update';
-    $scope.actionName = '更新';
+    $scope.showUpdateBtn = true;
     $scope.updateData = function() {
       $http.put('/api/data/' + $routeParams.id, $scope.form).success(function(data) {
         if (data.error === 0) {
@@ -341,13 +340,13 @@ function AddDataCtrl($scope, $http, $location, $routeParams) {
     }
   };
   $scope.actionName = '添加';
+  $scope.showAddBtn = true;
   $scope.submitData = function() {
     $http.post('/api/datas', $scope.form).
     success(function(data) {
-      $location.path('/datas');
+      $location.path('/data/' + data.data._id);
     });
   };
-
 }
 
 function AddStatusCtrl($scope, $http, $location) {
@@ -786,7 +785,6 @@ var WeeklyDataCtrl = function($scope, $http) {
     type: 'umeng',
     api: 'http://106.3.38.38:8888/api/app.json?type=monthly_launch',
     dataFormatter: function(data) {
-      console.log(data['stats'][0]['data']);
       return data['stats'][0]['data'];
     },
     startTimeFormatter: function(data) {

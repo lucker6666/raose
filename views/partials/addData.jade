@@ -70,6 +70,6 @@ div.form-group
     div(class='alert alert-success {{show-success}}',ng-show='showSuccess') {{success_tip}}
     
 div.form-group
-    input(ng-click='submitData()',class='btn btn-primary',type='button',value='添加') 
-    input.btn.btn-primary(ng-click='updateData()',value='更新',type='button');
+    input(ng-show='showAddBtn',ng-click='submitData()',class='btn btn-primary',type='button',value='添加') 
+    input.btn.btn-primary(ng-show='showUpdateBtn',ng-click='updateData()',value='更新',type='button');
 
