@@ -52,9 +52,9 @@ exports.Model = Issues;
 exports.issues = {
     messages: function(req, res) {
         Message.find({
-                typeInfo: {
-                    type: 'issue',
-                    id: req.params.id
+                "typeInfo": {
+                    "catId": req.params.id,
+                    "cat": "issue"
                 }
             },
             function(err, data) {
@@ -68,7 +68,6 @@ exports.issues = {
     add: function(req, res) {
         req.body.author = req.user.username;
         req.body.content = url2img(req.body.content, './public/uploads/', './uploads/');
-        console.log(req.body.content);
         var issue = new Issues(req.body);
         issue.save(function(err, rs) {
             if (err) {
@@ -80,12 +79,12 @@ exports.issues = {
             }
             // send message
             MessageModel.add({
+                typeInfo: {
+                    cat: 'issue',
+                    catId: '' + rs._id
+                },
                 from: req.user.username,
                 to: req.body.owner,
-                typeInfo: {
-                    type: 'issue',
-                    id: rs._id
-                },
                 content: {
                     action: '指交了Issue',
                     target: req.body.title,
@@ -142,12 +141,12 @@ exports.issues = {
         Issues.findByIdAndUpdate(req.params.id, req.body, function(err, item) {
             if (err === null) {
                 MessageModel.add({
+                    typeInfo: {
+                        cat: 'issue',
+                        catId: '' + item._id
+                    },
                     from: req.user.username,
                     to: 'all',
-                    typeInfo: {
-                        type: 'issue',
-                        id: req.params.id
-                    },
                     content: {
                         action: message,
                         target: item.title,

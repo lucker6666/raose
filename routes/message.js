@@ -1,5 +1,13 @@
 var mongoose = require('mongoose');
 var Message = mongoose.model('Message', {
+  // 类型
+  typeInfo: {
+    cat: {
+      type: String,
+      default: 'default'
+    },
+    catId: String
+  },
   // 日期
   date: {
     type: Date,
@@ -30,11 +38,6 @@ var Message = mongoose.model('Message', {
       type: String,
       default: ''
     }
-  },
-  // 类型
-  typeInfo: {
-    type: String,
-    id: String
   }
 });
 exports.Model = Message;
@@ -70,6 +73,7 @@ exports.message = {
 
 exports.MessageModel = {
   add: function(data, callback) {
+    console.log(data);
     var message = new Message(data);
     message.save(function(err, item) {
       callback.call(this, err, item);

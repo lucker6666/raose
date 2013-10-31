@@ -109,7 +109,31 @@ app.get('/api/*', function(req, res, next) {
     return;
   }
   next();
-})
+});
+
+app.get('/test/mail', function(req, res) {
+  var mail = require('./routes/mail.js');
+
+  // Message object
+  var message = {
+    // sender info
+    from: '播种网产品工具 <lizheng@bozhong.com>',
+    // Comma separated list of recipients
+    to: '"Receiver Name" <lizheng@bozhong.com>',
+    // Subject of the message
+    subject: 'hello world again', //
+    headers: {
+      'X-Laziness-level': 1000
+    },
+    // plaintext body
+    text: 'Hello to myself!',
+    // HTML body
+    html: '激活链接：<a href="http://172.16.5.108:8004/api/account/doActive?hash=helloworld">点此激活</a>'
+  };
+  mail.send(message, function(err) {
+    res.send(err);
+  });
+});
 
 // 登录检测
 app.get('/api/usercheck', function(req, res) {
@@ -123,7 +147,6 @@ app.get('/api/usercheck', function(req, res) {
   } else {
     api.me.profile.call(this, req, res);
   }
-
 });
 /**
  *-----------------------状态相关-------------------
@@ -421,7 +444,6 @@ app.post('/api/ga.json', function(req, res) {
       })
     }
   });
-
 });
 
 app.get('/excel/:site', function(req, res) {
