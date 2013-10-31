@@ -11,7 +11,9 @@ hr
     .col-md-6
         h2 Todos({{todos.length}})
         ol.sd-list-items
-            li.sd-list-item(ng-repeat='todo in todos') 
+            li.sd-list-item(ng-repeat='todo in todos')  
+                span.label.label-info {{todo.status}}
+                &nbsp;&nbsp; 
                 a(href='/todo/{{todo._id}}'){{todo.title}}
 
     .col-md-6

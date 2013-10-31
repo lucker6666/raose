@@ -7,7 +7,10 @@ var Issues = require('./issue.js').Model;
 exports.me = {
   todos: function(req, res) {
     Todo.find({
-      owner: req.user.username
+      owner: req.user.username,
+      status: {
+        $in: ['处理中', '等待上线', '待处理', '测试中']
+      }
     }, function(err, data) {
       json(res, err, data);
     })
