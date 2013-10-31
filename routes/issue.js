@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var MessageModel = require('./message.js').MessageModel;
 var Message = require('./message.js').Model;
+var url2img = require('../lib/url2image.js');
 // issue 
 var Issues = mongoose.model('Issue', {
     // 是否开启
@@ -66,6 +67,8 @@ exports.issues = {
     },
     add: function(req, res) {
         req.body.author = req.user.username;
+        req.body.content = url2img(req.body.content, './public/uploads/', './uploads/');
+        console.log(req.body.content);
         var issue = new Issues(req.body);
         issue.save(function(err, rs) {
             if (err) {
@@ -75,6 +78,7 @@ exports.issues = {
                 });
                 return;
             }
+            // send message
             MessageModel.add({
                 from: req.user.username,
                 to: req.body.owner,
@@ -114,6 +118,7 @@ exports.issues = {
     update: function(req, res) {
         var id = req.body._id;
         delete req.body._id;
+        req.body.content = url2img(req.body.content, './public/uploads/', './uploads/');
         var isCloseAction = req.body.action === 'closeIssue',
             isReopenAction = req.body.action === 'reopenIssue',
             message = '更新了Issue';
