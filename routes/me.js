@@ -14,7 +14,9 @@ exports.me = {
   },
   issues: function(req, res) {
     Issues.find({
-      owner: req.user.username
+      owner: req.user.username,
+      // only list the open issues
+      open: true
     }, function(err, data) {
       res.send({
         error: 0,
