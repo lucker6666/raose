@@ -28,7 +28,7 @@ hr
 div(class='form-group')
     input(type='hidden',value='{{form._id}}',ng-model='discussion.typeId')
     input(type='hidden',value='topic',ng-model='discussion.type')
-    label 评论一下呗
+    label 评论与说明
     textarea(class='form-control',ng-model='discussion.content',ng-paste='paste()')
 
 div(class='form-group')
@@ -36,9 +36,9 @@ div(class='form-group')
 
 hr
 // 评论内容
-ul
-    li(ng-repeat='one in list')
+ul.sd-list-items
+    li.sd-list-item(ng-repeat='one in list')
         p
-            span {{one.author}}
-            span {{one.date}}
+            span.author {{one.author}}
+            span.time {{one.date | time}}
         p {{one.content}}

@@ -512,6 +512,10 @@ var ViewIssueCtrl = function($scope, $http, $routeParams, $location) {
   var id = $routeParams.id;
   $http.get('/api/issue/' + id).success(function(data) {
     $scope.form = data.data;
+    $scope.discussion = {
+      typeId: data.data._id,
+      type: 'issue'
+    };
   });
 
   $http.get('/api/issue/' + id + '/messages').success(function(data) {
@@ -525,6 +529,7 @@ var ViewIssueCtrl = function($scope, $http, $routeParams, $location) {
       });
     }
   };
+
   $scope.closeIssue = function() {
     if (confirm('确定要关闭么')) {
       $http.put('/api/issue/' + id, {
@@ -558,8 +563,9 @@ var ViewIssueCtrl = function($scope, $http, $routeParams, $location) {
       type: 'issue',
       typeId: $routeParams.id
     };
-    $http.post('/api/topic/' + $routeParams.id + '/discussions', $scope.discussion).success(function(data) {
-      $scope.list.unshift($scope.discussion);
+    $http.post('/api/issue/' + $routeParams.id + '/discussions', $scope.discussion).success(function(data) {
+      $scope.list.unshift(data.data);
+      $scope.discussion.content = '';
     });
   };
 

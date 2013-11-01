@@ -273,3 +273,5 @@ svg>text>tspan {display:none;}
 
 .intro {border:2px dashed #ccc;padding:5px;border-radius:5px;margin-bottom:15px;}
 .content-img {max-width:95%;}
+.time {margin:0 10px;}
+.author {color:#000;}

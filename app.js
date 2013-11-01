@@ -187,7 +187,8 @@ app.delete('/api/doc/:id', api.docs.delete);
 app.get('/api/issues', api.issues.list);
 // 获取单个状态
 app.get('/api/issue/:id/messages', api.issues.messages);
-app.get('/api/issue/:id/discussions', api.issues.discussions);
+app.get('/api/issue/:id/discussions', api.issues.getDiscussions);
+app.post('/api/issue/:id/discussions', api.issues.addDiscussion);
 app.get('/api/issue/:id', api.issues.get);
 // 更新单个状态
 app.put('/api/issue/:id', api.issues.update);

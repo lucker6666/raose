@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var MessageModel = require('./message.js').MessageModel;
 var Message = require('./message.js').Model;
 var url2img = require('../lib/url2image.js');
+var Discussion = require('./discussion.js').Model;
 // issue 
 var Issues = mongoose.model('Issue', {
     // 是否开启
@@ -61,6 +62,19 @@ exports.issues = {
             res.send({
                 error: 0,
                 data: data
+            });
+        });
+    },
+    // 添加一个评论
+    addDiscussion: function(req, res) {
+        req.body.author = req.user.username;
+        var discussion = new Discussion(req.body);
+        discussion.save(function(err, item) {
+            if (err) throw err;
+            res.send({
+                erro: 0,
+                msg: '添加成功',
+                data: item
             });
         });
     },
