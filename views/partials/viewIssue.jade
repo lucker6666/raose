@@ -6,22 +6,24 @@ p(ng-bind-html-unsafe='form.content')
 hr
 
 
-
-ul
-    li(ng-repeat='message in messages')
+br
+h2 事件
+ul.sd-list-items
+    li.sd-list-item(ng-repeat='message in messages')
         span {{message.from}} {{message.content.action}} {{message.date | time}}
 
 
 
+br
+h2 评论与说明
 hr
-
-.form-group
-    a.btn.btn-info(href='/issue/{{form._id}}/edit') 编辑
-    button.btn.btn-primary(ng-click='deleteIssue()') 删除
-    button.btn.btn-primary(ng-click='closeIssue()',ng-show='form.open') 关闭
-    button.btn.btn-primary(ng-click='reopenIssue()',ng-hide='form.open') 重新开启
-
-
+// 评论内容
+ul.sd-list-items
+    li.sd-list-item(ng-repeat='one in list')
+        p
+            span.author {{one.author}}
+            span.time {{one.date | time}}
+        p {{one.content}}
 
 // 评论框
 
@@ -34,11 +36,13 @@ div(class='form-group')
 div(class='form-group')
     button(class='btn btn-primary',ng-click='submitDiscussion()') 提交 
 
+
+
 hr
-// 评论内容
-ul.sd-list-items
-    li.sd-list-item(ng-repeat='one in list')
-        p
-            span.author {{one.author}}
-            span.time {{one.date | time}}
-        p {{one.content}}
+
+.form-group
+    a.btn.btn-info(href='/issue/{{form._id}}/edit') 编辑
+    button.btn.btn-danger(ng-click='deleteIssue()') 删除
+    button.btn.btn-primary(ng-click='closeIssue()',ng-show='form.open') 关闭
+    button.btn.btn-primary(ng-click='reopenIssue()',ng-hide='form.open') 重新开启
+
