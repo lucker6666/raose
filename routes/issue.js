@@ -50,6 +50,20 @@ var Issues = mongoose.model('Issue', {
 });
 exports.Model = Issues;
 exports.issues = {
+    // 获取单个issue的回复
+    getDiscussions: function(req, res) {
+        var issueId = req.params.id;
+        Discussion.find({
+            type: 'issue',
+            typeId: issueId
+        }, function(err, data) {
+            if (err) throw err;
+            res.send({
+                error: 0,
+                data: data
+            });
+        });
+    },
     messages: function(req, res) {
         Message.find({
                 "typeInfo": {

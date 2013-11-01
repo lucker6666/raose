@@ -10,3 +10,5 @@ var Discussion = mongoose.model('Discussion', {
     },
     content: String
 });
+
+exports.Model = Discussion;

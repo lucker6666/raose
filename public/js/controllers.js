@@ -546,6 +546,23 @@ var ViewIssueCtrl = function($scope, $http, $routeParams, $location) {
       });
     }
   };
+
+  // 获取评论
+  $http.get('/api/issue/' + $routeParams.id + '/discussions').success(function(data) {
+    $scope.list = data.data;
+  });
+
+  // 提交评论
+  $scope.submitDiscussion = function() {
+    $scope.disussion = {
+      type: 'issue',
+      typeId: $routeParams.id
+    };
+    $http.post('/api/topic/' + $routeParams.id + '/discussions', $scope.discussion).success(function(data) {
+      $scope.list.unshift($scope.discussion);
+    });
+  };
+
 };
 
 var editIssueCtrl = function($scope, $http, $routeParams, $location) {

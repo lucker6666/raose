@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Discussion = require('./discussion.js').Model;
 var Topic = mongoose.model('Topic', {
   title: String, // 标题
   date: { // 日期

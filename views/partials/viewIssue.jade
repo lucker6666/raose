@@ -3,6 +3,10 @@ hr
 p(ng-bind-html-unsafe='form.content') 
 
 
+hr
+
+
+
 ul
     li(ng-repeat='message in messages')
         span {{message.from}} {{message.content.action}} {{message.date | time}}
@@ -18,6 +22,7 @@ hr
     button.btn.btn-primary(ng-click='reopenIssue()',ng-hide='form.open') 重新开启
 
 
+
 // 评论框
 
 div(class='form-group')
@@ -29,6 +34,7 @@ div(class='form-group')
 div(class='form-group')
     button(class='btn btn-primary',ng-click='submitDiscussion()') 提交 
 
+hr
 // 评论内容
 ul
     li(ng-repeat='one in list')
