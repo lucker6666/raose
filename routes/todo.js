@@ -1,6 +1,7 @@
 // todo 
 var mongoose = require('mongoose');
 var MessageModel = require('./message.js').MessageModel;
+var Discussion = require('./discussion.js').Model;
 var Todo = mongoose.model('Todo', {
   // 标题
   title: String,
@@ -29,6 +30,33 @@ var Todo = mongoose.model('Todo', {
 });
 exports.Model = Todo;
 exports.todo = {
+  // 获取单个issue的回复
+  getDiscussions: function(req, res) {
+    var issueId = req.params.id;
+    Discussion.find({
+      type: 'todo',
+      typeId: issueId
+    }, function(err, data) {
+      if (err) throw err;
+      res.send({
+        error: 0,
+        data: data
+      });
+    });
+  },
+  // 添加一个评论
+  addDiscussion: function(req, res) {
+    req.body.author = req.user.username;
+    var discussion = new Discussion(req.body);
+    discussion.save(function(err, item) {
+      if (err) throw err;
+      res.send({
+        erro: 0,
+        msg: '添加成功',
+        data: item
+      });
+    });
+  },
   // 更新
   put: function(req, res) {
     var id = req.params.id;

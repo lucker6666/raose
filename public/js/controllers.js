@@ -243,7 +243,27 @@ var ViewTodoCtrl = function($scope, $http, $routeParams, $location) {
   var id = $routeParams.id;
   $http.get('/api/todo/' + id).success(function(data) {
     $scope.form = data.data;
+    $scope.discussion = {
+      typeId: data.data._id,
+      type: 'todo'
+    };
   });
+  // 获取评论
+  $http.get('/api/todo/' + $routeParams.id + '/discussions').success(function(data) {
+    $scope.list = data.data;
+  });
+
+  // 提交评论
+  $scope.submitDiscussion = function() {
+    $scope.disussion = {
+      type: 'todo',
+      typeId: $routeParams.id
+    };
+    $http.post('/api/todo/' + $routeParams.id + '/discussions', $scope.discussion).success(function(data) {
+      $scope.list.unshift(data.data);
+      $scope.discussion.content = '';
+    });
+  };
   $scope.deleteTodo = function() {
     if (confirm('确定要删除么')) {
       $http.delete('/api/todo/' + id).success(function(data) {
@@ -258,7 +278,7 @@ var ViewTodoCtrl = function($scope, $http, $routeParams, $location) {
         action: 'updateStatus',
         status: $scope.form.status
       }).success(function(data) {
-        console.log(data);
+        $location.path('/todos');
       });
     }
   };

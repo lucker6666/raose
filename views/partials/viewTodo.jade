@@ -18,3 +18,25 @@ hr
         option(value='暂时不处理') 暂时不处理
 .form
     button.btn.btn-primary(ng-click='updateStatus()') 更改
+
+br
+h2 评论与说明
+hr
+// 评论内容
+ul.sd-list-items
+    li.sd-list-item(ng-repeat='one in list')
+        p
+            span.author {{one.author}}
+            span.time {{one.date | time}}
+        p {{one.content}}
+
+// 评论框
+
+div(class='form-group')
+    input(type='hidden',value='{{form._id}}',ng-model='discussion.typeId')
+    input(type='hidden',value='todo',ng-model='discussion.type')
+    label 评论与说明
+    textarea(class='form-control',ng-model='discussion.content',ng-paste='paste()')
+
+div(class='form-group')
+    button(class='btn btn-primary',ng-click='submitDiscussion()') 提交 
