@@ -54,6 +54,7 @@ filter("rate", function() {
 }).
 filter('time', function() {
   return function(time) {
+    if (!time) return '';
     return friendlyDate(time);
   }
 }).

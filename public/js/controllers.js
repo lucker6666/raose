@@ -29,6 +29,7 @@ var DocsCtrl = function($scope, $http) {
 };
 
 var AddDocCtrl = function($scope, $http, $location) {
+  $scope.showAddBtn = true;
   $scope.submitDoc = function() {
     $http.post('/api/docs', $scope.doc).success(function(data) {
       if (data['error'] === 0) {
@@ -41,13 +42,17 @@ var AddDocCtrl = function($scope, $http, $location) {
 // 编辑文档
 var EditDocCtrl = function($scope, $http, $location, $routeParams) {
   var id = $routeParams.id;
+  $scope.showUpdateBtn = true;
+  $scope.showViewBtn = true;
   $http.get('/api/doc/' + id + '?raw=1').success(function(data) {
     $scope.doc = data.data;
   });
 
   $scope.updateDoc = function() {
     $http.put('/api/doc/' + id, $scope.doc).success(function(data) {
-      console.log(data);
+      if (data.error === 0) {
+        $location.path('/doc/' + id);
+      }
     });
   }
 };

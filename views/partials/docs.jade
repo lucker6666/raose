@@ -1,16 +1,25 @@
+h1 文档
+
+
+table.table
+    thead
+        tr
+            th 标题
+            th 作者
+            th 最后更新
+            th 添加时间
+    tbody
+        tr(ng-repeat='one in docs')  
+            td
+                a(href='/doc/{{one._id}}') {{one.title}}
+            td
+                span {{one.author}}   
+            td
+                span {{one.lastUpdate.date | time}} by {{one.lastUpdate.user}}
+            td 
+                span {{one.date | time}}
+
+hr
 div.form-group
     a.btn.btn-primary(href='/docs/add') 添加文档
-
-div.panel.panel-default
-    div.panel-heading 文档列表
-    table.table
-        tbody
-            tr(ng-repeat='one in docs')  
-                td
-                    a(href='/doc/{{one._id}}') {{one.title}}
-                td
-                    span {{one.author}}   
-                td 
-		    span {{one.date | time}}
-
-    
+hr

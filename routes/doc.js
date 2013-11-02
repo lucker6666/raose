@@ -12,7 +12,12 @@ var Doc = mongoose.model('Doc', {
     type: Date,
     default: Date.now
   },
-  content: String
+  content: String,
+  // 最后更新时间
+  lastUpdate: {
+    date: Date,
+    user: String
+  }
 });
 
 exports.docs = {
@@ -57,7 +62,7 @@ exports.docs = {
     });
   },
   list: function(req, res) {
-    Doc.find({}, function(err, data) {
+    Doc.find({}, '-content', function(err, data) {
       if (err) throw err;
       res.send({
         error: 0,
@@ -78,7 +83,19 @@ exports.docs = {
   update: function(req, res) {
     var body = req.body;
     delete(body._id);
+    // 添加更新时间
+    body.lastUpdate = {
+      date: Date.now(),
+      user: req.user.username
+    };
+    console.log(body);
     Doc.findByIdAndUpdate(req.params.id, body, function(err, data) {
+      if (err) {
+        res.send({
+          error: 1,
+          msg: err
+        });
+      }
       res.send({
         error: 0,
         data: data

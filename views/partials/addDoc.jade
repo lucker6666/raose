@@ -17,6 +17,6 @@ div.form-group
     textarea.form-control(ng-model='doc.content',rows='10')
 
 div.form-gropu
-    button.btn.btn-primary(ng-click='submitDoc()') 添加 
-    button.btn.btn-primary(ng-click='updateDoc()') 更新啦
-    a.btn.btn-info(href='/doc/{{doc._id}}') 查看
+    button.btn.btn-primary(ng-click='submitDoc()',ng-show='showAddBtn') 添加 
+    button.btn.btn-primary(ng-click='updateDoc()',ng-show='showUpdateBtn') 更新啦
+    a.btn.btn-info(href='/doc/{{doc._id}}',ng-show='showViewBtn') 查看
