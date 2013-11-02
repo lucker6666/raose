@@ -112,12 +112,11 @@ var AddFeatureCtrl = function($scope, $http, $location, $timeout, $routeParams) 
   $scope.form.files = [];
   $scope.updateFeature = function() {
     $http.put('/api/feature/' + $routeParams.id, $scope.form).success(function(data) {
-      console.log(data);
       if (data.error === 0) {
         $location.path('/feature/' + $routeParams.id);
       }
     });
-  }
+  };
 
   var isUpdate = document.location.href.indexOf('edit') !== -1;
 
@@ -211,6 +210,41 @@ var ViewFeatureCtrl = function($scope, $http, $location, $routeParams) {
       });
     }
   };
+
+  // 删除附件
+  // @todo 删除附件应该同时删除服务器上的文件
+  $scope.deleteAttach = function(index) {
+    $scope.form.files.splice(index, 1);
+    if (confirm('确定要删除附件么')) {
+      //发送请求
+      $http.put('/api/feature/' + $routeParams.id, {
+        action: 'deleteAttachment',
+        file: $scope.form.files[index],
+        files: $scope.form.files
+      }).success(function(data) {
+        if (data.error === 0) {
+          $scope.form = data.data;
+        }
+      });
+    }
+  };
+
+  // 更名
+  $scope.renameAttach = function(index) {
+    var name = prompt('请输入名字');
+    if (name) {
+      $scope.form.files[index]['name'] = name;
+      //发送请求
+      $http.put('/api/feature/' + $routeParams.id, {
+        files: $scope.form.files
+      }).success(function(data) {
+        if (data.error === 0) {
+          $scope.form = data.data;
+        }
+      });
+    }
+  };
+
 };
 
 // 查看话题

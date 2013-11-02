@@ -390,7 +390,8 @@ app.post('/api/upload', function(req, res) {
       error: 0,
       data: {
         ext: ext.slice(1),
-        name: req.files.file.path.split('/')[2],
+        path: req.files.file.path.split('/')[2],
+        name: req.files.file.name,
         date: new Date(),
         author: req.user.username
       }
