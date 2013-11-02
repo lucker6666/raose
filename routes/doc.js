@@ -52,6 +52,10 @@ exports.docs = {
   },
   add: function(req, res) {
     req.body.author = req.user.username;
+    req.body.lastUpdate = {
+	date:Date.now(),
+	user:req.user.username
+    };
     var doc = new Doc(req.body);
     doc.save(function(err) {
       if (err) throw err;
