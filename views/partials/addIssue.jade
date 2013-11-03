@@ -38,9 +38,9 @@ div.form-group
     input.form-control(ng-model='form.from')
 
 div.form-group
-    label 提交者
-    input.form-control(ng-model='form.submit')
-
+    label 提交者 {{form.submit}} (默认为自己)
+    select.form-control(ng-model='form.submit')
+        option(ng-repeat='user in users',value='{{user.username}}') {{user.username}} ({{user.realname}})
 
 div.intro
     div.form-group

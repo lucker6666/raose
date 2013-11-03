@@ -96,6 +96,10 @@ exports.issues = {
     add: function(req, res) {
         req.body.author = req.user.username;
         req.body.content = url2img(req.body.content, './public/uploads/', './uploads/');
+        // 如果没有提交者，则为自己
+        if (!req.body.submit) {
+            req.body.submit = req.user.username;
+        }
         var issue = new Issues(req.body);
         issue.save(function(err, rs) {
             if (err) {
