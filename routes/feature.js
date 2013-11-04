@@ -35,7 +35,8 @@ exports.feature = {
     });
   },
   list: function(req, res) {
-    Feature.find({}, '-content', {
+    // query except content and files
+    Feature.find({}, '-content -files', {
       sort: {
         date: -1
       }
