@@ -26,6 +26,11 @@ var Todo = mongoose.model('Todo', {
   owner: {
     type: String,
     default: '无指派'
+  },
+  // 私有，自己可见
+  private: {
+    type: Boolean,
+    default: false
   }
 });
 exports.Model = Todo;

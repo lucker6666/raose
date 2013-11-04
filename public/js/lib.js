@@ -1,4 +1,11 @@
 const API = 'http://106.3.38.38:8888'
+
+var raose = {};
+
+raose.config = {
+    dataAPI: 'http://172.16.5.78:8888'
+};
+
 // 日期格式化
 var format = function(date) {
     var month = (date.getMonth() + 1) + '';
