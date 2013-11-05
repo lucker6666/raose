@@ -21,6 +21,15 @@ module.exports = function(grunt) {
         src: ['test/**/*.js']
       },
     },
+    uglify: {
+      minjs: {
+        src: 'public/js/controllers/*.js',
+        dest: 'public/js/controller.min.js',
+        options: {
+          mangle: false
+        }
+      }
+    },
     watch: {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
@@ -34,6 +43,10 @@ module.exports = function(grunt) {
         files: '<%= jshint.test.src %>',
         tasks: ['jshint:test', 'nodeunit']
       },
+      js: {
+        files: 'public/js/controllers/*.js',
+        tasks: ['uglify:minjs']
+      }
     },
   });
 
@@ -41,8 +54,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // Default task.
   grunt.registerTask('default', ['jshint', 'nodeunit']);
+  // uglify task
+  grunt.registerTask('minJS', ['uglify:minjs']);
+  grunt.registerTask('watchJS', ['watch:js']);
 
 };

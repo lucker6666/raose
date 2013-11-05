@@ -493,8 +493,6 @@ app.get('/excel/:site', function(req, res) {
 
   conf.rows = require('./cron/' + site + '.json');
   var result = nodeExcel.execute(conf);
-  //var fs = require('fs');
-  // fs.writeFileSync('all.xlsx', result, 'binary');
   res.setHeader('Content-Type', 'application/vnd.openxmlformats');
   res.setHeader("Content-Disposition", "attachment; filename=" + site + ".xlsx");
   res.end(result, 'binary');
@@ -546,10 +544,7 @@ app.get('/api/excel/app', function(req, res) {
   }];
 
   conf.rows = require('./cron/allapp_parse.json');
-  console.log(conf.rows);
   var result = nodeExcel.execute(conf);
-  //var fs = require('fs');
-  // fs.writeFileSync('all.xlsx', result, 'binary');
   res.setHeader('Content-Type', 'application/vnd.openxmlformats');
   res.setHeader("Content-Disposition", "attachment; filename=" + "app.xlsx");
   res.end(result, 'binary');
@@ -613,10 +608,7 @@ app.get('/api/excel/bbs', function(req, res) {
   }];
 
   conf.rows = require('./cron/allbbs_parse.json');
-  console.log(conf.rows);
   var result = nodeExcel.execute(conf);
-  //var fs = require('fs');
-  // fs.writeFileSync('all.xlsx', result, 'binary');
   res.setHeader('Content-Type', 'application/vnd.openxmlformats');
   res.setHeader("Content-Disposition", "attachment; filename=" + "bbs_source.xlsx");
   res.end(result, 'binary');
@@ -788,10 +780,7 @@ app.get('/api/excel/site', function(req, res) {
   }];
 
   conf.rows = require('./cron/allsite_parse.json');
-  console.log(conf.rows);
   var result = nodeExcel.execute(conf);
-  //var fs = require('fs');
-  // fs.writeFileSync('all.xlsx', result, 'binary');
   res.setHeader('Content-Type', 'application/vnd.openxmlformats');
   res.setHeader("Content-Disposition", "attachment; filename=" + "seedit.xlsx");
   res.end(result, 'binary');

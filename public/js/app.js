@@ -88,22 +88,6 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/me',
       controller: meCtrl
     }).
-    when('/addPost', {
-      templateUrl: 'partials/addPost',
-      controller: AddPostCtrl
-    }).
-    when('/readPost/:id', {
-      templateUrl: 'partials/readPost',
-      controller: ReadPostCtrl
-    }).
-    when('/editPost/:id', {
-      templateUrl: 'partials/editPost',
-      controller: EditPostCtrl
-    }).
-    when('/deletePost/:id', {
-      templateUrl: 'partials/deletePost',
-      controller: DeletePostCtrl
-    }).
     when('/addStatus', {
       templateUrl: 'partials/addStatus',
       controller: AddStatusCtrl
@@ -191,10 +175,6 @@ config(['$routeProvider', '$locationProvider',
     when('/topics/add', {
       templateUrl: 'partials/addTopic',
       controller: AddTopicCtrl
-    }).
-    when('/data/ad', {
-      templateUrl: 'partials/viewAdData',
-      controller: ViewAdCtrl
     }).
     when('/data/:id/:action', {
       templateUrl: 'partials/addData',
