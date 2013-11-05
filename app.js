@@ -431,7 +431,10 @@ app.post('/api/ga.json', function(req, res) {
         var data = '';
         res1.on('data', function(chunk) {
           data += chunk;
-        })
+        });
+	res1.on('error',function(err){
+	  console.log(err);
+	})
         res1.on('end', function() {
           if (data.length) {
             res.send(JSON.parse(data));
