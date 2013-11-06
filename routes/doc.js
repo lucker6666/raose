@@ -15,7 +15,10 @@ var Doc = mongoose.model('Doc', {
     default: Date.now
   },
   // raw content
-  content: String,
+  content: {
+    type: String,
+    default: ''
+  },
   // last updator info
   lastUpdate: {
     date: Date,
@@ -131,12 +134,10 @@ exports.docs = {
   get: function(req, res) {
     Doc.findById(req.params.id, function(err, data) {
       if (err) throw err;
-      //if (data.useGist === true) {
       if (req.query.raw !== '1') {
         var md = require("node-markdown").Markdown;
-        data.content = md(data.content);
+        data.content = data.content ? md(data.content) : data.content;
       }
-      //}
       res.send({
         error: 0,
         data: data
