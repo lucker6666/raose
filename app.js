@@ -786,9 +786,6 @@ app.get('/api/excel/site', function(req, res) {
   res.end(result, 'binary');
 });
 
-app.get('/test', function(req, res) {
-  res.send(req.user);
-});
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
 
