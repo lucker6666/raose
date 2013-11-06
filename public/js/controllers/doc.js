@@ -23,6 +23,7 @@ var EditDocCtrl = function($scope, $http, $location, $routeParams) {
     $scope.showViewBtn = true;
     $http.get('/api/doc/' + id + '?raw=1').success(function(data) {
         $scope.doc = data.data;
+        $scope.doc.open = true;
     });
 
     $scope.updateDoc = function() {

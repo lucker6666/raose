@@ -5,8 +5,8 @@ div.form-group
 div.form-group
     label 从URL导入
     select.form-control(ng-model='doc.useGist',ng-init='doc.useGist="0"')
-        option(value='0') 否
-        option(value='1') 是
+        option(value='false') 否
+        option(value='true') 是
 
 div.form-group
     label 若为从URL导入，请填写URL地址(任意一个公网可访问的文本地址，内容应为Markdown格式)
@@ -15,6 +15,12 @@ div.form-group
 div.form-group
     label 文档内容
     textarea.form-control(ng-model='doc.content',rows='10')
+
+div.form-group
+    label 是否公开 {{doc.open}}
+    select.form-control(ng-model='doc.open',ng-init='doc.open="true"')
+        option(value='true') 公开
+        option(value='false') 私有
 
 div.form-gropu
     button.btn.btn-primary(ng-click='submitDoc()',ng-show='showAddBtn') 添加 

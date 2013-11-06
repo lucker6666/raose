@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-// 文档Model
+// Doc model
 var Doc = mongoose.model('Doc', {
   title: String,
   author: String,
@@ -7,16 +7,29 @@ var Doc = mongoose.model('Doc', {
     type: Boolean,
     default: false
   },
+  // when has a rawURl, cannot be edited
   rawUrl: String,
+  // time
   date: {
     type: Date,
     default: Date.now
   },
+  // raw content
   content: String,
-  // 最后更新时间
+  // last updator info
   lastUpdate: {
     date: Date,
     user: String
+  },
+  // when true, seen by all members
+  open: {
+    type: Boolean,
+    default: true
+  },
+  // when true, can be edited by all members
+  editable_by_other: {
+    type: Boolean,
+    default: true
   }
 });
 
@@ -42,19 +55,18 @@ exports.docs = {
               res.send({
                 error: 0,
                 msg: '获取成功'
-              })
+              });
             })
           });
         });
       });
-      //res.send(data);
     });
   },
   add: function(req, res) {
     req.body.author = req.user.username;
     req.body.lastUpdate = {
-	date:Date.now(),
-	user:req.user.username
+      date: Date.now(),
+      user: req.user.username
     };
     var doc = new Doc(req.body);
     doc.save(function(err) {
@@ -66,13 +78,21 @@ exports.docs = {
     });
   },
   list: function(req, res) {
-    Doc.find({}, '-content', function(err, data) {
-      if (err) throw err;
-      res.send({
-        error: 0,
-        data: data
+    // list the open:true docs and docs by the curren user
+    Doc.find({
+        $or: [{
+          open: true
+        }, {
+          author: req.user.username
+        }]
+      }, '-content',
+      function(err, data) {
+        if (err) throw err;
+        res.send({
+          error: 0,
+          data: data
+        })
       })
-    })
   },
   delete: function(req, res) {
     Doc.findByIdAndRemove(req.params.id, function(err) {
@@ -123,4 +143,4 @@ exports.docs = {
       });
     })
   }
-}
+};
