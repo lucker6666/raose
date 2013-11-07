@@ -216,6 +216,19 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/me',
       controller: meCtrl
     }).
+    when('/files/add', {
+      templateUrl: 'partials/addFile',
+      controller: AddFileCtrl
+    }).when('/files', {
+      templateUrl: 'partials/listFiles',
+      controller: ListFilesCtrl
+    }).when('/file/:id', {
+      templateUrl: 'partials/viewFile',
+      controller: ViewFileCtrl
+    }).when('/taxonomy', {
+      templateUrl: 'partials/addTaxonomy',
+      controller: AddTaxonomyCtrl
+    }).
     otherwise({
       redirectTo: '/me'
     });

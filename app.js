@@ -236,6 +236,19 @@ app.get('/api/me/profile', api.me.profile);
 app.put('/api/me/profile', api.me.updateProfile);
 
 /**
+ *----------------------文件--------------------------
+ */
+app.post('/api/files', api.file.add);
+app.get('/api/files', api.file.list);
+app.get('/api/file/:id', api.file.get);
+
+/**
+ *----------------------Taxonomy--------------------------
+ */
+app.post('/api/taxonomys', api.taxonomy.add);
+app.get('/api/taxonomys?*', api.taxonomy.list);
+
+/**
  *---------------------数据接口------------------------------
  */
 app.get('/api/iData/:name', function(req, res) {

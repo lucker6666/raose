@@ -1,0 +1,15 @@
+h1 addTaxonomy
+hr
+
+.form-group
+    label name
+    input.form-control(ng-model='form.name')
+
+.form-group
+    label type
+    select.form-control(ng-model='form.type')
+        option(ng-repeat='type in types') {{type.name}}
+
+
+hr 
+button.btn.btn-primary(ng-click='addTaxonomy()') 添加

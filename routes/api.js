@@ -22,6 +22,10 @@ exports.discussion = require('./discussion').discussion;
 exports.me = require('./me.js').me;
 // status
 exports.status = require('./status').status;
+// file
+exports.file = require('./file');
+// taxonomy
+exports.taxonomy = require('./taxonomy')
 
 var error = {
   innerError: {

@@ -14,10 +14,12 @@
   "bugs": {
     "url": "https://github.com/lizheng/raose/issues"
   },
-  "licenses": [{
-    "type": "MIT",
-    "url": "https://github.com/lizheng/raose/blob/master/LICENSE-MIT"
-  }],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/lizheng/raose/blob/master/LICENSE-MIT"
+    }
+  ],
   "main": "lib/raose",
   "engines": {
     "node": ">= 0.8.0"
@@ -27,7 +29,7 @@
   },
   "devDependencies": {
     "express": "*",
-    "mongoose": "*",
+    "mongoose": "~3.8.0",
     "node-markdown": "*",
     "jade": "*",
     "passport": "*",
