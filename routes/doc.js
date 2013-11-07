@@ -88,7 +88,7 @@ exports.docs = {
         }, {
           author: req.user.username
         }]
-      }, '-content',
+      }, '-content',{sort:{date:-1}},
       function(err, data) {
         if (err) throw err;
         res.send({
