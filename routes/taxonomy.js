@@ -34,9 +34,11 @@ module.exports = {
     // list taxonomy by type
     list: function(req, res) {
         var type = req.query.type;
-        Tax.find({
-            type: type
-        }).populate('create_by', '-password -__v -email').exec(function(err, data) {
+        var query = {};
+        if (type) {
+            query.type = type;
+        };
+        Tax.find(query).populate('create_by', '-password -__v -email').exec(function(err, data) {
             res.send({
                 error: 0,
                 data: data
