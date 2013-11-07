@@ -10,8 +10,9 @@ div.form-group
 
 div.form-group
     label 统计来源
-    select.form-control(ng-model='form.type')
+    select.form-control(ng-model='form.type',ng-change='dataTypeChange(this)')
         option(value='ga') Google 统计
+        option(value='seedit') Seedit统计
 
 div.form-group
     label 图表类型
@@ -21,7 +22,7 @@ div.form-group
         option(value='line') 折线图
         option(value='area') 面积图
 
-div.form-group
+div.form-group(ng-hide='hideGaIds')
     label 站点
     select.form-control(ng-model='form.option.ids')
         option(value='ga:63911100') 事件统计
@@ -34,6 +35,16 @@ div.form-group
         option(value='ga:648824') 个人中心
         option(value='ga:74817277') 账户中心
         option(value='ga:63449003') static
+
+
+div.form-group(ng-show='showSeeditType')
+    label 数据分类
+    select.form-control(ng-model='form.option.dataType')
+        option(value='price_topic') 悬赏帖
+        option(value='topic') 总发帖
+        option(value='reply') 总回复
+        option(value='signup') 总注册
+        option(value='signin') 总登录
 
 div(class='form-group')
     label 开始日期，格式为 2013-05-08 或者天数，即多少天前，如30

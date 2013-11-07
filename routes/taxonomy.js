@@ -54,6 +54,7 @@ module.exports = {
             });
         });
     },
+    // update taxonomy
     update: function(req, res) {
 
     }

@@ -18,6 +18,7 @@ exports.data = {
     },
     add: function(req, res) {
         var data = new Data(req.body);
+
         data.save(function(err, item) {
             if (err) throw err;
             res.send({

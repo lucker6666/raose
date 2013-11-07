@@ -28,7 +28,6 @@ var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
                 title: data.name
             });
         }
-
     });
     $scope.deleteData = function() {
         $http.delete('/api/data/' + $routeParams.id).success(function(data) {
@@ -77,6 +76,17 @@ function AddDataCtrl($scope, $http, $location, $routeParams) {
         success(function(data) {
             $location.path('/data/' + data.data._id);
         });
+    };
+
+    // 切换数据来源
+    $scope.dataTypeChange = function() {
+        if ($scope.form.type == 'seedit') {
+            $scope.hideGaIds = true;
+            $scope.showSeeditType = true;
+        } else {
+            $scope.hideGaIds = false;
+            $scope.showSeeditType = false;
+        }
     };
 }
 
