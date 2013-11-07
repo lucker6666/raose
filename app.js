@@ -61,13 +61,13 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(user, done) {
-  /* done(null, {
-    username: username
-  });*/
   User.findOne({
     username: user.username
-  }, 'username flag', function(err, user) {
-    done(err, user);
+  }, '_id username flag', function(err, user) {
+    done(err, {
+      username: user.username,
+      uid: user._id
+    });
   });
 });
 
@@ -432,9 +432,9 @@ app.post('/api/ga.json', function(req, res) {
         res1.on('data', function(chunk) {
           data += chunk;
         });
-	res1.on('error',function(err){
-	  console.log(err);
-	})
+        res1.on('error', function(err) {
+          console.log(err);
+        })
         res1.on('end', function() {
           if (data.length) {
             res.send(JSON.parse(data));
