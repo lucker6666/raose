@@ -666,7 +666,7 @@ var renderColumn = function(option, id, chartOption) {
 };
 
 var renderLine = function(option, id, chartOption) {
-
+    var API = parseOption(option);
     $.get(API).success(function(data) {
         var series = [];
         var raw = data.rows;
