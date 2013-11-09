@@ -6,11 +6,24 @@ hr
 .form-group
     label(for='cat') 描述
     textarea.form-control(ng-model='form.desc',rows='10')
+
 hr
 .form-group
     label 指派给(默认指派给自己)
     select.form-control(ng-model='form.owner')
         option(ng-repeat='user in users',value='{{user.username}}') {{user.username}}
+
+.form-group
+    label 属于需求 {{for.feature.name}}
+    select.form-control(ng-model='form.feature.id',ng-options='one.author as one.title for one in features',ng-change='setFeature(index)')
+       
+
+
+.form-group
+    label() 是否私有(仅自己可见)
+    select.form-control(ng-model='form.private',ng-init='form.private="0"')
+        option(value='1') 是
+        option(value='0') 否
 hr
 .form-group
     button.btn.btn-primary(ng-click='submitTodo()') 确定

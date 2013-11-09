@@ -39,7 +39,10 @@ exports.data = {
         req.body.create_by = req.user.uid;
         // add default owners
         if (!req.body.owners) {
-            req.body.owners = [req.user.uid];
+            req.body.owners = [{
+                uid: req.user.uid,
+                username: req.user.username
+            }];
         }
         var data = new Data(req.body);
         data.save(function(err, item) {

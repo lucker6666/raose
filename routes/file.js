@@ -16,7 +16,12 @@ var File = mongoose.model('File', {
     // create time
     create_at: Date,
     // version
-    version: Number
+    version: Number,
+    // everyone can see it
+    public: {
+        type: Boolean,
+        default: true
+    }
 });
 
 module.exports = {
@@ -28,7 +33,7 @@ module.exports = {
             res.send({
                 error: err,
                 data: item
-            })
+            });
         });
     },
     // list files

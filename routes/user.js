@@ -48,7 +48,7 @@ exports.user = {
                 username: username
             }, '-password', function(err, data) {
                 json(res, err, data);
-            })
+            });
         }
 
     }

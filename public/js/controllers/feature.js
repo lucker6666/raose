@@ -80,20 +80,16 @@ var AddFeatureCtrl = function($scope, $http, $location, $timeout, $routeParams) 
         //xhr.upload.addEventListener("progress", uploadProgress, false)
         xhr.addEventListener("load", function(x) {
           var res = JSON.parse(x.target.responseText);
-
           $scope.$apply(function($scope) {
             $scope.form.files.push(res.data);
           });
-
           console.log($scope.files);
         }, false)
         //xhr.addEventListener("error", uploadFailed, false)
         //xhr.addEventListener("abort", uploadCanceled, false)
-        xhr.open("POST", "/api/upload")
+        xhr.open("POST", "/api/upload");
         //scope.progressVisible = true
-        xhr.send(formData)
-
-        //attach event handlers here...
+        xhr.send(formData);
         reader.readAsDataURL(file);
       }
       return false;

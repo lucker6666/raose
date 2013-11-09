@@ -78,11 +78,16 @@ function AddDataCtrl($scope, $http, $location, $routeParams) {
         });
     };
 
+    $http.get('/api/users').success(function(data) {
+        $scope.members = data.data;
+    });
+
     // 切换数据来源
     $scope.dataTypeChange = function() {
         if ($scope.form.type == 'seedit') {
             $scope.hideGaIds = true;
             $scope.showSeeditType = true;
+            $scope.form.chartType = 'column';
         } else {
             $scope.hideGaIds = false;
             $scope.showSeeditType = false;

@@ -73,18 +73,18 @@ exports.topic = {
         error: 0,
         data: data
       });
-    })
+    });
   },
   // 删除单个回复
   // @todo 作权限检测 
   removeDisussion: function(req, res) {
-    var discussionId = req.params.id;
+    var id = req.params.id;
     Discussion.findByIdAndRemove(id, function(err) {
       if (err) throw err;
       res.send({
         erro: 0,
         msg: '删除成功'
-      })
-    })
+      });
+    });
   }
-}
+};
