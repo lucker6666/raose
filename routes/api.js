@@ -25,7 +25,11 @@ exports.status = require('./status').status;
 // file
 exports.file = require('./file');
 // taxonomy
-exports.taxonomy = require('./taxonomy')
+exports.taxonomy = require('./taxonomy');
+// log
+exports.log = require('./log');
+// follow 
+exports.follow = require('./follow');
 
 var error = {
   innerError: {

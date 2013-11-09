@@ -435,7 +435,6 @@ app.post('/api/ga.json', function(req, res) {
   };
 
   User.findOne(req.body, function(err, user) {
-    console.log(err, user);
     if (user) {
       var search = req.originalUrl.replace('/api/ga.json?', ''),
         proxyUrl = 'http://173.208.199.49:8888' + req.originalUrl,
@@ -450,7 +449,18 @@ app.post('/api/ga.json', function(req, res) {
         })
         res1.on('end', function() {
           if (data.length) {
-            res.send(JSON.parse(data));
+            // add log
+            api.log.add({
+              type: 'getData',
+              operator: req.user.uid,
+              details: {
+                filters: req.query.filters
+              }
+            }, function(err, item) {
+              if (err) throw err;
+              res.send(JSON.parse(data));
+            });
+
           } else {
             res.send({
               error: 'has some problem'
@@ -469,11 +479,6 @@ app.post('/api/ga.json', function(req, res) {
 
 app.get('/excel/:site', function(req, res) {
   var site = req.params.site;
-  // 获取全站数据
-  httpGet('http://173.208.199.49:8888/api/ga.json?max-results=10000&ids=ga%3A62079070&dimensions=ga%3Adate&start-date=2013-06-15&end-date=2013-09-27&metrics=ga%3Apageviews%2Cga%3Avisits', function(data) {
-    console.log(data);
-  });
-
   var conf = {};
   conf.cols = [{
     caption: '日期',
