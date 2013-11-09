@@ -19,7 +19,8 @@ var Log = mongoose.model('log', {
 });
 
 module.exports = {
-    // insert a log
+    Model:Log,    
+// insert a log
     add: function(data, callback) {
         var log = new Log(data);
         log.save(function(err, item) {

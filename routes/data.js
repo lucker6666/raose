@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
+var Log = require('./log').Model;
 // 数据源
 var Data = mongoose.model('Data', {
     name: String,
@@ -21,6 +22,16 @@ var Data = mongoose.model('Data', {
 });
 
 exports.data = {
+
+   histories:function(req,res){
+var query = {};
+if(req.query.uid){
+    query.operator = req.query.uid;
+}
+Log.find(query).populate('operator','-password -email').exec(function(err,data){
+res.send({error:0,data:data});
+});
+},
     list: function(req, res) {
         Data.find({}, null, {
                 sort: {

@@ -1,10 +1,19 @@
 var json = require('./helper').json;
 var mongoose = require('mongoose');
 var User = require('./user.js').Model;
+var Log = require('./log.js').Model;
 // 帖子Model
 var Todo = require('./todo.js').Model;
 var Issues = require('./issue.js').Model;
 exports.me = {
+  dataHistory :function(req,res){
+    Log.find({operator:req.user.uid,type:'getData'},null,{sort:{create_at:-1}},function(err,data){
+     res.send({
+   error:0,
+data:data
+});
+  })
+  },
   todos: function(req, res) {
     Todo.find({
       owner: req.user.username,

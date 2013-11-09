@@ -220,6 +220,7 @@ app.delete('/api/feature/:id', api.feature.delete);
 /**
  * ----------------------数据相关-------------------------
  */
+app.get('/api/system/histories*', api.data.histories);
 app.get('/api/datas', api.data.list);
 app.post('/api/datas', api.data.add);
 app.get('/api/data/:id', api.data.get);
@@ -234,6 +235,7 @@ app.get('/api/me/todos', api.me.todos);
 app.get('/api/me/issues', api.me.issues);
 app.get('/api/me/profile', api.me.profile);
 app.put('/api/me/profile', api.me.updateProfile);
+app.get('/api/me/dataHistory', api.me.dataHistory);
 
 /**
  *----------------------文件--------------------------
