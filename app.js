@@ -346,7 +346,7 @@ app.post('/api/signin', function(req, res, next) {
   var rs = {
     error: 0,
     msg: '登录成功'
-  }
+  };
 
   passport.authenticate('local', function(err, user, info) {
     req.login(user, function(err) {
@@ -360,8 +360,19 @@ app.post('/api/signin', function(req, res, next) {
         error: 0,
         msg: '登录成功' + req.user
       };
-      res.send(rs);
-      //res.redirect('/');
+
+      // add log
+      api.log.add({
+        type: 'signin',
+        operator: req.user.uid,
+        details: {
+          status: rs.msg,
+          ip: req.ip
+        }
+      }, function(err, item) {
+        if (err) throw err;
+        res.send(rs);
+      });
     });
   })(req, res, next);
 });
