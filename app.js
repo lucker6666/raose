@@ -352,7 +352,7 @@ app.post('/api/signin', function(req, res, next) {
     req.login(user, function(err) {
       if (err) {
         rs = {
-          erro: -1,
+          error: -1,
           msg: '登录失败'
         };
       }
@@ -367,7 +367,7 @@ app.post('/api/signin', function(req, res, next) {
         operator: null,
         details: {
           post: req.body,
-          status: rs.msg,
+          msg: rs,
           ip: req.ip
         }
       }, function(err, item) {
