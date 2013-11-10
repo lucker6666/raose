@@ -251,6 +251,12 @@ app.post('/api/taxonomys', api.taxonomy.add);
 app.get('/api/taxonomys?*', api.taxonomy.list);
 
 /**
+ *----------------------log--------------------------
+ */
+
+app.get('/api/log/:type*', api.log.list);
+
+/**
  *---------------------数据接口------------------------------
  */
 app.get('/api/iData/:name', function(req, res) {
