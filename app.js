@@ -364,8 +364,9 @@ app.post('/api/signin', function(req, res, next) {
       // add log
       api.log.add({
         type: 'signin',
-        operator: req.user.uid,
+        operator: null,
         details: {
+          post: req.body,
           status: rs.msg,
           ip: req.ip
         }
