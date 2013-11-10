@@ -358,16 +358,16 @@ app.post('/api/signin', function(req, res, next) {
       }
       rs = {
         error: 0,
-        msg: '登录成功' + req.user
+        msg: '登录成功'
       };
 
       // add log
       api.log.add({
         type: 'signin',
-        operator: null,
+        operator: req.user._id ? req.user._id : null,
         details: {
           post: req.body,
-          msg: rs,
+          deal: rs,
           ip: req.ip
         }
       }, function(err, item) {
