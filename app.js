@@ -261,14 +261,8 @@ app.get('/api/log/:type*', api.log.list);
  */
 
 app.post('/api/secret/deploy', function(req, res) {
-
-  var execSync = require('exec-sync');
-  // get data first
-  //var deploy = execSync('git pull github master');
-  //console.log(deploy);
-
-  var sys = require('sys')
-  var exec = require('child_process').exec;
+  var sys = require('sys'),
+    exec = require('child_process').exec;
 
   function puts(error, stdout, stderr) {
     api.log.add({
