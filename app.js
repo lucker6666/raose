@@ -363,8 +363,6 @@ app.get('/account/signup', function(req, res) {
 </form>');
 });
 
-// 文档
-// 关联到Gist 可以自动更新
 app.post('/account/signin',
   passport.authenticate('local', {
     successRedirect: '/',
