@@ -268,7 +268,7 @@ app.post('/api/secret/deploy', function(req, res) {
         type: 'deploy',
         operator: null,
         details: {
-          git: req.body,
+          git: JSON.parse(req.body.payload),
           rs: stdout
         }
       },
