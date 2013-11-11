@@ -274,6 +274,7 @@ app.post('/api/secret/deploy', function(req, res) {
       },
       function(err, item) {
         if (err) throw err;
+        exec("grunt minJS");
         res.send({
           error: 0,
           data: stdout
