@@ -257,6 +257,40 @@ app.get('/api/taxonomys?*', api.taxonomy.list);
 app.get('/api/log/:type*', api.log.list);
 
 /**
+ *----------------------deploy--------------------------
+ */
+
+app.get('/api/secret/deploy', function(req, res) {
+
+  var execSync = require('exec-sync');
+  // get data first
+  //var deploy = execSync('git pull github master');
+  //console.log(deploy);
+
+  var sys = require('sys')
+  var exec = require('child_process').exec;
+
+  function puts(error, stdout, stderr) {
+    api.log.add({
+        type: 'deploy',
+        operator: null,
+        details: {
+          git: req.body,
+          rs: stdout
+        }
+      },
+      function(err, item) {
+        if (err) throw err;
+        res.send({
+          error: 0,
+          data: stdout
+        });
+      });
+  }
+  exec("git pull github master", puts);
+});
+
+/**
  *---------------------数据接口------------------------------
  */
 app.get('/api/iData/:name', function(req, res) {
