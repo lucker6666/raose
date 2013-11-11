@@ -220,7 +220,6 @@ app.delete('/api/feature/:id', api.feature.delete);
 /**
  * ----------------------数据相关-------------------------
  */
-app.get('/api/system/histories*', api.data.histories);
 app.get('/api/datas', api.data.list);
 app.post('/api/datas', api.data.add);
 app.get('/api/data/:id', api.data.get);
