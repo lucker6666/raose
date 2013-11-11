@@ -118,6 +118,6 @@ exports.data = {
             _id: id
         }, function(err) {
             console.log(err);
-        })
+        });
     }
 }
