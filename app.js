@@ -260,7 +260,7 @@ app.get('/api/log/:type*', api.log.list);
  *----------------------deploy--------------------------
  */
 
-app.get('/api/secret/deploy', function(req, res) {
+app.post('/api/secret/deploy', function(req, res) {
 
   var execSync = require('exec-sync');
   // get data first
