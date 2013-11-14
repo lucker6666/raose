@@ -1,3 +1,21 @@
+h1 BBS换量 {{exchangeSum}}
+
+table.table
+    thead
+        tr
+            th 点击
+            th 标题
+            th 图文
+    tbody
+        tr(ng-repeat='list in lists')
+            td 
+                span.label.label-success {{list[0]}}
+            td {{list[1]}}
+            td 无
+
+
+
+
 h1 站点其他数据
 hr
 

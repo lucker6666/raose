@@ -99,4 +99,9 @@ var VisitDataCtrl = function($scope, $http) {
     $http.get('/api/iData/siteRate').success(function(data) {
         $scope.data = data;
     });
+
+    $http.get('http://106.3.38.38:8888/api/tmp/exchange').success(function(data) {
+        $scope.exchangeSum = data.sum;
+        $scope.lists = data.rows;
+    });
 };
