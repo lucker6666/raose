@@ -7,6 +7,7 @@ var process01 = execSync('node excel.js');
 var process02 = execSync('node excel_app.js');
 var process03 = execSync('node excel_bbs.js');
 var process04 = execSync('node excel_site.js');
+var process05 = execSync('node siteRate.js');
 console.log(process01);
 console.log(process02);
 console.log(process03);
