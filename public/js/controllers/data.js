@@ -109,4 +109,8 @@ var VisitDataCtrl = function($scope, $http) {
         $scope.jrlady = data.data;
     });
 
+    $http.get('http://106.3.38.38:8888/api/exchange/zdface').success(function(data) {
+        $scope.zdface = data.data;
+    });
+
 };
