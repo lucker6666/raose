@@ -3,3 +3,4 @@
 cron/*.json
 databackup
 cron/data/*.json
+/.idea
