@@ -113,4 +113,8 @@ var VisitDataCtrl = function($scope, $http) {
         $scope.zdface = data.data;
     });
 
+    $http.get('http://106.3.38.38:8888/api/exchange/ishowx').success(function(data) {
+        $scope.ishowx = data.data;
+    });
+
 };
