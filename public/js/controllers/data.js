@@ -104,4 +104,9 @@ var VisitDataCtrl = function($scope, $http) {
         $scope.exchangeSum = data.sum;
         $scope.lists = data.rows;
     });
+
+    $http.get('http://106.3.38.38:8888/api/exchange/jrlady').success(function(data) {
+        $scope.jrlady = data.sum;
+    });
+
 };
