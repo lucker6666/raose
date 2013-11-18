@@ -106,7 +106,7 @@ var VisitDataCtrl = function($scope, $http) {
     });
 
     // exchange datas
-    ['jrlady', 'zdface', 'ishowx', 'taoyidie'].forEach(function(one) {
+    ['jrlady', 'zdface', 'ishowx', 'taoyidie', '4meili'].forEach(function(one) {
         $http.get('http://106.3.38.38:8888/api/exchange/' + one).success(function(data) {
             $scope[one] = data.data;
         });
