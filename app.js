@@ -498,7 +498,7 @@ app.post('/api/ga.json', function(req, res) {
             // add log
             api.log.add({
               type: 'getData',
-              operator: req.user.uid,
+              operator: req.user.uid ? req.user.uid : 'null',
               details: {
                 filters: req.query.filters
               }
