@@ -30,6 +30,8 @@ exports.taxonomy = require('./taxonomy');
 exports.log = require('./log');
 // follow 
 exports.follow = require('./follow');
+// tracker
+exports.tracker = require('./tracker');
 
 var error = {
   innerError: {
