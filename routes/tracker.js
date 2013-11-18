@@ -3,9 +3,13 @@ var mongoose = require('mongoose'),
 
 var Track = mongoose.model('usertrack', {
     uid: Number,
+    // action name
     action: String,
+    // the browser info and ip info
     clientDetails: Object,
+    // action details
     actionDetails: Object,
+    // time
     created_at: {
         type: Date,
         default: Date.now
@@ -16,7 +20,7 @@ module.exports = {
     track: function(req, res) {
         var query = req.query;
         var datas = {
-            uid: req.query.uid,
+            uid: parseInt(req.query.uid, 10),
             action: req.query.action,
             actionDetails: req.query.actionDetails,
             clientDetails: req.query.clientDetails
