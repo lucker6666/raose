@@ -5,7 +5,11 @@ var Track = mongoose.model('usertrack', {
     uid: Number,
     action: String,
     clientDetails: Object,
-    actionDetails: Object
+    actionDetails: Object,
+    created_at: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 module.exports = {
