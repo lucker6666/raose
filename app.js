@@ -101,6 +101,11 @@ app.get('/partials/:name', routes.partials);
 
 // API接口的登录验证
 app.get('/api/*', function(req, res, next) {
+  // the track api do not requrie authentication
+  if (req.originalUrl.indexOf('_.gif') !== -1) {
+    next();
+    return;
+  }
   if (!req.user && !req.body.username && !req.body.password) {
     res.send({
       error: -1,
@@ -310,6 +315,11 @@ app.get('/api/taxonomys?*', api.taxonomy.list);
  */
 
 app.get('/api/log/:type*', api.log.list);
+
+/**
+ *------------------------track-------------------------
+ */
+app.get('/api/_.gif', api.tracker.track);
 
 /**
  *----------------------deploy--------------------------
@@ -554,7 +564,7 @@ app.post('/api/ga.json', function(req, res) {
             // add log
             api.log.add({
               type: 'getData',
-              operator: req.user.uid,
+              operator: req.user.uid ? req.user.uid : 'null',
               details: {
                 filters: req.query.filters
               }
