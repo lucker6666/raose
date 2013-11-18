@@ -17,6 +17,7 @@ module.exports = {
             actionDetails: req.query.actionDetails,
             clientDetails: req.query.clientDetails
         };
+        if (!datas.clientDetails) datas.clientDetails = {};
         datas.clientDetails.ip = req.ip
         var ip = req.ip;
         var track = new Track(datas);
