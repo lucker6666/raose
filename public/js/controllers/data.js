@@ -105,16 +105,11 @@ var VisitDataCtrl = function($scope, $http) {
         $scope.lists = data.rows;
     });
 
-    $http.get('http://106.3.38.38:8888/api/exchange/jrlady').success(function(data) {
-        $scope.jrlady = data.data;
-    });
-
-    $http.get('http://106.3.38.38:8888/api/exchange/zdface').success(function(data) {
-        $scope.zdface = data.data;
-    });
-
-    $http.get('http://106.3.38.38:8888/api/exchange/ishowx').success(function(data) {
-        $scope.ishowx = data.data;
+    // exchange datas
+    ['jrlady', 'zdface', 'ishowx', 'taoyidie'].forEach(function(one) {
+        $http.get('http://106.3.38.38:8888/api/exchange/' + one).success(function(data) {
+            $scope[one] = data.data;
+        });
     });
 
 };
