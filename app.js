@@ -120,6 +120,8 @@ app.get('/api/*', function(req, res, next) {
     });
     return;
   }
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
 });
 
