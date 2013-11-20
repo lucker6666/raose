@@ -572,7 +572,6 @@ var renderPie = function(option, id) {
 }
 
 var renderColumn = function(option, id, chartOption) {
-    console.log(option)
     var API,
         dataAdapter;
     if (!option.dataType && !!option.cat) {
@@ -587,7 +586,7 @@ var renderColumn = function(option, id, chartOption) {
         };
     }
 
-    if(option.type='baidu' && option.option.cat){// baidu data adapter
+    if(option.option && option.type='baidu' && option.option.cat){// baidu data adapter
         API = '/api/baidu.json?type='+option.option.cat;
         dataAdapter = function(data){
             return {
