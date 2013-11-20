@@ -595,6 +595,10 @@ var renderColumn = function(option, id, chartOption) {
         }
     }
 
+    if(option.ids){
+        API = parseOption(option);
+    }
+
 console.log(API);
     $.get(API).success(function(data) {
 
