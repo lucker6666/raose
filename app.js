@@ -533,6 +533,29 @@ app.post('/api/upload', function(req, res) {
   });
 });
 
+var baiduAdapter = function(data) {
+  var data = JSON.parse(data);
+  var dates = data.data.items[0];
+  var datas = data.data.items[1];
+  var rs = {
+    rows: []
+  };
+  dates.forEach(function(one,index){
+    rs['rows'].push([dates[index][0],datas[index][0]]);
+  });
+  rs['rows'].reverse();
+  return rs;
+};
+
+// 百度数据接口
+app.get('/api/baidu.json*',function(req,res){
+  var type = req.query.type;
+  httpGet('http://106.3.38.38:8888/api/baidu.json?type='+type,function(data){
+    var data = baiduAdapter(data);
+    res.send(data);
+  });
+});
+
 // 数据接口
 // 使用美帝VPS做代理
 app.post('/api/ga.json', function(req, res) {
