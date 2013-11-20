@@ -4,3 +4,4 @@ cron/*.json
 databackup
 cron/data/*.json
 /.idea
+/public/controller.min.js
