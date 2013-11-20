@@ -586,7 +586,7 @@ var renderColumn = function(option, id, chartOption) {
         };
     }
 
-    if(option.option && option.type='baidu' && option.option.cat){// baidu data adapter
+    if(option.option && option.type==='baidu' && option.option.cat){// baidu data adapter
         API = '/api/baidu.json?type='+option.option.cat;
         dataAdapter = function(data){
             return {
