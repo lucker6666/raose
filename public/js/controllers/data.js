@@ -114,7 +114,7 @@ var VisitDataCtrl = function($scope, $http) {
     });
 
 
-    ['jrlady', 'zdface', 'ishowx', 'taoyidie', '4meili','wumeiw'].forEach(function(one){
+    ['jrlady', 'zdface', 'ishowx', 'taoyidie', '4meili','wumeiw','dianxin'].forEach(function(one){
         $http.get('http://106.3.38.38:8004/api/baidu.json?type='+one).success(function(data){
             console.log(data);
         })

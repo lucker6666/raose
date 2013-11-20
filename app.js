@@ -32,6 +32,13 @@ app.set('view engine', 'jade');
 app.set('view options', {
   layout: false
 });
+
+app.all('*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
 // 图片上传到uploads
 app.use(express.bodyParser({
   uploadDir: './public/uploads'
@@ -93,13 +100,6 @@ passport.use(new LocalStrategy(
     });
   }
 ));
-
-
-app.all('*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
-});
 
 // Routes
 
