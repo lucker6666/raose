@@ -572,10 +572,11 @@ var renderPie = function(option, id) {
 }
 
 var renderColumn = function(option, id, chartOption) {
-
+    console.log(option)
     var API,
         dataAdapter;
-    if (!option.dataType) {
+    if (!option.dataType && !!option.cat) {
+          console.log(option)
         API = parseOption(option);
     } else if (option.dataType) {
         API = 'http://106.3.38.38:8888/api/status.json?type=' + option.dataType;
@@ -584,10 +585,20 @@ var renderColumn = function(option, id, chartOption) {
                 rows: data
             }
         };
-
     }
 
+    if(option.type='baidu' && option.option.cat){// baidu data adapter
+        API = '/api/baidu.json?type='+option.option.cat;
+        dataAdapter = function(data){
+            return {
+                rows:data.rows
+            }
+        }
+    }
+
+console.log(API);
     $.get(API).success(function(data) {
+
         if (dataAdapter) {
             data = dataAdapter(data);
         }

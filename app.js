@@ -33,11 +33,11 @@ app.set('view options', {
   layout: false
 });
 
-app.all('*', function(req, res, next) {
+/*app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
-});
+});*/
 
 // 图片上传到uploads
 app.use(express.bodyParser({
@@ -113,7 +113,7 @@ app.get('/api/*', function(req, res, next) {
     next();
     return;
   }
-  if (!req.user && !req.body.username && !req.body.password) {
+  if (req.body && !req.user && !req.body.username && !req.body.password) {
     res.send({
       error: -1,
       msg: 'not logined yet'
@@ -550,7 +550,7 @@ var baiduAdapter = function(data) {
     rows: []
   };
   dates.forEach(function(one,index){
-    rs['rows'].push([dates[index][0],datas[index][0]]);
+    rs['rows'].push([dates[index][0],datas[index][0]==='--'?0:datas[index][0]]);
   });
   rs['rows'].reverse();
   return rs;
@@ -561,8 +561,6 @@ app.get('/api/baidu.json*',function(req,res){
   var type = req.query.type;
   httpGet('http://106.3.38.38:8888/api/baidu.json?type='+type,function(data){
     var data = baiduAdapter(data);
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.send(data);
   });
 });
