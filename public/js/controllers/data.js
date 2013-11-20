@@ -113,4 +113,16 @@ var VisitDataCtrl = function($scope, $http) {
         });
     });
 
+
+    ['jrlady', 'zdface', 'ishowx', 'taoyidie', '4meili','wumeiw'].forEach(function(one){
+        $http.get('http://106.3.38.38:8004/api/baidu.json?type='+one).success(function(data){
+            console.log(data);
+        })
+    });
+
+
+    /*renderColumn(data.data.option, 'data_' + $scope.form._id, {
+                title: data.name
+            });*/
+
 };
