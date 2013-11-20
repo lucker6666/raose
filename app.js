@@ -561,6 +561,8 @@ app.get('/api/baidu.json*',function(req,res){
   var type = req.query.type;
   httpGet('http://106.3.38.38:8888/api/baidu.json?type='+type,function(data){
     var data = baiduAdapter(data);
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.send(data);
   });
 });
