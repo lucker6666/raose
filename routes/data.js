@@ -37,7 +37,7 @@ exports.data = {
     list: function(req, res) {
         Data.find({}, null, {
                 sort: {
-                    date: -1
+                    create_at: -1
                 }
             },
             function(err, data) {
