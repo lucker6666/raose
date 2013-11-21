@@ -595,6 +595,17 @@ var renderColumn = function(option, id, chartOption) {
         }
     }
 
+
+    if (option.dataType) {
+        API = 'http://106.3.38.38:8888/api/status.json?type=' + option.dataType;
+        dataAdapter = function(data) {
+            return {
+                rows: data
+            }
+        };
+    }
+
+
     if(option.ids){
         API = parseOption(option);
     }

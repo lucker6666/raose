@@ -119,11 +119,6 @@ var VisitDataCtrl = function($scope, $http) {
             renderColumn({type:'baidu',option:{cat:one}}, one+'-data', {
                 title: 'Dianxin'
             });
-       // })
     });
-
-    /*renderColumn(data.data.option, 'data_' + $scope.form._id, {
-                title: data.name
-            });*/
 
 };
