@@ -43,7 +43,7 @@
     "grunt-contrib-uglify": "",
     "grunt": "~0.4.1",
     "node-zip": "1.x",
-    "excel-export": "",
+    "excel-export": "~0.3.7",
     "exec-sync": "",
     "cron": ""
   },
