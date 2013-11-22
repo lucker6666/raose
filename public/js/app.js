@@ -228,6 +228,9 @@ config(['$routeProvider', '$locationProvider',
     }).when('/taxonomy', {
       templateUrl: 'partials/addTaxonomy',
       controller: AddTaxonomyCtrl
+    }).when('/deploy',{
+      templateUrl:'partials/viewDeploy',
+      controller:ViewDeployCtrl
     }).
     otherwise({
       redirectTo: '/me'

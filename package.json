@@ -35,7 +35,7 @@
     "passport": "*",
     "nodemailer": "*",
     "passport-local": "*",
-    "connect-mongo": "*",
+    "connect-mongo": "~0.4.0",
     "connect-flash": "*",
     "grunt-contrib-jshint": "~0.6.0",
     "grunt-contrib-nodeunit": "~0.2.0",

@@ -33,11 +33,6 @@ app.set('view options', {
   layout: false
 });
 
-/*app.all('*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
-});*/
 
 // 图片上传到uploads
 app.use(express.bodyParser({
@@ -51,7 +46,7 @@ app.use(express.session({
   secret: 'secret',
   maxAge: new Date(Date.now() + 3600000),
   store: new MongoStore({
-      db: mongoose.connection.db
+      db: 'raose'
     },
     function(err) {
       console.log(err || 'connect-mongodb setup ok');
@@ -455,6 +450,12 @@ app.post('/api/signin', function(req, res, next) {
     msg: '登录成功'
   };
 
+if(!req.body.username || !req.body.password){
+  res.send({
+    error:-1,
+    msg:'信息不完整哦'
+  });
+}
   passport.authenticate('local', function(err, user, info) {
     req.login(user, function(err) {
       if (err) {
@@ -463,6 +464,7 @@ app.post('/api/signin', function(req, res, next) {
           msg: '登录失败'
         };
       }
+
       rs = {
         error: 0,
         msg: '登录成功'
