@@ -610,7 +610,6 @@ var renderColumn = function(option, id, chartOption) {
         };
     }
 
-console.log(API);
     $.get(API).success(function(data) {
 
         if (dataAdapter) {
