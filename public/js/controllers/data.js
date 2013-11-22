@@ -105,20 +105,15 @@ var VisitDataCtrl = function($scope, $http) {
         $scope.lists = data.rows;
     });
 
-    // exchange datas
-    ['jrlady', 'zdface', 'ishowx', 'taoyidie', '4meili', 'wumeiw'].forEach(function(one) {
-        $http.get('http://106.3.38.38:8888/api/exchange/' + one).success(function(data) {
-            if (one === '4meili') one = 'meili';
-            $scope[one] = data.data;
+    ['soufun', 'dianxin', 'jrlady', 'zdface', 'ishowx', 'taoyidie', '4meili', '39baby', 'xiangcaolady', 'mmeirong', '39', 'wumeiw'].forEach(function(one) {
+        renderColumn({
+            type: 'baidu',
+            option: {
+                cat: one
+            }
+        }, one + '-data', {
+            title: 'Dianxin'
         });
-    });
-
-      ['dianxin','jrlady','zdface','ishowx','taoyidie','4meili','39baby','xiangcaolady','mmeirong','39','wumeiw'].forEach(function(one){
-        //$http.get('/api/baidu.json?type='+one).success(function(data){
-            //console.log(data);
-            renderColumn({type:'baidu',option:{cat:one}}, one+'-data', {
-                title: 'Dianxin'
-            });
     });
 
 };
