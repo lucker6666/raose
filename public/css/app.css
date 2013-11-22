@@ -275,3 +275,5 @@ svg>text>tspan {display:none;}
 .content-img {max-width:95%;}
 .time {margin:0 10px;}
 .author {color:#000;}
+
+.deploys span {margin:0 10px;}

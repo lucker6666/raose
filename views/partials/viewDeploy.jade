@@ -1,6 +1,8 @@
 h1 部署历史 
 span 只显示通过 Github webhook 部署的记录
 hr
-ul.sd-list-items
-    li.sd-list-item(ng-repeat='list in lists') {{list.create_at | time}}
-        span {{list.details.git.commits[list.details.git.commits.length-1].author.name}} {{list.details.git.commits[list.details.git.commits.length-1].message}}
+ul.sd-list-items.deploys
+    li.sd-list-item(ng-repeat='list in lists')
+        span {{list.details.git.commits[list.details.git.commits.length-1].author.name}} 
+        span {{list.details.git.commits[list.details.git.commits.length-1].message}}
+        span {{list.create_at | time}}
