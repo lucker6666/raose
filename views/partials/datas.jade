@@ -5,13 +5,35 @@ div.alert.alert-info 需要特定数据的童鞋，请直接
 div.form-group
     a.btn.btn-primary(href='/datas/add') 添加数据源
 
+div.row
+    div.col-md-6
+        div.col-md-12
+            div.panel.panel-danger
+                div.panel-heading 我关注的
+                table.table
+                    tbody
+                        tr(ng-repeat='one in mydatas')  
+                            td 
+                                a(href='/data/{{one.dataDetails._id}}') {{one.dataDetails.name}}
+        div.col-md-12
+            div.panel.panel-info
+                div.panel-heading 产品工具查看历史
+                table.table
+                    tbody
+                        tr(ng-repeat='one in history')  
+                            td 
+                                span {{one.details.filters}} ({{one.create_at | time}})
 
-div.panel.panel-default
-    div.panel-heading 数据源列表
-    table.table
-        tbody
-            tr(ng-repeat='one in datas')  
-                td 
-                    a(href='/data/{{one._id}}') {{one.name}}
+
+    div.col-md-6
+        div.panel.panel-info
+            div.panel-heading 所有数据源列表
+            table.table
+                tbody
+                    tr(ng-repeat='one in datas')  
+                        td 
+                            a(href='/data/{{one._id}}') {{one.name}}
+
+
 
    

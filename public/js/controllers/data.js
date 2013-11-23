@@ -2,15 +2,30 @@
 var DatasCtrl = function($scope, $http) {
     $http.get('/api/datas').success(function(data) {
         $scope.datas = data.data;
-    })
+    });
+
+    // my followings
+    $http.get('/api/follows?type=data').success(function(data){
+        $scope.mydatas = data.data;
+    });
+
+    // recent 
+    $http.get('/api/me/dataHistory').success(function(data){
+        $scope.history = data.data;
+    });
 };
 
 // 查看数据
 var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
-    // get followings 
-    $http.get('/api/data/' + $routeParams.id + '/followings').success(function(data) {
-        $scope.followings = data.data;
-    });
+    // get followings
+
+    var getFollowings = function() {
+        $http.get('/api/data/' + $routeParams.id + '/followings').success(function(data) {
+            $scope.followings = data.data;
+        });
+    };
+
+    getFollowings();
 
     $http.get('/api/data/' + $routeParams.id).success(function(data) {
         $scope.form = data.data;
@@ -36,7 +51,6 @@ var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
     });
 
     // check if has follow
-
     $http.get('/api/follow/' + $routeParams.id + '?type=data', {
         type: 'data'
     }).success(function(data) {
@@ -67,6 +81,7 @@ var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
                 $scope.hasFollow = true;
                 $scope.notFollow = false;
             }
+            getFollowings();
         });
     };
 
@@ -76,6 +91,7 @@ var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
                 $scope.hasFollow = false;
                 $scope.notFollow = true;
             }
+            getFollowings();
         })
     };
 };
@@ -109,7 +125,7 @@ var EditDataCtrl = function($scope, $http, $location, $routeParams, $timeout) {
             }).success(function(data) {
                 if (data.error === 0) {
                     getFollowings();
-                }else{
+                } else {
                     alert(data.msg);
                 }
             });

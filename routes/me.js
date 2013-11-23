@@ -14,12 +14,12 @@ exports.me = {
       sort: {
         create_at: -1
       }
-    }, function(err, data) {
+    }).limit(100).exec(function(err, data) {
       res.send({
         error: 0,
         data: data
       });
-    })
+    });
   },
   todos: function(req, res) {
     Todo.find({
