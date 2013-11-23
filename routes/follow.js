@@ -25,26 +25,48 @@ var baseModelProp = {
 var Follow = mongoose.model('follow', baseModelProp);
 
 var addFollow = function(data, callback) {
+
     var item = new Follow(data);
     item.save(function(err, item) {
         callback && callback(err, item);
     });
+
 };
 module.exports = {
     // add follow
     add: addFollow,
     // deal with controller
     restAdd: function(req, res) {
-        req.body.user = req.user.uid;
-        if (req.body.type === 'data') {
-            req.body.dataDetails = req.body.id;
-        };
-        addFollow(req.body, function(err, item) {
-            res.send({
-                error: 0,
-                data: item
-            });
-        });
+        // if user not specified, it's user itself
+        if (!req.body.user) {
+            req.body.user = req.user.uid;
+        }
+        // check if exist
+        Follow.findOne(req.body).exec(function(err, data) {
+            if (data) {
+                res.send({
+                    error: 1,
+                    msg: '已经关注过了哦'
+                });
+            } else {
+                if (req.body.type === 'data') {
+                    req.body.dataDetails = req.body.id;
+                };
+                addFollow(req.body, function(err, item) {
+                    if (err) {
+                        res.send({
+                            error: -1,
+                            msg: err
+                        });
+                    } else {
+                        res.send({
+                            error: 0,
+                            data: item
+                        });
+                    }
+                });
+            }
+        })
     },
     getDataFollowings: function(req, res) {
         Follow.find({

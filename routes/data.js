@@ -68,7 +68,6 @@ exports.data = {
                     msg: err
                 });
             }
-
             res.send({
                 error: 0,
                 msg: err

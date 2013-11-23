@@ -8,7 +8,7 @@ var DatasCtrl = function($scope, $http) {
 // 查看数据
 var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
     // get followings 
-    $http.get('/api/data/' + $routeParams.id+'/followings').success(function(data){
+    $http.get('/api/data/' + $routeParams.id + '/followings').success(function(data) {
         $scope.followings = data.data;
     });
 
@@ -81,6 +81,40 @@ var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
 };
 
 var EditDataCtrl = function($scope, $http, $location, $routeParams, $timeout) {
+    $http.get('/api/users').success(function(data) {
+        $scope.members = data.data;
+    });
+
+    var getFollowings = function() {
+        $http.get('/api/data/' + $routeParams.id + '/followings').success(function(data) {
+            $scope.fos = data.data;
+        });
+    };
+
+    getFollowings();
+    $scope.addFollowing = function() {
+        console.log(arguments);
+    };
+
+    $('#members').change(function() {
+        var $member = $(this).find(':selected');
+        var name = $member.text();
+        var uid = $member.val();
+        var ok = confirm('确定把' + name + '添加进关注列表吗');
+        if (ok) {
+            $http.post('/api/follows', {
+                type: 'data',
+                user: uid,
+                id: $routeParams.id
+            }).success(function(data) {
+                if (data.error === 0) {
+                    getFollowings();
+                }else{
+                    alert(data.msg);
+                }
+            });
+        }
+    });
     $http.get('/api/data/' + $routeParams.id).success(function(data) {
         $scope.form = data.data;
         $scope.showUpdateBtn = true;

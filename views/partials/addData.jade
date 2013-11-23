@@ -77,18 +77,28 @@ div(class='form-group')
     label 最大结果数
     input(ng-model='form.option["max-results"]',class='form-control')
 
-.form-group
-    label 从下面添加关注者(指定其他人，该数据将直接进入其他的关注数据中,默认为自己)
-    .well 
-        ul
-            li(ng-repeat='owner in owners') {{owner.username}}
-    select.form-control
-        option(ng-repeat='member in members',value='{{member._id}}') {{member.username}}
 
-div.form-group
-    div(class='alert alert-success {{show-success}}',ng-show='showSuccess') {{success_tip}}
-    
 div.form-group
     input(ng-show='showAddBtn',ng-click='submitData()',class='btn btn-primary',type='button',value='添加') 
     input.btn.btn-primary(ng-show='showUpdateBtn',ng-click='updateData()',value='更新',type='button');
 
+div.form-group
+    div(class='alert alert-success {{show-success}}',ng-show='showSuccess') {{success_tip}}
+
+hr
+hr
+
+.form-group
+    label 从下面添加关注者(指定其他人，该数据将直接进入其他的关注数据中,默认为自己)
+    .well 
+        ul
+            li(ng-repeat='fo in fos') {{fo.user.username}}
+
+    select.form-control#members()
+        option 请选择
+        option(ng-repeat='member in members',value='{{member._id}}') {{member.username}}
+
+
+    
+
+hr
