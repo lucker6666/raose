@@ -1,15 +1,10 @@
 /* app css stylesheet */
 body {
     font-family:微软雅黑;
-    border:1px solidr red;
     margin:0;
   }
 
-::-webkit-scrollbar {
-height: 16px;
-overflow: visible;
-width: 16px;
-}
+
 .txt-align {
   text-align:center;
 }
