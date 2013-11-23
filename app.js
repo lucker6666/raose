@@ -33,7 +33,6 @@ app.set('view options', {
   layout: false
 });
 
-
 // 图片上传到uploads
 app.use(express.bodyParser({
   uploadDir: './public/uploads'
@@ -49,7 +48,7 @@ app.use(express.session({
       mongoose_connection: mongoose.connection
     },
     function(err) {
-      if(err) console.log('mongodb setup fail')
+      if (err) console.log('mongodb setup fail')
       //console.log(err || 'connect-mongodb setup ok');
     })
 }));
@@ -82,13 +81,14 @@ var User = mongoose.model('user', {
 passport.use(new LocalStrategy(
   function(username, password, done) {
     User.findOne({
-      username: username
+      username: username,
+      password: password
     }, function(err, user) {
       if (err) {
         return done(err);
       }
       if (!user) {
-        return done(null, false, {
+        return done('signin fail', false, {
           message: 'Incorrect username.'
         });
       }
@@ -158,7 +158,6 @@ app.get('/api/usercheck', function(req, res) {
     api.me.profile.call(this, req, res);
   }
 });
-
 
 app.get('/api/tmp/exchange', function(req, res) {
   var httpGet = function(url, callback) {
@@ -301,7 +300,7 @@ app.get('/api/me/todos', api.me.todos);
 app.get('/api/me/issues', api.me.issues);
 app.get('/api/me/profile', api.me.profile);
 app.put('/api/me/profile', api.me.updateProfile);
-app.put('/api/me/setAvatar',api.me.setAvatar);
+app.put('/api/me/setAvatar', api.me.setAvatar);
 app.get('/api/me/dataHistory', api.me.dataHistory);
 
 /**
@@ -400,19 +399,6 @@ app.get('/account/signin', function(req, res) {
     res.redirect('back');
     return;
   }
-  /*  res.send('<form action="/account/signin" method="post">\
-    <div>\
-        <label>Username:</label>\
-        <input type="text" name="username"/>\
-    </div>\
-    <div>\
-        <label>Password:</label>\
-        <input type="password" name="password"/>\
-    </div>\
-    <div>\
-        <input type="submit" value="Log In"/>\
-    </div>\
-</form>');*/
   res.render('index', {
     user: {
       username: null,
@@ -453,30 +439,18 @@ app.post('/api/signin', function(req, res, next) {
     msg: '登录成功'
   };
 
-if(!req.body.username || !req.body.password){
-  res.send({
-    error:-1,
-    msg:'信息不完整哦'
-  });
-}
+  if (!req.body.username || !req.body.password) {
+    res.send({
+      error: -1,
+      msg: '信息不完整哦'
+    });
+  }
   passport.authenticate('local', function(err, user, info) {
-    req.login(user, function(err) {
-      if (err) {
-        rs = {
-          error: -1,
-          msg: '登录失败'
-        };
-      }
-
-      rs = {
-        error: 0,
-        msg: '登录成功'
-      };
-
+    if (err) {
       // add log
       api.log.add({
         type: 'signin',
-        operator: req.user._id ? req.user._id : null,
+        operator: user.username,
         details: {
           post: req.body,
           deal: rs,
@@ -484,9 +458,43 @@ if(!req.body.username || !req.body.password){
         }
       }, function(err, item) {
         if (err) throw err;
-        res.send(rs);
+        res.send({
+          error: -1,
+          msg: '登录失败'
+        });
       });
-    });
+      return;
+    } else {
+      req.login(user, function(err) {
+        if (err) {
+          rs = {
+            error: -1,
+            msg: '登录失败'
+          };
+        }
+
+        rs = {
+          error: 0,
+          msg: '登录成功'
+        };
+
+        // add log
+        api.log.add({
+          type: 'signin',
+          operator: req.user._id ? req.user._id : null,
+          details: {
+            post: req.body,
+            deal: rs,
+            ip: req.ip
+          }
+        }, function(err, item) {
+          if (err) throw err;
+          res.send(rs);
+        });
+
+      });
+    }
+
   })(req, res, next);
 });
 
@@ -554,17 +562,17 @@ var baiduAdapter = function(data) {
   var rs = {
     rows: []
   };
-  dates.forEach(function(one,index){
-    rs['rows'].push([dates[index][0],datas[index][0]==='--'?0:datas[index][0]]);
+  dates.forEach(function(one, index) {
+    rs['rows'].push([dates[index][0], datas[index][0] === '--' ? 0 : datas[index][0]]);
   });
   rs['rows'].reverse();
   return rs;
 };
 
 // 百度数据接口
-app.get('/api/baidu.json*',function(req,res){
+app.get('/api/baidu.json*', function(req, res) {
   var type = req.query.type;
-  httpGet('http://106.3.38.38:8888/api/baidu.json?type='+type,function(data){
+  httpGet('http://106.3.38.38:8888/api/baidu.json?type=' + type, function(data) {
     var data = baiduAdapter(data);
     res.send(data);
   });
@@ -954,12 +962,12 @@ app.get('/api/excel/site', function(req, res) {
 });
 
 /**
-* follow
-*/
-app.get('/api/follows*',api.follow.list);
-app.get('/api/follow/:id*',api.follow.get);
-app.delete('/api/follow/:id*',api.follow.delete);
-app.post('/api/follows',api.follow.restAdd);
+ * follow
+ */
+app.get('/api/follows*', api.follow.list);
+app.get('/api/follow/:id*', api.follow.get);
+app.delete('/api/follow/:id*', api.follow.delete);
+app.post('/api/follows', api.follow.restAdd);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);

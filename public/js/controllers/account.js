@@ -18,7 +18,11 @@ var SigninCtrl = function($scope, $http, $location) {
       if (data['error'] === 0) {
         $scope.hideNav = false;
         document.location.href = '/me';
+      } else {
+        alert('登录失败，请重试');
       }
+    }).error(function() {
+      alert('登录失败，请重试');
     });
   };
 };
