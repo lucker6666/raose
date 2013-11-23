@@ -46,10 +46,11 @@ app.use(express.session({
   secret: 'secret',
   maxAge: new Date(Date.now() + 3600000),
   store: new MongoStore({
-      db: 'raose'
+      mongoose_connection: mongoose.connection
     },
     function(err) {
-      console.log(err || 'connect-mongodb setup ok');
+      if(err) console.log('mongodb setup fail')
+      //console.log(err || 'connect-mongodb setup ok');
     })
 }));
 
@@ -287,6 +288,7 @@ app.delete('/api/feature/:id', api.feature.delete);
  */
 app.get('/api/datas', api.data.list);
 app.post('/api/datas', api.data.add);
+app.get('/api/data/:id/followings', api.follow.getDataFollowings);
 app.get('/api/data/:id', api.data.get);
 app.delete('/api/data/:id', api.data.delete);
 app.put('/api/data/:id', api.data.put);
@@ -949,6 +951,14 @@ app.get('/api/excel/site', function(req, res) {
   res.setHeader("Content-Disposition", "attachment; filename=" + "seedit.xlsx");
   res.end(result, 'binary');
 });
+
+/**
+* follow
+*/
+app.get('/api/follows*',api.follow.list);
+app.get('/api/follow/:id*',api.follow.get);
+app.delete('/api/follow/:id*',api.follow.delete);
+app.post('/api/follows',api.follow.restAdd);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);

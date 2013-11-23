@@ -18,6 +18,15 @@ div.row
 div.form-group
     
     a.btn.btn-primary(href='/data/{{form._id}}/edit') 编辑
-   // button.btn.btn-primary(ng-click='deleteData()') 删除
+    button.btn.btn-primary(ng-click='deleteData()') 删除
+    button.btn.btn-info(ng-click='followData()',ng-show='notFollow') 关注数据
+    button.btn.btn-info(ng-click='unFollowData()',ng-show='hasFollow') 取消关注数据
 
-    
+
+hr 
+
+h4 Following members
+
+span(ng-repeat='m in followings') {{m.user.username}}
+
+
