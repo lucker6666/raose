@@ -559,102 +559,26 @@ $.post('http://tongji.baidu.com/web/2569732/ajax/post','viewType=url&siteId=2438
 			return datas;
 		}
 
-		/**
-		 * socket 服务
-		 *
-		 */
+	
 
-		/*	var socket = io.connect('http://localhost:8888/', {
-		transports: ['xhr-polling']
-	});
-	socket.on('connect', function() {
-		console.log('connect');
-	});
-
-	socket.on('news', function(data) {
-		console.log(data);
-	});
-
-	socket.on('notice', function(data) {
-		$('#notice-item').append('<li><span class="time">' + data.time + '</span>' + '<span class="msg">' + data.msg + '</span>' + '</li>');
-	});
-
-	socket.on('complete', function(data) {
-		$('#notice-item').append('<li>' + '<span class="complete">' + data + '</spam>' + '</li>');
-	});
-*/
-	var showCount = localStorage.getItem('showCount');
-	if (!showCount) localStorage.setItem('showCount', 1);
-	showCount = localStorage.getItem('showCount');
-	if (showCount === '1') {
-		$('#option_form input').eq(0).prop('checked', true);
-	}
-	if (showCount === '2') {
-		$('#option_form input').eq(1).prop('checked', true);
-	}
-
-	// 导航当前
-	var index = localStorage.getItem('currentTab') ? localStorage.getItem('currentTab') : 0;
-	$('.main-nav a').eq(index).addClass('on');
-	$('.wrap>.right>.box').eq(index).addClass('curr-box').show().siblings('.box').removeClass('curr-box').hide();
 
 	$('.main-nav a').click(function(e) {
 		e.preventDefault();
 		var $this = $(this),
 			index = $('.main-nav a').index($this),
 			text = $this.text();
-		localStorage.setItem('currentTab', index);
 		document.title = text + '-播种网';
 		$('.main-nav a').removeClass('on');
 		$this.addClass('on');
-		// box显示
-		$('.wrap>.right>.box').eq(index).show().siblings().hide();
-		// subnav 显示
-		$('.sub-nav>li').eq(index).show().siblings().hide();
 	});
 
-	$('#option_form input').change(function() {
-		var val = $('#option_form input:checked').val();
-		localStorage.setItem('showCount', val);
-	});
-
-	function Editor(input, preview) {
-		this.update = function() {
-			preview.innerHTML = markdown.toHTML(input.value);
-		}
-		input.editor = this;
-		this.update();
-	}
 	var $$ = function(id) {
 		return document.getElementById(id);
 	};
 	//new Editor($$("text-input"), $$("preview"));
 });
 
-var dataAdapter = {
-	// 百度24小时数据时间为反向
-	'baidu_reverse': function(data) {
-		data.data.items[0].reverse();
-		data.data.items[1].reverse();
-		return data;
-	},
-	// 将 "17:00 - 17:59" 转换为 17
-	'baidu_minutes': function(data) {
-		data.data.items[0] = data.data.items[0].map(function(one) {
-			return [one[0].slice(0, 2)];
-		});
-		return data;
-	},
-	'rank': function(data) {
-		data = data.map(function(one) {
-			return [format(new Date(one[0])).slice(-1), one[1]]
-		});
-		data.reverse().length = 70;
-		data.reverse();
-		console.log(data);
-		return data;
-	}
-}
+
 
 var handler = {
 	oldAd: function() {

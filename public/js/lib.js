@@ -23,43 +23,7 @@ var daysAgo = function(day) {
 const now = daysAgo(2);
 const oneMonthAgo = daysAgo(30);
 
-var addFav = function(request) {
-    var fav = localStorage.getItem('fav');
-    if (!fav) {
-        fav = [];
-    } else {
-        fav = JSON.parse(fav);
-    }
-
-    fav.push({
-        type: request.type,
-        key: request.key
-    });
-    localStorage.setItem('fav', JSON.stringify(fav));
-},
-    delFav = function(request) {
-        var fav = localStorage.getItem('fav');
-        var ret;
-        if (!fav) {
-            ret = 'success';
-        }
-        fav = JSON.parse(fav);
-        console.log(fav)
-        var data = {
-            type: request.type,
-            key: request.key
-        };
-        fav.forEach(function(one, index) {
-            if (one.type === data.type && one.key === data.key) {
-                console.log('找到啦', index);
-                fav.splice(index, 1);
-                console.log(fav)
-            }
-        });
-        localStorage.setItem('fav', JSON.stringify(fav));
-    }
-
-    function number_format(value, fixed, currency) {
+function number_format(value, fixed, currency) {
         var fixed = fixed || 0;
         var currency = currency || '';
         isNaN(parseFloat(value)) ? value = 0 : value = parseFloat(value);

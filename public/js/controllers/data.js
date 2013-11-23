@@ -68,7 +68,7 @@ var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
                 $scope.notFollow = false;
             }
         });
-    }
+    };
 
     $scope.unFollowData = function() {
         $http.delete('/api/follow/' + $routeParams.id + '?type=data').success(function(data) {
@@ -191,5 +191,4 @@ var VisitDataCtrl = function($scope, $http) {
             title: 'Dianxin'
         });
     });
-
 };
