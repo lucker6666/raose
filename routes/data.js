@@ -16,9 +16,7 @@ var Data = mongoose.model('Data', {
     create_by: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    },
-    // owners
-    owners: Array
+    }
 });
 
 exports.data = {
@@ -50,13 +48,6 @@ exports.data = {
     add: function(req, res) {
         // add author info
         req.body.create_by = req.user.uid;
-        // add default owners
-        if (!req.body.owners) {
-            req.body.owners = [{
-                uid: req.user.uid,
-                username: req.user.username
-            }];
-        }
         var data = new Data(req.body);
         data.save(function(err, item) {
             if (err) throw err;
