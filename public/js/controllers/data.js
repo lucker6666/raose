@@ -7,6 +7,11 @@ var DatasCtrl = function($scope, $http) {
 
 // 查看数据
 var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
+    // get followings 
+    $http.get('/api/data/' + $routeParams.id+'/followings').success(function(data){
+        $scope.followings = data.data;
+    });
+
     $http.get('/api/data/' + $routeParams.id).success(function(data) {
         $scope.form = data.data;
 
@@ -29,12 +34,49 @@ var ViewDataCtrl = function($scope, $http, $routeParams, $location) {
             });
         }
     });
+
+    // check if has follow
+
+    $http.get('/api/follow/' + $routeParams.id + '?type=data', {
+        type: 'data'
+    }).success(function(data) {
+        if (!data.data) {
+            $scope.notFollow = true;
+        } else {
+            $scope.hasFollow = true;
+        }
+    });
     $scope.deleteData = function() {
-        $http.delete('/api/data/' + $routeParams.id).success(function(data) {
-            if (data['error'] === 0) {
-                $location.path('/datas');
+        var ok = confirm('亲，确定要删除数据么');
+        if (ok) {
+            $http.delete('/api/data/' + $routeParams.id).success(function(data) {
+                if (data['error'] === 0) {
+                    $location.path('/datas');
+                }
+            });
+        }
+    };
+
+    // follow the data
+    $scope.followData = function() {
+        $http.post('/api/follows', {
+            type: 'data',
+            id: $routeParams.id
+        }).success(function(data) {
+            if (data.error === 0) {
+                $scope.hasFollow = true;
+                $scope.notFollow = false;
             }
         });
+    }
+
+    $scope.unFollowData = function() {
+        $http.delete('/api/follow/' + $routeParams.id + '?type=data').success(function(data) {
+            if (data.error === 0) {
+                $scope.hasFollow = false;
+                $scope.notFollow = true;
+            }
+        })
     };
 };
 

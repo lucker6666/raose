@@ -212,6 +212,10 @@ config(['$routeProvider', '$locationProvider',
       templateUrl: 'partials/visitData',
       controller: VisitDataCtrl
     }).
+    when('/me/following/datas', {
+      templateUrl: 'partials/foDatas',
+      controller: meFoDataCtrl
+    }).
     when('/me', {
       templateUrl: 'partials/me',
       controller: meCtrl
@@ -228,9 +232,9 @@ config(['$routeProvider', '$locationProvider',
     }).when('/taxonomy', {
       templateUrl: 'partials/addTaxonomy',
       controller: AddTaxonomyCtrl
-    }).when('/deploy',{
-      templateUrl:'partials/viewDeploy',
-      controller:ViewDeployCtrl
+    }).when('/deploy', {
+      templateUrl: 'partials/viewDeploy',
+      controller: ViewDeployCtrl
     }).
     otherwise({
       redirectTo: '/me'

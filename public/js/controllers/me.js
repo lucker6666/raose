@@ -13,3 +13,10 @@ var meCtrl = function($http, $scope) {
     $scope.issues = data.data;
   });
 };
+
+// my following data
+var meFoDataCtrl = function($http, $scope) {
+  $http.get('/api/follows?type=data').success(function(data) {
+    $scope.foDatas = data.data;
+  })
+};
