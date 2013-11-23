@@ -97,27 +97,12 @@ exports.data = {
     },
     delete: function(req, res) {
         var id = req.params.id;
-        /*console.log(Data.findByIdAndRemove);
-    Data.findByIdAndRemove(id, function(err) {
-      if (err) throw err;
-      res.send({
-        erro: 0,
-        msg: '删除成功'
-      });
-    })*/
-        /* Data.remove({
-      _id: id
-    }, function(err) {
-      if (err) throw err;
-      res.send({
-        error: 0,
-        msg: '删除成功'
-      });
-    });*/
-        Data.findOneAndRemove({
-            _id: id
-        }, function(err) {
-            console.log(err);
+        Data.findByIdAndRemove(id, function(err) {
+            if(err) throw err;
+            res.send({
+                error:0,
+                msg:'删除成功'
+            })
         });
     }
 }
