@@ -5,3 +5,5 @@ databackup
 cron/data/*.json
 /.idea
 /public/js/controller.min.js
+/public/avatar/*
+!/public/avatar/default.png

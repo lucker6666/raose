@@ -27,6 +27,7 @@ hr
 
 h4 Following members
 
-span(ng-repeat='m in followings') {{m.user.username}}
+span(ng-repeat='m in followings') 
+    img.avatar-list(src='{{m.user.avatar}}')
 
 

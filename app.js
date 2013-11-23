@@ -301,6 +301,7 @@ app.get('/api/me/todos', api.me.todos);
 app.get('/api/me/issues', api.me.issues);
 app.get('/api/me/profile', api.me.profile);
 app.put('/api/me/profile', api.me.updateProfile);
+app.put('/api/me/setAvatar',api.me.setAvatar);
 app.get('/api/me/dataHistory', api.me.dataHistory);
 
 /**

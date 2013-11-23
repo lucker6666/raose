@@ -24,7 +24,7 @@ var User = mongoose.model('User', {
     //头像
     avatar: {
         type: String,
-        default: ''
+        default: '/avatar/default.png'
     }
 });
 exports.Model = User;

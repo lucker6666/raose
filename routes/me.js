@@ -6,13 +6,20 @@ var Log = require('./log.js').Model;
 var Todo = require('./todo.js').Model;
 var Issues = require('./issue.js').Model;
 exports.me = {
-  dataHistory :function(req,res){
-    Log.find({operator:req.user.uid,type:'getData'},null,{sort:{create_at:-1}},function(err,data){
-     res.send({
-   error:0,
-data:data
-});
-  })
+  dataHistory: function(req, res) {
+    Log.find({
+      operator: req.user.uid,
+      type: 'getData'
+    }, null, {
+      sort: {
+        create_at: -1
+      }
+    }, function(err, data) {
+      res.send({
+        error: 0,
+        data: data
+      });
+    })
   },
   todos: function(req, res) {
     Todo.find({
@@ -45,11 +52,25 @@ data:data
       json(res, err, data);
     })
   },
+  // set avatar
+  setAvatar: function(req, res) {
+    // move image from uploads to avatar
+    var file = req.body.file;
+    var fs = require('fs');
+    fs.renameSync('public/uploads/' + file, 'public/avatar/' + file);
+    User.findByIdAndUpdate(req.user.uid, {
+      avatar: '/avatar/' + file
+    }, function(err, item) {
+      res.send({
+        error: 0,
+        data: '/avatar/' + file
+      })
+    });
+  },
   // 更新资料
   updateProfile: function(req, res) {
     var id = req.body._id;
     delete req.body._id;
-    console.log(req.body);
     // 如果新密码为空，则直接保存
     if (!req.body.password) {
       User.findByIdAndUpdate(id, req.body, function(err, item) {

@@ -25,6 +25,7 @@ var UploadCtrl = ['$scope', '$http',
   }
 ];
 
+
 document.body.addEventListener("paste", function(e) {
   for (var i = 0; i < e.clipboardData.items.length; i++) {
     if (e.clipboardData.items[i].kind == "file" && e.clipboardData.items[i].type == "image/png") {

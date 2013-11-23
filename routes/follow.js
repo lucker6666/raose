@@ -76,7 +76,7 @@ module.exports = {
             res.send({
                 error: 0,
                 data: data
-            })
+            });
         })
     },
     delete: function(req, res) {

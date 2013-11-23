@@ -23,3 +23,14 @@ hr
 
 .alert.alert-success(ng-show='showSuccess') {{message}}
 .alert.alert-danger(ng-show='showFail') {{message}}
+
+
+hr
+
+h4 更改头像
+br
+img(ng-src='{{user.avatar}}',onerror="this.src='/avatar/default.png'",style='border-radius:50%;width:100px;height:100px;')
+br
+br
+input(type='file',ng-file-select='onFileSelect($files)')
+
