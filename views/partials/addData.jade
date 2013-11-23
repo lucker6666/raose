@@ -88,8 +88,8 @@ div.form-group
 hr
 hr
 
-.form-group
-    label 从下面添加关注者(指定其他人，该数据将直接进入其他的关注数据中,默认为自己)
+.form-group(ng-show='showFollowing')
+    label 从下面添加关注者(指定其他人，该数据将直接进入其他的关注数据中)
     .well 
         ul
             li(ng-repeat='fo in fos') {{fo.user.username}}

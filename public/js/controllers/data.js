@@ -112,6 +112,8 @@ var EditDataCtrl = function($scope, $http, $location, $routeParams, $timeout) {
         console.log(arguments);
     };
 
+    $scope.showFollowing = true;
+
     $('#members').change(function() {
         var $member = $(this).find(':selected');
         var name = $member.text();
@@ -161,6 +163,7 @@ function AddDataCtrl($scope, $http, $location, $routeParams) {
             'dimensions': 'ga:date'
         }
     };
+    $scope.showFollowing = false;
     $scope.actionName = '添加';
     $scope.showAddBtn = true;
     $scope.submitData = function() {
