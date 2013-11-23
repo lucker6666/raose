@@ -61,6 +61,7 @@ exports.data = {
     put: function(req, res) {
         var id = req.params.id;
         delete(req.body._id);
+        delete(req.body.create_at);
         Data.findByIdAndUpdate(id, req.body, function(err) {
             if (err) {
                 res.send({
