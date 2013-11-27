@@ -200,7 +200,7 @@ var VisitDataCtrl = function($scope, $http) {
         $scope.lists = data.rows;
     });
 
-    ['soufun', 'dianxin', 'jrlady', 'zdface', 'ishowx', 'taoyidie', '4meili', '39baby', 'xiangcaolady', 'mmeirong', '39', 'wumeiw'].forEach(function(one) {
+    ['soufun', 'dianxin', 'jrlady', 'zdface', 'ishowx', 'taoyidie', '4meili', '39baby', 'xiangcaolady', 'mmeirong', '39', 'wumeiw','39ask'].forEach(function(one) {
         renderColumn({
             type: 'baidu',
             option: {
