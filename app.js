@@ -105,7 +105,7 @@ app.get('/partials/:name', routes.partials);
 // API接口的登录验证
 app.get('/api/*', function(req, res, next) {
   // the track api do not requrie authentication
-  if (req.originalUrl.indexOf('_.gif') !== -1) {
+  if (req.originalUrl.indexOf('_.gif') !== -1 || req.originalUrl.indexOf('crazy')!==-1) {
     next();
     return;
   }
@@ -968,6 +968,27 @@ app.get('/api/follows*', api.follow.list);
 app.get('/api/follow/:id*', api.follow.get);
 app.delete('/api/follow/:id*', api.follow.delete);
 app.post('/api/follows', api.follow.restAdd);
+// 疯狂造人API 
+app.get('/api/crazy',function(req,res){
+  var data = req.query;
+  var callback = req.query.__c;
+  var Crazy = mongoose.model('crazy',{
+    date:{
+      type:Date,
+      default:Date.now
+    },
+    data:Object
+  });
+  var crazy = new Crazy({data:data});
+  crazy.save(function(err,item){
+    if(err){
+      res.send(callback+'({error_code:-1,msg:'没有成功哦'})');
+    }else{
+      res.send(callback+'({error_code:0,msg:'成功了哦'})');
+    }
+  });
+
+});
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
