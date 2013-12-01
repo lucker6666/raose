@@ -982,9 +982,9 @@ app.get('/api/crazy',function(req,res){
   var crazy = new Crazy({data:data});
   crazy.save(function(err,item){
     if(err){
-      res.send(callback+'({error_code:-1,msg:'没有成功哦'})');
+      res.send(callback+"({error_code:-1,msg:'没有成功哦'})");
     }else{
-      res.send(callback+'({error_code:0,msg:'成功了哦'})');
+      res.send(callback+"({error_code:0,msg:'成功了哦'})");
     }
   });
 
