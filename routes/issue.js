@@ -213,18 +213,13 @@ exports.issues = {
     },
 
     list: function (req, res) {
-        Issues.find({}, '-content', {
-                sort: {
-                    date: -1
-                }
-            },
-            function (err, data) {
-                if (err) throw err;
-                res.send({
-                    error: 0,
-                    data: data
-                })
-            })
+        Issues.find({}).select('-content').populate('created_by', '-password -email').sort('-date').exec(function (err, data) {
+            if (err) throw err;
+            res.send({
+                error: 0,
+                data: data
+            });
+        });
     },
 
     get: function (req, res) {
