@@ -63,17 +63,28 @@ div.form-group
     input.form-control(ng-model='form.labels')
 
 
-div.form-group    
+div.form-group
     label(for='content') 内容
     div.form-control#img-box(contenteditable='true',ng-model='form.content',style='height:auto;min-height:200px',ui-event="{ paste : 'onpaste()' }")
 
 div.alert.alert-success
     p 可以直接在上面输入框内粘贴 
         strong  QQ截图 
-        或者 
+        或者
         strong 屏幕截图(Print Screen键) 
-        以及 
+        以及
         strong 网页上右键复制的图片 
 
 div.form-group
     button.btn.btn-primary(ng-click='submitIssue()') 确定
+
+hr
+hr
+
+h4 管理页操作
+
+label 创建者 {{form.created_by}}
+select.form-control(ng-model='form.created_by')
+    option(ng-repeat='user in users',value='{{user._id}}') {{user.username}} ({{user.realname}})
+
+
