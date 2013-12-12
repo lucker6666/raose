@@ -53,8 +53,8 @@ var Issues = mongoose.model('Issue', {
     level: Number,
     // 属于feature
     feature: {
-        id: String,
-        title: String
+        type: Schema.Types.ObjectId,
+        ref: 'Feature'
     }
 });
 exports.Model = Issues;
