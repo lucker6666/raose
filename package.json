@@ -45,7 +45,8 @@
     "node-zip": "1.x",
     "excel-export": "~0.3.7",
     "exec-sync": "",
-    "cron": ""
+    "cron": "",
+    "eventproxy": "~0.2.6"
   },
   "keywords": []
 }
