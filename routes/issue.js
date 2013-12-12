@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 var MessageModel = require('./message.js').MessageModel;
 var Message = require('./message.js').Model;
 var url2img = require('../lib/url2image.js');
