@@ -76,8 +76,6 @@ exports.issues = {
     // 添加一个评论
     addDiscussion: function (req, res) {
         req.body.author = req.user.username;
-        // add creator info
-        req.body.created_by = req.user.uid;
         var discussion = new Discussion(req.body);
         discussion.save(function (err, item) {
             if (err) throw err;
@@ -110,6 +108,9 @@ exports.issues = {
         if (!req.body.submit) {
             req.body.submit = req.user.username;
         }
+        // add creator info
+        req.body.created_by = req.user.uid;
+
         var issue = new Issues(req.body);
         issue.save(function (err, rs) {
             if (err) {
@@ -169,7 +170,7 @@ exports.issues = {
             req.body.close = {
                 operator: req.user.username,
                 date: new Date()
-            }
+            };
             req.body.open = false;
             message = '关闭了Issue';
         }
@@ -179,7 +180,7 @@ exports.issues = {
             req.body.open = true;
             message = '重新开启了Issue';
         }
-        ;
+
 
         Issues.findByIdAndUpdate(req.params.id, req.body, function (err, item) {
             if (err === null) {
