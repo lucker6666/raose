@@ -17,6 +17,13 @@ var Issues = mongoose.model('Issue', {
         // 操作者
         operator: String
     },
+    // the creator
+    created_by: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    // userAgent
+    userAgent: String,
     // 用户
     author: String,
     // 标题
@@ -52,12 +59,12 @@ var Issues = mongoose.model('Issue', {
 exports.Model = Issues;
 exports.issues = {
     // 获取单个issue的回复
-    getDiscussions: function(req, res) {
+    getDiscussions: function (req, res) {
         var issueId = req.params.id;
         Discussion.find({
             type: 'issue',
             typeId: issueId
-        }, function(err, data) {
+        }, function (err, data) {
             if (err) throw err;
             res.send({
                 error: 0,
@@ -66,10 +73,12 @@ exports.issues = {
         });
     },
     // 添加一个评论
-    addDiscussion: function(req, res) {
+    addDiscussion: function (req, res) {
         req.body.author = req.user.username;
+        // add creator info
+        req.body.created_by = req.user.uid;
         var discussion = new Discussion(req.body);
-        discussion.save(function(err, item) {
+        discussion.save(function (err, item) {
             if (err) throw err;
             res.send({
                 erro: 0,
@@ -78,14 +87,14 @@ exports.issues = {
             });
         });
     },
-    messages: function(req, res) {
+    messages: function (req, res) {
         Message.find({
                 "typeInfo": {
                     "catId": req.params.id,
                     "cat": "issue"
                 }
             },
-            function(err, data) {
+            function (err, data) {
                 res.send({
                     error: 0,
                     data: data
@@ -93,7 +102,7 @@ exports.issues = {
             }
         );
     },
-    add: function(req, res) {
+    add: function (req, res) {
         req.body.author = req.user.username;
         req.body.content = url2img(req.body.content, './public/uploads/', './uploads/');
         // 如果没有提交者，则为自己
@@ -101,7 +110,7 @@ exports.issues = {
             req.body.submit = req.user.username;
         }
         var issue = new Issues(req.body);
-        issue.save(function(err, rs) {
+        issue.save(function (err, rs) {
             if (err) {
                 res.send({
                     erro: -1,
@@ -122,7 +131,7 @@ exports.issues = {
                     target: req.body.title,
                     link: '/issue/' + rs._id
                 }
-            }, function(err, item) {
+            }, function (err, item) {
                 res.send({
                     error: 0,
                     msg: '添加成功',
@@ -133,9 +142,9 @@ exports.issues = {
         });
     },
 
-    delete: function(req, res) {
+    delete: function (req, res) {
         var id = req.params.id;
-        Issues.findByIdAndRemove(id, function(err) {
+        Issues.findByIdAndRemove(id, function (err) {
             if (err === null) {
                 res.send({
                     error: 0,
@@ -146,7 +155,7 @@ exports.issues = {
             }
         });
     },
-    update: function(req, res) {
+    update: function (req, res) {
         var id = req.body._id;
         delete req.body._id;
         req.body.content = url2img(req.body.content, './public/uploads/', './uploads/');
@@ -168,9 +177,10 @@ exports.issues = {
         if (isReopenAction) {
             req.body.open = true;
             message = '重新开启了Issue';
-        };
+        }
+        ;
 
-        Issues.findByIdAndUpdate(req.params.id, req.body, function(err, item) {
+        Issues.findByIdAndUpdate(req.params.id, req.body, function (err, item) {
             if (err === null) {
                 MessageModel.add({
                     typeInfo: {
@@ -184,7 +194,7 @@ exports.issues = {
                         target: item.title,
                         link: '/issue/' + item._id
                     }
-                }, function(err, m) {
+                }, function (err, m) {
                     res.send({
                         error: 0,
                         data: item,
@@ -201,13 +211,13 @@ exports.issues = {
         })
     },
 
-    list: function(req, res) {
+    list: function (req, res) {
         Issues.find({}, '-content', {
                 sort: {
                     date: -1
                 }
             },
-            function(err, data) {
+            function (err, data) {
                 if (err) throw err;
                 res.send({
                     error: 0,
@@ -216,8 +226,8 @@ exports.issues = {
             })
     },
 
-    get: function(req, res) {
-        Issues.findById(req.params.id, function(err, data) {
+    get: function (req, res) {
+        Issues.findById(req.params.id, function (err, data) {
             if (err) throw err;
             res.send({
                 error: 0,
