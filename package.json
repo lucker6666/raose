@@ -46,7 +46,8 @@
     "excel-export": "~0.3.7",
     "exec-sync": "",
     "cron": "",
-    "eventproxy": "~0.2.6"
+    "eventproxy": "~0.2.6",
+    "cookies": "~0.3.8"
   },
   "keywords": []
 }
