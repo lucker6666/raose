@@ -42,13 +42,19 @@ module.exports = {
         if (req.cookies.uuid) {
             uuid = req.cookies.uuid;
         } else {
+            // set uuid if has not set
             uuid = createUUID();
             res.cookie('uuid', uuid, {maxAge: 10 * 365 * 24 * 3600 * 1000});
         }
 
+        // if set uid, then add a task to make the data belong to the specified uid
+        if (req.query.uid) {
+            // @todo
+        }
+
         var query = req.query;
         var datas = {
-            uid: parseInt(req.query.uid, 10),
+            uid: req.query.uid ? req.query.uid : 0,
             action: req.query.action,
             actionDetails: req.query.actionDetails,
             clientDetails: req.query.clientDetails
