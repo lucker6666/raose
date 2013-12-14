@@ -38,7 +38,7 @@ module.exports = {
             query.operator = uid;
         }
 
-        Log.find(query).limit(limit).populate('operator', '-password -email').exec(function(err, data) {
+        Log.find(query).limit(limit).sort('-create_at').populate('operator', '-password -email').exec(function(err, data) {
             res.send({
                 error: 0,
                 data: data
