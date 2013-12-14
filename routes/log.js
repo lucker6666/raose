@@ -30,6 +30,7 @@ module.exports = {
     list: function(req, res) {
         var type = req.params.type;
         var uid = req.query.uid;
+        var limit = req.query.limit ? req.query.limit*1 : 20;
         var query = {
             type: type
         };
@@ -37,11 +38,7 @@ module.exports = {
             query.operator = uid;
         }
 
-        Log.find(query, null, {
-            sort: {
-                create_at: -1
-            }
-        }).populate('operator', '-password -email').exec(function(err, data) {
+        Log.find(query).limit(limit).populate('operator', '-password -email').exec(function(err, data) {
             res.send({
                 error: 0,
                 data: data
