@@ -27,8 +27,29 @@ var User = mongoose.model('User', {
         default: '/avatar/default.png'
     }
 });
+
+// add user
+var addUser = function(data, callback){
+  var user = new User(data);
+  user.save(function(err,item){
+      callback && callback(err,item);
+  });
+  //@todo email notify option
+};
+
 exports.Model = User;
 exports.user = {
+    // add a user
+    add: function(req, res){
+        var data = req.body;
+        addUser(data, function(err,item){
+            res.send({
+                error : err ? 1 : 0, 
+                data : item
+            });
+        });
+    },
+    
     // 获取用户列表
     list: function(req, res) {
         User.find({}, '-password', function(err, data) {
