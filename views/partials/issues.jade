@@ -2,33 +2,44 @@ h1 Issues
     a.btn.btn-primary(href='issues/add',style="float:right;") 添加issue
 hr
 
-    
-    
+ul.nav.nav-tabs(ng-init="")
+
+    li(ng-click="selected=1;getIssues('')",ng-class='{"active":selected==1}')
+        a(href='/issues') 全部
+
+    li(ng-click="selected=2;getIssues('open=true')",ng-class='{"active":selected==2}')
+        a(href='/issues') 未解决
+
+    li(ng-click="selected=3;getIssues('open=false')",ng-class='{"active":selected==3}')
+        a(href='/issues') 已解决
+
+    li(ng-click="selected=4;getIssues('created_by=me')",ng-class='{"active":selected==4}')
+        a(href='/issues') 我提交的
+
+
+br
+
 div
     table.table
         thead
             tr
                 th open
-                th 优先级
-                th 标题
                 th(width="60") 提交
-                th 影响
+                th 标题
                 th 日期
-                th 标签
-              
+                th 优先级
+
 
         tbody
             tr(ng-repeat='one in issues')
-                td 
+                td
                     span.label.label-info(ng-show='one.open') 开启
                     span.label.label-danger(ng-hide='one.open') 关闭
-                td 
-                    span(class='label label-danger') {{one.level | issueLevel}}
+                td{{one.created_by.realname}}
                 td
                     a(href='/issue/{{one._id}}')  {{one.title}}
-                td{{one.created_by.realname}}
-                td{{one.site}}
                 td{{one.date | time}}
-                td{{one.labels}}
+                td
+                    span(class='label label-danger') {{one.level | issueLevel}}
 
 hr

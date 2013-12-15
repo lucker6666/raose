@@ -214,7 +214,27 @@ exports.issues = {
     },
 
     list: function (req, res) {
-        Issues.find({}).select('-content').populate('created_by', '-password -email').sort('-date').exec(function (err, data) {
+        var filters = req.query.filters;
+        if (filters) {
+            var querystring = require('querystring');
+            filters = querystring.parse(filters);
+        } else {
+            filters = {};
+        }
+
+        if (filters.open && filters.open === 'false') {
+            filters.open = false;
+        }
+
+        if (filters.open && filters.open === 'true') {
+            filters.open = true;
+        }
+
+        if(filters.created_by && filters.created_by==='me'){
+            filters.created_by = req.user.uid;
+        }
+
+        Issues.find(filters).select('-content').populate('created_by', '-password -email').sort('-date').exec(function (err, data) {
             if (err) throw err;
             res.send({
                 error: 0,
