@@ -4,6 +4,12 @@ function IndexCtrl($scope, $http) {
 
 };
 
+var ViewMemberCtrl = function($scope,$http){
+    $http.get('/api/users').success(function(data){
+        $scope.members = data.data;
+    })
+};
+
 var UploadCtrl = ['$scope', '$http',
   function($scope, $http) {
     $scope.onFileSelect = function($files) {

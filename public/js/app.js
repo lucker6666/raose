@@ -235,6 +235,9 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
                 }).when('/deploy', {
                     templateUrl: 'partials/viewDeploy',
                     controller: ViewDeployCtrl
+                }).when('/members', {
+                    templateUrl: 'partials/members',
+                    controller: ViewMemberCtrl
                 }).
                 otherwise({
                     redirectTo: '/me'
