@@ -106,7 +106,7 @@ var getTrend = function (data) {
         };
 
         console.log(data);
-        Get('http://172.16.5.96:8004/api/datastore?' + querystring.stringify(data), function (data) {
+        Get('http://106.3.38.38:8004/api/datastore?' + querystring.stringify(data), function (data) {
             console.log(data)
         });
     });

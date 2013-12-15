@@ -1072,8 +1072,9 @@ app.post('/api/follows', api.follow.restAdd);
 /**
  *  datastore
  */
-
+app.get('/api/datastore/export', api.datas.list);
 app.get('/api/datastore*', api.datas.add);
+
 
 
 // 疯狂造人API 

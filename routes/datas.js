@@ -1,6 +1,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 var EventProxy = require('eventproxy');
+var querystring = require('querystring');
+var moment = require('moment');
 // common data put API
 
 var DataStore = mongoose.model('datastore', {
@@ -11,13 +13,26 @@ var DataStore = mongoose.model('datastore', {
 
 
 module.exports = {
+    list: function (req, res) {
+        var filters = req.query;
+        DataStore.find(filters).select('-type').sort('date').exec(function (err, data) {
+            var rs = data.map(function (one) {
+                one.data.unshift(moment(one.date).format("YYYY-MM-DD"));
+                return one.data;
+            });
+            res.send({
+                error: 0,
+                rows: rs
+            });
+        })
+    },
     add: function (req, res) {
         var datas = req.query;
 
-        if(!datas.type || !datas.date){
+        if (!datas.type || !datas.date) {
             res.send({
-                error:1,
-                msg:'no data specified'
+                error: 1,
+                msg: 'no data specified'
             });
             return;
         }
