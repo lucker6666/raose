@@ -38,8 +38,6 @@ var Issues = mongoose.model('Issue', {
     content: String,
     // 来源
     from: String,
-    // 提交人
-    submit: String,
     // 影响范围
     area: String,
     // 时间
@@ -59,6 +57,44 @@ var Issues = mongoose.model('Issue', {
 });
 exports.Model = Issues;
 exports.issues = {
+    // issues summary
+    summary: function (req, res) {
+        var ep = require('eventproxy').create("allno", "open", "mysubmit", "mysubmitOpen", "blame2me", function ($1, $2, $3, $4, $5) {
+            res.send({
+                error: 0,
+                data: {
+                    all: $1,
+                    allopen: $2,
+                    mysubmit: $3,
+                    mysubmitOpen: $4,
+                    blame2me: $5
+                }
+            });
+        });
+
+        Issues.count({}, function (err, no) {
+            ep.emit('allno', no);
+        });
+
+        Issues.count({open: true}, function (err, no) {
+            ep.emit('open', no);
+        });
+
+
+        Issues.count({created_by: req.user.uid}, function (err, no) {
+            ep.emit('mysubmit', no);
+        });
+
+
+        Issues.count({created_by: req.user.uid, open: true}, function (err, no) {
+            ep.emit('mysubmitOpen', no);
+        });
+
+        Issues.count({owner: req.user.username}, function (err, no) {
+            ep.emit('blame2me', no);
+        });
+
+    },
     // 获取单个issue的回复
     getDiscussions: function (req, res) {
         var issueId = req.params.id;
@@ -230,7 +266,7 @@ exports.issues = {
             filters.open = true;
         }
 
-        if(filters.created_by && filters.created_by==='me'){
+        if (filters.created_by && filters.created_by === 'me') {
             filters.created_by = req.user.uid;
         }
 

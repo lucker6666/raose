@@ -1,6 +1,10 @@
+h1 添加Issue
+
+hr
+
 div.form-group
     label(for='title') 标题(简要描述一下):
-    input.form-control(ng-model='form.title')
+    input.form-control(ng-model='form.title',placeholder="必填，简要说明")
 
 div.form-group
     label(for='level') 优先级
@@ -10,6 +14,26 @@ div.form-group
         option(value='3') 最好做
         option(value='4') 可以做
         option(value='5') 强迫症发作
+
+div.form-group
+    label(for='content') 内容(必填，详细说明并且最好帖截图)
+    div.form-control#img-box(placeholder="必填，详细说明并且最好帖截图",contenteditable='true',ng-model='form.content',style='height:auto;min-height:200px',ui-event="{ paste : 'onpaste()' }")
+div.alert.alert-success
+    p 可以直接在上面输入框内粘贴
+        strong  QQ截图
+        或者
+        strong 屏幕截图(Print Screen键)
+        以及
+        strong 网页上右键复制的图片
+
+
+div.form-group
+    button.btn.btn-primary(ng-click='submitIssue()') 确定
+
+
+hr
+h3 下面为选填
+hr
 
 div.form-group
     label 影响模块
@@ -37,11 +61,6 @@ div.form-group
     label 来源
     input.form-control(ng-model='form.from')
 
-div.form-group
-    label 提交者 {{form.submit}} (默认为自己)
-    select.form-control(ng-model='form.submit')
-        option(ng-repeat='user in users',value='{{user.username}}') {{user.username}} ({{user.realname}})
-
 div.intro
     div.form-group
         label 指派给 {{form.owner}}
@@ -62,29 +81,5 @@ div.form-group
     label 标签
     input.form-control(ng-model='form.labels')
 
-
-div.form-group
-    label(for='content') 内容
-    div.form-control#img-box(contenteditable='true',ng-model='form.content',style='height:auto;min-height:200px',ui-event="{ paste : 'onpaste()' }")
-
-div.alert.alert-success
-    p 可以直接在上面输入框内粘贴 
-        strong  QQ截图 
-        或者
-        strong 屏幕截图(Print Screen键) 
-        以及
-        strong 网页上右键复制的图片 
-
-div.form-group
-    button.btn.btn-primary(ng-click='submitIssue()') 确定
-
-hr
-hr
-
-h4 管理页操作
-
-label 创建者 {{form.created_by}}
-select.form-control(ng-model='form.created_by')
-    option(ng-repeat='user in users',value='{{user._id}}') {{user.username}} ({{user.realname}})
 
 

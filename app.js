@@ -247,7 +247,8 @@ app.delete('/api/doc/:id', api.docs.delete);
 /**
  *-----------------------Issue相关-------------------
  */
-
+// issue 状态
+app.get('/api/issues/summary', api.issues.summary);
 // 获取所有状态
 app.get('/api/issues*', api.issues.list);
 // 获取单个状态

@@ -1,5 +1,18 @@
-h1 Issues 
-    a.btn.btn-primary(href='issues/add',style="float:right;") 添加issue
+hr
+//h1 Issues
+a.btn.btn-primary(href='issues/add',style="float:right;") 添加issue
+//p 欢迎提交各种看着不爽、用着不顺、强迫症、像素偏差问题。
+//p 尽量说明清楚问题，并最好帖个截图~
+
+
+p 你有
+    span.no {{summary.mysubmit}}
+    个 提交，
+    span.no.vivid {{summary.mysubmitOpen}}
+    个 尚未被处理完成，
+    span.no.vivid {{summary.blame2me}}
+    个 要处理。
+
 hr
 
 ul.nav.nav-tabs(ng-init="")
@@ -35,10 +48,10 @@ div
                 td
                     span.label.label-info(ng-show='one.open') 开启
                     span.label.label-danger(ng-hide='one.open') 关闭
-                td{{one.created_by.realname}}
+                td  {{one.created_by.realname}}
                 td
                     a(href='/issue/{{one._id}}')  {{one.title}}
-                td{{one.date | time}}
+                td  {{one.date | time}}
                 td
                     span(class='label label-danger') {{one.level | issueLevel}}
 

@@ -62,6 +62,10 @@ var IssuesCtrl = function ($scope, $http) {
     };
 
     $scope.getIssues('');
+
+    $http.get('/api/issues/summary').success(function (data) {
+        $scope.summary = data.data;
+    });
 };
 
 // 添加issue
