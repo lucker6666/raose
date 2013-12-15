@@ -65,8 +65,8 @@ var getTimeByDay = function (day) {
     return (+new Date) - day * 24 * 3600 * 1000;
 };
 
-var $5daysAgo = getTimeByDay(4) / 1000;
-Get('http://common.seedit.com/tools/bless.json?time=' + $5daysAgo + '&limit=20000', function (data) {
+var $5daysAgo = getTimeByDay(30) / 1000;
+Get('http://common.seedit.com/tools/bless.json?time=' + $5daysAgo + '&limit=2000000', function (data) {
     data = JSON.parse(data);
     getTrend(data.data.data);
 });
@@ -95,6 +95,21 @@ var getTrend = function (data) {
     console.log(compress);
     console.log(compress1);
     console.log(compress2);
+    var querystring = require('querystring');
+    compress.forEach(function (one, index) {
+        // var url = 'http://172.16.5.96:8004/api/datastore?type=bless&date=' + one.value + '&data=' + one.count;
+        // console.log(url);
+        var data = {
+            type: 'bless',
+            date: one.value,
+            data: [one.count, compress1[index]['count'], compress2[index]['count']]
+        };
+
+        console.log(data);
+        Get('http://172.16.5.96:8004/api/datastore?' + querystring.stringify(data), function (data) {
+            console.log(data)
+        });
+    });
 };
 
 

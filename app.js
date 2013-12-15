@@ -105,7 +105,7 @@ app.get('/partials/:name', routes.partials);
 // API接口的登录验证
 app.get('/api/*', function (req, res, next) {
     // the track api do not requrie authentication
-    if (req.originalUrl.indexOf('_.gif') !== -1 || req.originalUrl.indexOf('crazy') !== -1) {
+    if (req.originalUrl.indexOf('_.gif') !== -1 || req.originalUrl.indexOf('crazy') !== -1 || req.originalUrl.indexOf('datastore') !== -1) {
         next();
         return;
     }
@@ -1067,6 +1067,15 @@ app.get('/api/follows*', api.follow.list);
 app.get('/api/follow/:id*', api.follow.get);
 app.delete('/api/follow/:id*', api.follow.delete);
 app.post('/api/follows', api.follow.restAdd);
+
+
+/**
+ *  datastore
+ */
+
+app.get('/api/datastore*', api.datas.add);
+
+
 // 疯狂造人API 
 var Crazy = mongoose.model('crazy', {
     date: {

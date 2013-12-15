@@ -32,6 +32,8 @@ exports.log = require('./log');
 exports.follow = require('./follow');
 // tracker
 exports.tracker = require('./tracker');
+// datastore
+exports.datas = require('./datas');
 
 var error = {
   innerError: {
