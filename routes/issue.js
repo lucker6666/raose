@@ -270,6 +270,10 @@ exports.issues = {
             filters.created_by = req.user.uid;
         }
 
+        if (filters.owner && filters.owner === 'me') {
+            filters.owner = req.user.username;
+        }
+
         Issues.find(filters).select('-content').populate('created_by', '-password -email').sort('-date').exec(function (err, data) {
             if (err) throw err;
             res.send({
