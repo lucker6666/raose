@@ -66,52 +66,63 @@ var getTimeByDay = function (day) {
 };
 
 var $5daysAgo = getTimeByDay(5) / 1000;
-Get('http://common.seedit.com/tools/bless.json?time=' + $5daysAgo + '&limit=2000000', function (data) {
+/*
+ Get('http://common.seedit.com/tools/bless.json?time=' + $5daysAgo + '&limit=2000000', function (data) {
+ data = JSON.parse(data);
+ getTrend(data.data.data);
+ });
+
+ */
+
+/*var getTrend = function (data) {
+ var dates = data.map(function (one) {
+ return one.time.slice(0, 10);
+ });
+
+ var dates1 = data.filter(function (one) {
+ return one.type === 1;
+ }).map(function (one) {
+ return one.time.slice(0, 10);
+ });
+
+ var dates2 = data.filter(function (one) {
+ return one.type === 2;
+ }).map(function (one) {
+ return one.time.slice(0, 10);
+ });
+
+ var compress = compressArray(dates, 'value');
+ var compress1 = compressArray(dates1, 'value');
+ var compress2 = compressArray(dates2, 'value');
+ console.log(compress);
+ console.log(compress1);
+ console.log(compress2);
+ var querystring = require('querystring');
+ compress.forEach(function (one, index) {
+ // var url = 'http://172.16.5.96:8004/api/datastore?type=bless&date=' + one.value + '&data=' + one.count;
+ // console.log(url);
+ var data = {
+ type: 'bless',
+ date: one.value,
+ data: [one.count, compress1[index]['count'], compress2[index]['count']]
+ };
+
+ console.log(data);
+ Get('http://106.3.38.38:8004/api/datastore?' + querystring.stringify(data), function (data) {
+ console.log(data)
+ });
+ });
+ };*/
+
+
+// 计算每人次数
+// 计算总消耗金豆
+// 计算最常用贡品
+
+Get('http://106.3.38.38:8004/api/trackdata.json?action=Miao%20xiang&start-date=2013-12-15&end-date=2013-12-16', function (data) {
     data = JSON.parse(data);
-    getTrend(data.data.data);
+    console.log(data);
+    var sum = data.sum;
+    console.log(sum);
 });
-
-
-var getTrend = function (data) {
-    var dates = data.map(function (one) {
-        return one.time.slice(0, 10);
-    });
-
-    var dates1 = data.filter(function (one) {
-        return one.type === 1;
-    }).map(function (one) {
-            return one.time.slice(0, 10);
-        });
-
-    var dates2 = data.filter(function (one) {
-        return one.type === 2;
-    }).map(function (one) {
-            return one.time.slice(0, 10);
-        });
-
-    var compress = compressArray(dates, 'value');
-    var compress1 = compressArray(dates1, 'value');
-    var compress2 = compressArray(dates2, 'value');
-    console.log(compress);
-    console.log(compress1);
-    console.log(compress2);
-    var querystring = require('querystring');
-    compress.forEach(function (one, index) {
-        // var url = 'http://172.16.5.96:8004/api/datastore?type=bless&date=' + one.value + '&data=' + one.count;
-        // console.log(url);
-        var data = {
-            type: 'bless',
-            date: one.value,
-            data: [one.count, compress1[index]['count'], compress2[index]['count']]
-        };
-
-        console.log(data);
-        Get('http://106.3.38.38:8004/api/datastore?' + querystring.stringify(data), function (data) {
-            console.log(data)
-        });
-    });
-};
-
-
-
 
