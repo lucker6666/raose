@@ -1075,9 +1075,9 @@ app.post('/api/follows', api.follow.restAdd);
 app.get('/api/datastore/export', api.datas.list);
 app.get('/api/datastore*', api.datas.add);
 
+app.get('/api/trackdata.json*', api.tracker.list);
 
-
-// 疯狂造人API 
+// 疯狂造人API
 var Crazy = mongoose.model('crazy', {
     date: {
         type: Date,

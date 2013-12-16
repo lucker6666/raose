@@ -65,7 +65,7 @@ var getTimeByDay = function (day) {
     return (+new Date) - day * 24 * 3600 * 1000;
 };
 
-var $5daysAgo = getTimeByDay(30) / 1000;
+var $5daysAgo = getTimeByDay(5) / 1000;
 Get('http://common.seedit.com/tools/bless.json?time=' + $5daysAgo + '&limit=2000000', function (data) {
     data = JSON.parse(data);
     getTrend(data.data.data);

@@ -36,6 +36,24 @@ var createUUID = function () {
 };
 
 module.exports = {
+    list: function (req, res) {
+        var action = req.query.action,
+            startTime = req.query['start-date'],
+            endTime = req.query['end-date'];
+        console.log(action, startTime, endTime);
+        Track.find({
+            action: action,
+            created_at: {
+                "$gte": new Date(startTime),
+                "$lt": new Date(endTime)
+            }
+        }).exec(function (err, data) {
+                res.send({
+                    error: 0,
+                    data: data
+                })
+            });
+    },
     track: function (req, res) {
         // get cookie
         var uuid;
