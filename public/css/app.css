@@ -271,3 +271,16 @@ svg>text>tspan {display:none;}
 .deploys span {margin:0 10px;}
 
 .avatar-list {width:60px;height:60px;border-radius:50%;margin-right:10px;}
+
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('http://at.alicdn.com/t/font_1387211290_1066108.eot'); /* IE9*/
+  src: url('http://at.alicdn.com/t/font_1387211290_1066108.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('http://at.alicdn.com/t/font_1387211290_3521867.woff') format('woff'), /* chrome、firefox */
+  url('http://at.alicdn.com/t/font_1387211289_7893298.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('http://at.alicdn.com/t/font_1387211290_3927102.svg#svgFontName') format('svg'); /* iOS 4.1- */
+}
+
+
+.icon{font-family:"iconfont";font-size:16px;font-style:normal;}
