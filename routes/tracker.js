@@ -50,6 +50,7 @@ module.exports = {
         }).exec(function (err, data) {
                 res.send({
                     error: 0,
+                    sum: data.length,
                     data: data
                 })
             });
