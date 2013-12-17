@@ -90,7 +90,7 @@ exports.issues = {
             ep.emit('mysubmitOpen', no);
         });
 
-        Issues.count({owner: req.user.username}, function (err, no) {
+        Issues.count({owner: req.user.username, open: true}, function (err, no) {
             ep.emit('blame2me', no);
         });
 
