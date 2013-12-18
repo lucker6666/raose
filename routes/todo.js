@@ -1,5 +1,6 @@
 // todo 
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 var MessageModel = require('./message.js').MessageModel;
 var Discussion = require('./discussion.js').Model;
 var Todo = mongoose.model('Todo', {
@@ -31,6 +32,11 @@ var Todo = mongoose.model('Todo', {
   private: {
     type: Boolean,
     default: false
+  },
+  // belong to 
+  feature: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }
 });
 exports.Model = Todo;
