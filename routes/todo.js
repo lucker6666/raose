@@ -36,7 +36,7 @@ var Todo = mongoose.model('Todo', {
   // belong to 
   feature: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'Feature'
   }
 });
 exports.Model = Todo;
