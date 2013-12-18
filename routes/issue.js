@@ -196,7 +196,15 @@ exports.issues = {
     update: function (req, res) {
         var id = req.body._id;
         delete req.body._id;
-        req.body.content = url2img(req.body.content, './public/uploads/', './uploads/');
+        
+        if(req.body.content){
+            req.body.content = url2img(req.body.content, './public/uploads/', './uploads/');
+        }
+        
+        if(req.body.content === ''){
+            delete req.body.content;
+        }
+        
         var isCloseAction = req.body.action === 'closeIssue',
             isReopenAction = req.body.action === 'reopenIssue',
             message = '更新了Issue';
