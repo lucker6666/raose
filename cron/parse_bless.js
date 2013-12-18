@@ -138,8 +138,8 @@ var percent = function (no) {
 };
 
 
-var startDate = '2013-12-17';
-var endDate = '2013-12-18';
+var startDate = '2013-12-13';
+var endDate = '2013-12-19';
 Get('http://106.3.38.38:8004/api/trackdata.json?action=Miao%20xiang&start-date='+startDate+'&end-date='+endDate+'', function (data) {
     data = JSON.parse(data);
     var sum = data.sum;

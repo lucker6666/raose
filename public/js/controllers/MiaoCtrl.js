@@ -51,10 +51,10 @@ var MiaoCtrl = function ($scope, $http) {
 
         $("#xiang").dxChart({
             dataSource: [
-                {date: '2012-12-13', count: 2000},
-                {date: '2013-12-14', count: 1407},
-                {date: '2013-12-15', count: 1254},
-                {date: '2013-12-16', count: 1474},
+                {date: '2012-12-13', count: 2000, click: 3048},
+                {date: '2013-12-14', count: 1407, click: 2261},
+                {date: '2013-12-15', count: 1254, click: 2200},
+                {date: '2013-12-16', count: 1474, click: 2346},
                 {date: '2013-12-17', count: 1461},
                 {date: '2013-12-18', count: 822}
             ],
@@ -63,7 +63,8 @@ var MiaoCtrl = function ($scope, $http) {
                 argumentField: "date"
             },
             series: [
-                { valueField: "count", name: "上香人数" }
+                { valueField: "count", name: "上香人数" },
+                { valueField: "click", name: "点击上香人数" }
             ],
             argumentAxis: {
                 grid: {
@@ -89,10 +90,10 @@ var MiaoCtrl = function ($scope, $http) {
 
         $("#gongde").dxChart({
             dataSource: [
-                {date: '2013-12-14', count: 375},
-                {date: '2013-12-15', count: 316},
-                {date: '2013-12-16', count: 346},
-                {date: '2013-12-17', count: 346},
+                {date: '2013-12-14', count: 375, click: 234},
+                {date: '2013-12-15', count: 316, click: 156},
+                {date: '2013-12-16', count: 346, click: 170},
+                {date: '2013-12-17', count: 346, click: 170},
                 {date: '2013-12-18', count: 218}
             ],
             commonSeriesSettings: {
@@ -100,7 +101,8 @@ var MiaoCtrl = function ($scope, $http) {
                 argumentField: "date"
             },
             series: [
-                { valueField: "count", name: "捐功德次数" }
+                { valueField: "count", name: "捐功德次数" } ,
+                { valueField: "click", name: "点击捐功德次数" }
             ],
             argumentAxis: {
                 grid: {
@@ -214,7 +216,7 @@ var MiaoCtrl = function ($scope, $http) {
                             width: 0.5
                         },
                         position: "columns",
-                        customizeText: function(arg) {
+                        customizeText: function (arg) {
                             return arg.valueText + " ( " + arg.percentText + ")";
                         }
                     }
