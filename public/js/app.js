@@ -247,6 +247,9 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
                 }).when('/members', {
                     templateUrl: 'partials/members',
                     controller: ViewMemberCtrl
+                }).when('/miao',{
+                    templateUrl:'partials/miao',
+                    controller:MiaoCtrl
                 }).
                 otherwise({
                     redirectTo: '/me'
