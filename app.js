@@ -104,6 +104,8 @@ app.get('/partials/:name', routes.partials);
 
 // API接口的登录验证
 app.get('/api/*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     // the track api do not requrie authentication
     if (req.originalUrl.indexOf('trackdata') !== -1 || req.originalUrl.indexOf('_.gif') !== -1 || req.originalUrl.indexOf('crazy') !== -1 || req.originalUrl.indexOf('datastore') !== -1) {
         next();
@@ -116,8 +118,6 @@ app.get('/api/*', function (req, res, next) {
         });
         return;
     }
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
 });
 
@@ -157,60 +157,6 @@ app.get('/api/usercheck', function (req, res) {
     } else {
         api.me.profile.call(this, req, res);
     }
-});
-
-app.get('/api/tmp/exchange', function (req, res) {
-    var httpGet = function (url, callback) {
-        var http = require('http');
-        http.get(url, function (rs) {
-            var data = '';
-            rs.on('data', function (chunk) {
-                data += chunk;
-            });
-            rs.on('end', function () {
-                callback(data);
-            });
-        })
-    };
-
-    var url = 'http://106.3.38.38:8003/api/data.json?name=%E6%8D%A2%E9%87%8F';
-    httpGet(url, function (data) {
-        //console.log(data);
-        data = JSON.parse(data);
-        //s console.log(data);
-        /* var no = data.rows.reduce(function(one, two) {
-         console.log(one.no);
-         return one.no + two.no;
-         });*/
-        var sum = 0;
-        var result = {};
-        data.rows.forEach(function (one) {
-            sum += one.no;
-            var name = one.name.replace(/！/g, '').split('/')[2];
-            if (!result[name]) {
-                result[name] = 0;
-            } else {
-
-            }
-            result[name] += one.no;
-        });
-
-        var rs = [];
-
-        for (var i in result) {
-            rs.push([result[i], i]);
-        }
-        rs.sort(function (a, b) {
-            if (a[0] > b[0]) return -1;
-            return 1;
-        });
-
-        var data = {
-            sum: sum,
-            rows: rs
-        }
-        res.send(data)
-    });
 });
 
 /**
