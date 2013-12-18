@@ -51,8 +51,8 @@ var MiaoCtrl = function ($scope, $http) {
 
         $("#xiang").dxChart({
             dataSource: [
-                {date: '2012-12-13', count: 2000,try:3048},
-                {date: '2013-12-14', count: 1407,try:},
+                {date: '2012-12-13', count: 2000},
+                {date: '2013-12-14', count: 1407},
                 {date: '2013-12-15', count: 1254},
                 {date: '2013-12-16', count: 1474},
                 {date: '2013-12-17', count: 1461},
