@@ -131,12 +131,12 @@ exports.todo = {
       sort: {
         date: -1
       }
-    }, function(err, data) {
+    }).populate('feature').exec(function(err, data) {
       res.json({
         error: 0,
         data: data
       });
-    })
+    });
   },
   get: function(req, res) {
     Todo.findById(req.params.id, function(err, data) {
