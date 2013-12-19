@@ -1,6 +1,6 @@
 var MiaoCtrl = function ($scope, $http) {
 
-    $.get('http://106.3.38.38:8004/api/datastore/export?type=bless').success(function (data) {
+    $.get('http://106.3.38.38:8004/api/datastore/export?type=bless&start-date=2013-12-25&end-date=2013-12-29').success(function (data) {
         console.log(data);
         var dataSource = (function () {
             return data.rows.map(function (one) {
