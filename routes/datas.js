@@ -14,7 +14,7 @@ var DataStore = mongoose.model('datastore', {
 
 module.exports = {
     list: function (req, res) {
-        var filters = req.query;
+        var filters = req.query.filter;
 
         if (!filters) {
             filters = {};
