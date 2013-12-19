@@ -1,5 +1,6 @@
 // todo 
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 var MessageModel = require('./message.js').MessageModel;
 var Discussion = require('./discussion.js').Model;
 var Todo = mongoose.model('Todo', {
@@ -31,6 +32,11 @@ var Todo = mongoose.model('Todo', {
   private: {
     type: Boolean,
     default: false
+  },
+  // belong to 
+  feature: {
+    type: Schema.Types.ObjectId,
+    ref: 'Feature'
   }
 });
 exports.Model = Todo;
@@ -125,12 +131,12 @@ exports.todo = {
       sort: {
         date: -1
       }
-    }, function(err, data) {
+    }).populate('feature').exec(function(err, data) {
       res.json({
         error: 0,
         data: data
       });
-    })
+    });
   },
   get: function(req, res) {
     Todo.findById(req.params.id, function(err, data) {

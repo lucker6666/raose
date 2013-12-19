@@ -8,3 +8,5 @@ cron/data/*.json
 /public/avatar/*
 !/public/avatar/default.png
 /public/other/*.png
+/config/*.json
+!/config/*_sample.json

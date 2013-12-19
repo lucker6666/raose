@@ -35,25 +35,72 @@ var createUUID = function () {
     return uuid;
 };
 
+var sendError = function (res, code, msg) {
+    res.send({
+        error_code: code,
+        msg: msg
+    });
+    return;
+};
+
 module.exports = {
     list: function (req, res) {
+        var dimensions, metrics, query, sort = 'created_at', select = '*';
         var action = req.query.action,
             startTime = req.query['start-date'],
             endTime = req.query['end-date'];
-        console.log(action, startTime, endTime);
-        Track.find({
+
+        // action
+        if (!action) sendError(res, -1, 'action param required');
+
+        // time params
+        if (!startTime) sendError(res, -1, 'start-date param required');
+        if (!endTime) sendError(res, -1, 'end-date param required');
+
+        // max-results param
+        var maxResult = req.query['max-results'] ? req.query['max-results'] : 100;
+        if (!maxResult)  maxResult = 100;
+        if (maxResult > 2000) maxResult = 2000;
+
+        // filter
+
+        // dimension
+        dimensions = !req.query.dimensions ? 'date' : req.query.dimensions;
+
+        // metrics
+        if (!req.query.metrics) metrics = 'totalEvents';
+
+        // query
+        query = {
             action: action,
             created_at: {
                 "$gte": new Date(startTime),
                 "$lt": new Date(endTime)
             }
-        }).exec(function (err, data) {
-                res.send({
-                    error: 0,
-                    sum: data.length,
-                    data: data
-                })
+        };
+
+        // sort
+        if (req.query.sort) sort = req.query.sort;
+
+
+        // select
+        if (req.query.metrics) select = req.query.metrics;
+
+        select = (select + ' ' + dimensions + ' ' + sort).replace(/ip/, 'clientDetails.ip')
+            .replace(/useragent/, 'clientDetails.useragent')
+            .replace(/date/, 'created_at')
+            .replace(/-/,'');
+
+        Track.find(query).select(select).limit(maxResult).sort(sort).exec(function (err, data) {
+            // flat the array
+
+            res.send({
+                error: 0,
+                itemsPerPage: maxResult,
+                totalResults: data.length,
+                data: data
             });
+        });
     },
     track: function (req, res) {
         // get cookie

@@ -14,9 +14,34 @@ var DataStore = mongoose.model('datastore', {
 
 module.exports = {
     list: function (req, res) {
-        var filters = req.query;
+        var filters = querystring.parse(req.query.filters);
+        if (!filters) {
+            filters = {};
+        }
+        // start-date
+        // end-date
+        if (!req.query['start-date']) res.send({
+            error: 1,
+            msg: 'param start-required'
+        });
+
+        if (!req.query['end-date']) res.send({
+            error: 1,
+            msg: 'param end-required'
+        });
+
+
+        var startDate = new Date(req.query['start-date']);
+        var endDate = new Date(req.query['end-date']);
+
+        filters['date'] = {
+            $gte: startDate,
+            $lt: endDate
+        };
+
         DataStore.find(filters).select('-type').sort('date').exec(function (err, data) {
             var rs = data.map(function (one) {
+                if(typeof one.data === 'string') one.data = [one.data];
                 one.data.unshift(moment(one.date).format("YYYY-MM-DD"));
                 return one.data;
             });

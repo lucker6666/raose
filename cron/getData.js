@@ -69,7 +69,7 @@
      option.filters = 'ga:medium==(none)';
    }
 
-   var API = 'http://106.3.38.38:8888/api/ga.json?' + querystring.stringify(option);
+   var API = 'http://173.208.199.49:8888/api/ga.json?' + querystring.stringify(option);
 
    (function(one) {
      httpGet(API, function(data) {

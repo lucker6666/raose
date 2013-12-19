@@ -70,7 +70,7 @@
        callback(data);
      });
    })
- }
+ };
 
  var all = require('./bbs_.json');
  var bbs01 = require('./bbs_organic.json');

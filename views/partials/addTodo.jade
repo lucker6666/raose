@@ -14,8 +14,9 @@ hr
         option(ng-repeat='user in users',value='{{user.username}}') {{user.username}}
 
 .form-group
-    label 属于需求 {{for.feature.name}}
-    select.form-control(ng-model='form.feature.id',ng-options='one.author as one.title for one in features',ng-change='setFeature(index)')
+    label 属于需求 {{form.eature}}
+    select.form-control(ng-model='form.feature')
+        option(ng-repeat='one in features',value='{{one._id}}') {{one.title}}
        
 
 
