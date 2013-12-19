@@ -26,7 +26,7 @@ module.exports = {
             msg: 'param start-required'
         });
 
-        if (!req.query.['end-date']) res.send({
+        if (!req.query['end-date']) res.send({
             error: 1,
             msg: 'param end-required'
         });
