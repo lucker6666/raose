@@ -250,8 +250,10 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
                 }).when('/miao',{
                     templateUrl:'partials/miao',
                     controller:MiaoCtrl
-                }).
-                otherwise({
+                }).when('/apply',{
+                    templateUrl:'partials/apply',
+                    controller:ApplyCtrl
+                }).otherwise({
                     redirectTo: '/me'
                 });
             $locationProvider.html5Mode(true);
