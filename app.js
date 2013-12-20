@@ -29,6 +29,7 @@ var MongoStore = require('connect-mongo')(express);
 // Configuration
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+//app.set('view cache', 'true');
 app.set('view options', {
     layout: false
 });

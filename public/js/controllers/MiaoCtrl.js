@@ -1,6 +1,102 @@
+var baiduAdapter = function (data) {
+    var rs = data.data.items[0].map(function (one, index) {
+        return {
+            date: one[0].slice(5),
+            count: data.data.items[1][index][0] === '--' ? 0 : data.data.items[1][index][0] - 0
+        }
+    });
+    console.log(rs);
+    return rs.reverse();
+};
+
+socket.on('got_data', function (data) {
+    console.log('got data', data);
+    var metas = data.meta.split('$$');
+    var target = metas[0];
+    var chartType = metas[1];
+    var title = metas[2];
+
+    var raw = JSON.parse(data.data);
+    console.log(raw);
+    var parseData = baiduAdapter(raw);
+
+    $(target).dxChart({
+        dataSource: parseData,
+        commonSeriesSettings: {
+            // type: chartType,
+            argumentField: "date"
+        },
+        series: [
+            {
+                valueField: "count",
+                name: title
+            }
+        ],
+        argumentAxis: {
+            grid: {
+                visible: true
+            }
+        },
+        tooltip: {
+            enabled: true
+        },
+        title: title,
+        legend: {
+            verticalAlignment: "bottom",
+            horizontalAlignment: "center"
+        },
+        commonPaneSettings: {
+            border: {
+                visible: true,
+                right: false
+            }
+        }
+    });
+
+
+});
+var $now = +new Date;
+var $start = +new Date('2013-12-14');
+/**
+ * meta参数用$$分隔 目标选择器$$图表类型$$标题
+ */
+socket.emit('need_data_request', {
+    meta: '#from_cm$$bar$$QQ群推广流量',
+    url: 'http://tongji.baidu.com/web/2569732/ajax/post',
+    data: 'flag=visit_landingpage&siteId=3846977&area=&source=&visitor=&pageId=5426213238567859767&st=1386950400000&et=' + $now + '&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
+});
+
+socket.emit('need_data_request', {
+    meta: '#from_wb$$bar$$微博推广流量',
+    url: 'http://tongji.baidu.com/web/2569732/ajax/post',
+    data: 'flag=visit_landingpage&siteId=3846977&area=&source=&visitor=&pageId=6327123066172119156&st=1386950400000&et=' + $now + '&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
+});
+
+var getPageView = function (meta, siteId, pageId) {
+    socket.emit('need_data_request', {
+        meta: meta,
+        url: 'http://tongji.baidu.com/web/2569732/ajax/post',
+        data: 'flag=visit_landingpage&siteId=2984237&area=&source=&visitor=&pageId=18056781361689672957&st=1386950400000&et=1387468800000&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
+    });
+};
+
+
+socket.emit('need_data_request', {
+    meta: '#from_wx$$bar$$微信',
+    url: 'http://tongji.baidu.com/web/2569732/ajax/post',
+    data: 'flag=visit_landingpage&siteId=2984237&area=&source=&visitor=&pageId=18056781361689672957&st=1386950400000&et=1387468800000&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
+});
+
+socket.emit('need_data_request', {
+    meta: '#from_wap$$bar$$WAP站广告图',
+    url: 'http://tongji.baidu.com/web/2569732/ajax/post',
+    data: 'flag=visit_landingpage&siteId=2984237&area=&source=&visitor=&pageId=9032971018561725340&st=1386950400000&et=1387468800000&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
+});
+
+
 var ApplyCtrl = function ($scope, $http) {
     $.get('http://106.3.38.38:8004/api/datastore/export?filters=type%3Dapply&start-date=2013-11-01&end-date=2013-12-29').success(function (data) {
-
+        $scope.numbers = [];
         var dataSource = (function () {
             return data.rows.map(function (one) {
                 return {
@@ -49,18 +145,13 @@ var ApplyCtrl = function ($scope, $http) {
                 return [one[0].slice(5), one[1]];
             })
         })();
-        $scope.numbers = numbers;
-
-        console.log($scope.numbers);
-
-
+        $scope.applys = numbers;
     });
 };
 
 var MiaoCtrl = function ($scope, $http) {
 
-    $.get('http://106.3.38.38:8004/api/datastore/export?type=bless&start-date=2013-11-25&end-date=2013-12-29').success(function (data) {
-        console.log(data);
+    $.get('http://106.3.38.38:8004/api/datastore/export?filters=type%3Dbless&start-date=2013-12-05&end-date=2013-12-29').success(function (data) {
         var dataSource = (function () {
             return data.rows.map(function (one) {
                 return {
