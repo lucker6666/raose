@@ -1,15 +1,20 @@
 var ApplyCtrl = function($scope, $http) {
-    $.get('http://106.3.38.38:8004/api/datastore/export?type=apply&start-date=2013-11-01&end-date=2013-12-29').success(function(data) {
+    $.get('http://106.3.38.38:8004/api/datastore/export?filters=type%3Dapply&start-date=2013-11-01&end-date=2013-12-29').success(function(data) {
 
         var dataSource = (function() {
             return data.rows.map(function(one) {
                 return {
-                    date: one[0],
-                    count: one[1]
+                    date: one[0].slice(5),
+                    count: one[1]-0
                 }
             });
         })();
 
+        $scope.numbers = (function(){
+            return data.rows.map(function(one){
+                return [one[0].slice(5),one[1]];
+            })
+        })();data.rows;
 
         $("#numbers").dxChart({
             dataSource: dataSource,
