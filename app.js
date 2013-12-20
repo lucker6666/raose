@@ -13,7 +13,7 @@ var httpGet = function (url, callback) {
         rs.on('end', function () {
             callback(data);
         });
-    })
+    });
 };
 
 var express = require('express'),
@@ -538,7 +538,7 @@ app.post('/api/ga.json', function (req, res) {
         });
         return;
     }
-    ;
+
 
     User.findOne(req.body, function (err, user) {
         if (user) {
@@ -552,7 +552,7 @@ app.post('/api/ga.json', function (req, res) {
                 });
                 res1.on('error', function (err) {
                     console.log(err);
-                })
+                });
                 res1.on('end', function () {
                     if (data.length) {
                         // add log
