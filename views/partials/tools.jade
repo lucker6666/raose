@@ -12,7 +12,8 @@ div.panel.panel-info
 
         div.foom-group(ng-repeat='one in urls')
             br
-            label {{one.name}} ({{one.short}}=>{{one.param}})
+            label {{one.name}}
+                span(style='font-weight:normal;font-size:12px;font-family:宋体,Arial;')     （{{one.short}} =&gt; {{one.param}}）
             input.form-control(value='{{one.url}}')
         hr
         p 下面为各广告位会默认加的参数，方便大家操作，
