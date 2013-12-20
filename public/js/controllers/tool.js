@@ -37,13 +37,15 @@ var ToolCtrl = function ($scope, $http) {
         console.log($scope.url);
         $scope.urls = (function () {
             return $scope.urls.map(function (one) {
-                var end = '';
-                if ($scope.url.indexOf('?') !== -1) {
-                    end = '&bzref_la=' + one.param;
+                var url = $.trim($scope.url).replace(/bzref_la=\w+/, '').replace(/\?$/, '');
+                var join = '?';
+                var string = 'bzref_la=' + one.param;
+                if (url.indexOf('?') !== -1) {
+                    join = '&';
                 } else {
-                    end = '?bzref_la=' + one.param;
+                    join = '?';
                 }
-                one.url = $scope.url + end;
+                one.url = url + join + string;
                 return one;
             });
         })();
