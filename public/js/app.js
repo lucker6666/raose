@@ -4,11 +4,6 @@ socket.on('connect', function () {
     console.log('Client has connected to the server!');
 });
 
-/*socket.emit('need_data_request', {
-    url: 'http://tongji.baidu.com/web/2569732/ajax/post/',
-    data: 'viewType=domain&siteId=2987471&st=1386345600000&et=1386345600000&st2=&et2=&indicators=pv_count%2Cvisitor_count%2Cip_count%2Cbounce_ratio%2Cavg_visit_time&order=pv_count%2Cdesc&offset=10000&pageSize=100&clientDevice=all&reportId=13&method=source%2Flink%2Fa&queryId='
-});*/
-
 // Declare app level module which depends on filters, and services
 angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'angularFileUpload']).
     directive('uiEvent', ['$parse',
@@ -247,12 +242,15 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
                 }).when('/members', {
                     templateUrl: 'partials/members',
                     controller: ViewMemberCtrl
-                }).when('/miao',{
-                    templateUrl:'partials/miao',
-                    controller:MiaoCtrl
-                }).when('/apply',{
-                    templateUrl:'partials/apply',
-                    controller:ApplyCtrl
+                }).when('/miao', {
+                    templateUrl: 'partials/miao',
+                    controller: MiaoCtrl
+                }).when('/apply', {
+                    templateUrl: 'partials/apply',
+                    controller: ApplyCtrl
+                }).when('/tools', {
+                    templateUrl: 'partials/tools',
+                    controller: ToolCtrl
                 }).otherwise({
                     redirectTo: '/me'
                 });

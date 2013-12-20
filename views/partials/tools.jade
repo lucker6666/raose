@@ -1,0 +1,27 @@
+h1 工具
+
+hr
+
+div.panel.panel-info
+    div.panel-heading 推广链接生成工具
+    div.panel-body
+        label 输入链接地址
+        input.form-control.url(placeholder='输入站内链接',ng-model='url')
+        br
+        div.well 所有参数为两个字母，为拼音首字母，出于伪装目的，qq的q替换成k。
+
+        div.foom-group(ng-repeat='one in urls')
+            br
+            label {{one.name}} ({{one.short}}=>{{one.param}})
+            input.form-control(value='{{one.url}}')
+        hr
+        p 下面为各广告位会默认加的参数，方便大家操作，
+            strong 下周开始
+            编辑广告位的同志不需要手动为链接加参数, 查看数据时请参考下面参数
+
+        ul.sd-list-items
+            li.sd-list-item
+                strong 待更新
+
+
+
