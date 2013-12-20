@@ -14,8 +14,7 @@ var DataStore = mongoose.model('datastore', {
 
 module.exports = {
     list: function (req, res) {
-        var filters = req.query.filter;
-
+        var filters = querystring.parse(req.query.filters);
         if (!filters) {
             filters = {};
         }
@@ -42,6 +41,7 @@ module.exports = {
 
         DataStore.find(filters).select('-type').sort('date').exec(function (err, data) {
             var rs = data.map(function (one) {
+                if(typeof one.data === 'string') one.data = [one.data];
                 one.data.unshift(moment(one.date).format("YYYY-MM-DD"));
                 return one.data;
             });
