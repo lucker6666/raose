@@ -16,7 +16,7 @@ socket.on('got_data', function (data) {
     var chartType = metas[1];
     var title = metas[2];
 
-    console.log(target,'length',$(target).length);
+    console.log(target, 'length', $(target).length);
 
     var raw = JSON.parse(data.data);
     console.log(raw);
@@ -63,40 +63,7 @@ var $start = +new Date('2013-12-14');
  * meta参数用$$分隔 目标选择器$$图表类型$$标题
  */
 
-setTimeout(function () {
-    socket.emit('need_data_request', {
-        meta: '#from_cm$$bar$$QQ群推广流量',
-        url: 'http://tongji.baidu.com/web/2569732/ajax/post',
-        data: 'flag=visit_landingpage&siteId=3846977&area=&source=&visitor=&pageId=5426213238567859767&st=1386950400000&et=' + $now + '&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
-    });
 
-    socket.emit('need_data_request', {
-        meta: '#from_wb$$bar$$微博推广流量',
-        url: 'http://tongji.baidu.com/web/2569732/ajax/post',
-        data: 'flag=visit_landingpage&siteId=3846977&area=&source=&visitor=&pageId=6327123066172119156&st=1386950400000&et=' + $now + '&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
-    });
-
-    var getPageView = function (meta, siteId, pageId) {
-        socket.emit('need_data_request', {
-            meta: meta,
-            url: 'http://tongji.baidu.com/web/2569732/ajax/post',
-            data: 'flag=visit_landingpage&siteId=2984237&area=&source=&visitor=&pageId=18056781361689672957&st=1386950400000&et=1387468800000&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
-        });
-    };
-
-
-    socket.emit('need_data_request', {
-        meta: '#from_wx$$bar$$微信',
-        url: 'http://tongji.baidu.com/web/2569732/ajax/post',
-        data: 'flag=visit_landingpage&siteId=2984237&area=&source=&visitor=&pageId=18056781361689672957&st=1386950400000&et=1387468800000&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
-    });
-
-    socket.emit('need_data_request', {
-        meta: '#from_wap$$bar$$WAP站广告图',
-        url: 'http://tongji.baidu.com/web/2569732/ajax/post',
-        data: 'flag=visit_landingpage&siteId=2984237&area=&source=&visitor=&pageId=9032971018561725340&st=1386950400000&et=1387468800000&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
-    });
-}, 2000);
 
 
 var ApplyCtrl = function ($scope, $http) {
@@ -155,6 +122,41 @@ var ApplyCtrl = function ($scope, $http) {
 };
 
 var MiaoCtrl = function ($scope, $http) {
+
+    setTimeout(function () {
+        socket.emit('need_data_request', {
+            meta: '#from_cm$$bar$$QQ群推广流量',
+            url: 'http://tongji.baidu.com/web/2569732/ajax/post',
+            data: 'flag=visit_landingpage&siteId=3846977&area=&source=&visitor=&pageId=5426213238567859767&st=1386950400000&et=' + $now + '&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
+        });
+
+        socket.emit('need_data_request', {
+            meta: '#from_wb$$bar$$微博推广流量',
+            url: 'http://tongji.baidu.com/web/2569732/ajax/post',
+            data: 'flag=visit_landingpage&siteId=3846977&area=&source=&visitor=&pageId=6327123066172119156&st=1386950400000&et=' + $now + '&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
+        });
+
+        var getPageView = function (meta, siteId, pageId) {
+            socket.emit('need_data_request', {
+                meta: meta,
+                url: 'http://tongji.baidu.com/web/2569732/ajax/post',
+                data: 'flag=visit_landingpage&siteId=2984237&area=&source=&visitor=&pageId=18056781361689672957&st=1386950400000&et=1387468800000&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
+            });
+        };
+
+
+        socket.emit('need_data_request', {
+            meta: '#from_wx$$bar$$微信',
+            url: 'http://tongji.baidu.com/web/2569732/ajax/post',
+            data: 'flag=visit_landingpage&siteId=2984237&area=&source=&visitor=&pageId=18056781361689672957&st=1386950400000&et=1387468800000&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
+        });
+
+        socket.emit('need_data_request', {
+            meta: '#from_wap$$bar$$WAP站广告图',
+            url: 'http://tongji.baidu.com/web/2569732/ajax/post',
+            data: 'flag=visit_landingpage&siteId=2984237&area=&source=&visitor=&pageId=9032971018561725340&st=1386950400000&et=1387468800000&order=simple_date_title%2Cdesc&offset=0&indicators=out_pv_count%2Cbounce_ratio%2Cavg_visit_time%2Cavg_visit_pages&gran=5&clientDevice=&reportId=31&method=trend%2Fhistory%2Fa&queryId='
+        });
+    }, 100);
 
     $.get('http://106.3.38.38:8004/api/datastore/export?filters=type%3Dbless&start-date=2013-12-05&end-date=2013-12-29').success(function (data) {
         var dataSource = (function () {
