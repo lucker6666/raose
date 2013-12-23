@@ -13,7 +13,7 @@ var httpGet = function (url, callback) {
         rs.on('end', function () {
             callback(data);
         });
-    })
+    });
 };
 
 var express = require('express'),
@@ -29,6 +29,7 @@ var MongoStore = require('connect-mongo')(express);
 // Configuration
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+//app.set('view cache', 'true');
 app.set('view options', {
     layout: false
 });
@@ -538,7 +539,7 @@ app.post('/api/ga.json', function (req, res) {
         });
         return;
     }
-    ;
+
 
     User.findOne(req.body, function (err, user) {
         if (user) {
@@ -552,7 +553,7 @@ app.post('/api/ga.json', function (req, res) {
                 });
                 res1.on('error', function (err) {
                     console.log(err);
-                })
+                });
                 res1.on('end', function () {
                     if (data.length) {
                         // add log
@@ -1055,6 +1056,10 @@ app.get('/api/exports/crazy', function (req, res) {
         res.send({error: 0, data: data});
     });
 });
+
+// 数据池
+app.get('/api/datapools', api.datapool.set);
+app.get('/api/datapool', api.datapool.get);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
