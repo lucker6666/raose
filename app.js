@@ -1,3 +1,8 @@
+require('nodetime').profile({
+    accountKey: '3cb27a3f92a1d6c2d1a5a2f4139eaed5a5dba4f4', 
+    appName: 'Node.js Application'
+  });
+
 /**
  * Module dependencies.
  */
