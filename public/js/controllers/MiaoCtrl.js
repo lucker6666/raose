@@ -204,7 +204,7 @@ var MiaoCtrl = function ($scope, $http) {
             }
         ];
 
-        $("#chartContainer").createChart({chart: {type: 'bar'}, xAxis: { categories: categoris}, series: series});
+        $("#chartContainer").createChart({chart: {type: 'areaspline'}, xAxis: { categories: categoris}, series: series});
 
         // 上香数
 
