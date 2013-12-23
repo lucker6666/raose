@@ -1062,6 +1062,10 @@ app.get('/api/exports/crazy', function (req, res) {
     });
 });
 
+// 数据池
+app.get('/api/datapools', api.datapool.set);
+app.get('/api/datapool', api.datapool.get);
+
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
 

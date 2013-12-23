@@ -1,35 +1,75 @@
-h2 灵庙数据(数据还不是实时的，骚等一下，正在写通用数据接口)
+h2 灵庙数据
 
 hr
 
-#views
+//#views
 
-hr
+//hr
 
 
-#from(style='height:600px;')
+//#from(style='height:600px;')
 
-hr
+//hr
 
 style
-    .boxx {margin-right:15px;}
-    .clear {clear:both;}
-#from_cm.boxx(style="height:300px;width:400px;float:left;")
-#from_wb.boxx(style="height:300px;width:400px;float:left;")
+    .boxx {
+        margin-right: 15px;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    .col-md-6 h3, .row h3 {
+        text-align: center;
+    }
+
+    .row {
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+    }
+
+.row
+    h3 页面浏览量
+    #page-views(style='height:300px')
+
+.row
+    .col-md-6
+        h3 QQ群推广
+        #from_cm.boxx(style="height:200px;")
+    .col-md-6
+        h3 微博推广
+        #from_wb.boxx(style="height:200px;")
 
 
 hr.clear
 
-#from_wx.boxx(style="height:300px;width:400px;float:left;")
-#from_wap.boxx(style="height:300px;width:400px;float:left;")
-
-
-hr.clear
-
-
-div#chartContainer
+.row
+    .col-md-6
+        h3 微信进入宣传帖子
+        #from_wx.boxx(style="height:200px;")
+    .col-md-6
+        h3 WAP站进入宣传帖子
+        #from_wap.boxx(style="height:200px;")
 
 hr
 
-#xiang(style='width:49%;height:300px;float:left;')
-#gongde(style='width:49%;height:300px;float:left;margin-left:1%;')
+.row
+    h3 入口页面
+    #pie(style='height:1000px')
+
+hr.clear
+
+.row
+    h3 愿望数趋势
+    div(style='height:300px')#chartContainer
+
+hr
+
+.row
+    .col-md-6
+        h3 上香趋势
+        #xiang(style='height:300px;')
+    .col-md-6
+        h3 捐功德趋势（前几天漏统计了一个按钮）
+        #gongde(style='height:300px;')
