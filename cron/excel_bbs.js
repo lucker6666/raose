@@ -12,7 +12,7 @@
      return format(d);
    }
    return d;
- }
+ };
 
  // 日期格式化
  var format = function(date) {
