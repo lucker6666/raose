@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+
 var Track = mongoose.model('usertrack', {
     // visitor id
     uuid: String,
@@ -17,6 +18,10 @@ var Track = mongoose.model('usertrack', {
         type: Date,
         default: Date.now
     }
+});
+
+var Tracks = mongoose.model('tt', {
+    url: String
 });
 
 // generate uuid
@@ -89,7 +94,7 @@ module.exports = {
         select = (select + ' ' + dimensions + ' ' + sort).replace(/ip/, 'clientDetails.ip')
             .replace(/useragent/, 'clientDetails.useragent')
             .replace(/date/, 'created_at')
-            .replace(/-/,'');
+            .replace(/-/, '');
 
         Track.find(query).select(select).limit(maxResult).sort(sort).exec(function (err, data) {
             // flat the array
@@ -100,6 +105,13 @@ module.exports = {
                 totalResults: data.length,
                 data: data
             });
+        });
+    },
+    track_test: function (req, res) {
+        var data = new Tracks({url: req.originalUrl});
+        data.save(function (err, item) {
+            if (err) throw err;
+            res.send(204);
         });
     },
     track: function (req, res) {
