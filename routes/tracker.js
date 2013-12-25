@@ -108,6 +108,7 @@ module.exports = {
         });
     },
     track_test: function (req, res) {
+        console.log(req.originalUrl);
         var data = new Tracks({url: req.originalUrl});
         data.save(function (err, item) {
             if (err) throw err;
