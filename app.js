@@ -279,6 +279,8 @@ app.get('/api/log/:type*', api.log.list);
  *------------------------track-------------------------
  */
 app.get('/api/_.gif', api.tracker.track);
+app.get('/api/track/_.gif', api.tracker.track_test);
+
 
 /**
  *----------------------deploy--------------------------
