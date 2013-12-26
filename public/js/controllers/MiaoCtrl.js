@@ -372,111 +372,45 @@ var MiaoCtrl = function ($scope, $http) {
 
         ];
 
-       $http.get('http://106.3.38.38:8004/api/datapool?name=miaoFrom').success(function(data){
+        $http.get('/api/datapool?name=miaoFrom').success(function (data) {
+            var categories = data.data.data.map(function (one) {
+                return one[0];
+            });
 
-       });
+            var pv = data.data.data.map(function (one) {
+                return one[1];
+            });
 
-        var from = [
-            {
-                name: 'flash',
-                val: 1924
-            },
-            {
-                name: '顶部导航',
-                val: 1090
-            },
-            {
-                name: 'BBS顶部通栏',
-                val: 725
-            },
-            {
-                name: '焦点图',
-                val: 488
-            },
-            {
-                name: 'BBS宣传帖子',
-                val: 319
-            },
-            {
-                name: '直接访问',
-                val: 199
-            },
-            {
-                name: 'BBS换量位',
-                val: 112
-            },
-            {
-                name: '孕育百宝箱',
-                val: 41
-            },
-            {
-                name: '主导航',
-                val: 41
-            },
-            {
-                name: 'QQ群',
-                val: 25
-            },
-            {
-                name: 'WWW首屏通栏',
-                val: 23
-            },
-            {
-                name: 'BBS顶部通栏',
-                val: 19
-            },
-            {
-                name: '帐号中心',
-                val: 21
-            },
-            {
-                name: '新浪微博推广',
-                val: 14
-            },
-            {
-                name: '帐号中心',
-                val: 21
-            }
-        ];
+            var uv = data.data.data.map(function (one) {
+                return one[2];
+            });
 
-
-        $("#from").dxPieChart({
-            dataSource: from,
-            title: "流量来源",
-            tooltip: {
-                enabled: true,
-                // format:"millions",
-                percentPrecision: 2,
-                customizeText: function () {
-                    return this.valueText + " - " + this.percentText;
-                }
-            },
-            legend: {
-                horizontalAlignment: "center",
-                verticalAlignment: "bottom",
-                margin: 0
-            },
-            series: [
-                {
-                    type: "doughnut",
-                    argumentField: "name",
-                    label: {
-                        visible: true,
-                        font: {
-                            size: 16
+            $('#pie').createChart({
+                chart: {
+                    type: 'bar'
+                },
+                xAxis: {
+                    categories: categories
+                },
+                series: [
+                    {
+                        dataLabels: {
+                            enabled: true
                         },
-                        connector: {
-                            visible: true,
-                            width: 0.5
+                        name: 'UV',
+                        data: uv
+                    } ,
+                    {
+                        dataLabels: {
+                            enabled: true
                         },
-                        position: "columns",
-                        customizeText: function (arg) {
-                            return arg.valueText + " ( " + arg.percentText + ")";
-                        }
+                        name: 'PV',
+                        data: pv
                     }
-                }
-            ]
+                ]
+            });
         });
+
 
         $http.get('http://173.208.199.49:8888/api/ga.json?ids=ga%3A63911100&dimensions=ga%3Adate&metrics=ga%3AtotalEvents&filters=ga%3AeventCategory%3D%3D%E9%80%81%E5%AD%90%E7%81%B5%E5%BA%99%3Bga%3AeventAction%3D%3D%E5%BC%80%E5%A7%8B%E4%B8%8A%E9%A6%99&max-results=100&start-date=2013-12-12&end-date=2013-12-23').success(function (data) {
             // console.log(data);
@@ -502,7 +436,6 @@ var MiaoCtrl = function ($scope, $http) {
                     }
                 ]
             };
-            // console.log(options);
             $('#xiang').highcharts(options);
         });
 
@@ -589,47 +522,7 @@ var MiaoCtrl = function ($scope, $http) {
             ["http://bbs.seedit.com/thread-153602-1-1.html", 1],
             ["http://bbs.seedit.com/forum.php?mod=viewthread&tid=37291363&reltid=37392729&pre_pos=5&ext=", 1]
         ];
-        $('#pie').createChart({
-            /* chart: {
-             plotBackgroundColor: null,
-             plotBorderWidth: null,
-             plotShadow: false
-             },
-             title: {
-             text: 'Browser market shares at a specific website, 2010'
-             },
-             tooltip: {
-             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-             },
-             plotOptions: {
-             pie: {
-             allowPointSelect: true,
-             cursor: 'pointer',
-             dataLabels: {
-             enabled: true,
-             color: '#000000',
-             connectorColor: '#000000',
-             format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-             }
-             }
-             },*/
-            chart: {
-                type: 'bar'
-            },
-            xAxis: {
-                // categories: ["http://www.seedit.coms/tools/songzimiao.htm?from=flash", "http://www.seedit.com/tools/songzimiao.htm?from=common_ad", "http://www.seedit.com/tools/songzimiao.htm", "http://www.seedit.com/tools/songzimiao.htm?from=top_ad", "http://www.seedit.com/tools/songzimiao.htm?from=bbs", "http://www.seedit.com/tools/songzimiao.htm?from=focus_ad", "http://www.seedit.com/tools/songzimiao.htm?from=exchange", "http://www.seedit.com/tools/songzimiao.htm?from=www_1screen_ad", "http://www.seedit.com/tools/songzimiao.htm?bzref_la=rj", "http://www.seedit.com/tools/songzimiao.htm?from=bbs_nav_top_ad", "http://www.seedit.com/tools/songzimiao.htm?from=nav", "http://www.seedit.com/tools/songzimiao.htm?from=%E4%B8%BB%E5%AF%BC%E8%88%AA", "http://www.seedit.com/tools/songzimiao.htm?bbs_topic_ad", "http://www.seedit.com/tools/songzimiao.htm?bzref_la=cm", "http://www.seedit.com/tools/songzimiao.htm?from=主导航", "http://www.seedit.com/tools/songzimiao.htm?bzref_la=rj~~", "http://www.seedit.com/tools/songzimiao.htm?from=account_bozhong", "http://www.seedit.com/tools/songzimiao.htm?from=account_thirdpart", "http://www.seedit.com/tools/songzimiao.htm?from=weibo", "http://www.seedit.com/tools/songzimiao.htm?from=www_tools", "http://a.seedit.cn/admin/cms/preview/preview/type/page/id/52a55f35a3c3b15d42000004", "http://www.seedit.com/tools/songzimiao.htm?from=", "http://www.seedit.com", "http://www.seedit.com/tools/songzimiao.htm?", "http://riji.seedit.com", "http://www.seedit.com/tools/songzimiao.htm?from=top_line", "http://www.hao123.com/?tn=99563495_hao_pg", "http://www.hao123.com/?tn=91392420_hao_pg", "http://bbs.seedit.com/forum-24-1.html", "http://riji.seedit.com/home.php?mod=spacecp&ac=mylabel&op=base", "http://www.seedit.com/tools/songzimiao.htm?from=%EF%BF%BD%EF%BF%BD%EF%BF%BD", "http://common.seedit.com/cms/content.html?type=page&id=52a55f35a3c3b15d42000004", "http://bbs.seedit.com/forum-1928-1.html", "http://m.baidu.com/redirect.jsp?from=tc&bd_page_type=1&ssid=0&uid=0&pu=osna…a1aa1604d7bdcea5b0a403b5c&read=0&url=http://bbs.seedit.com/forum-24-1.html", "http://bbs.seedit.com", "http://bbs.seedit.com/index.php", "http://www.seedit.com/tools/songzimiao.htm?mqq_source=iphoneqq&bzref_la=cm", "http://www.hao123.com/?tn=92182484_hao_pg", "http://www.seedit.com/tools/songzimiao.htm?a6fe68eb04a41cb4feed03322998c1ed=6506f8bd4df0f05bb26378d5bb9bcc93", "http://bbs.seedit.com/thread-36959725-1-1.html", "http://bbs.seedit.com/thread-36604878-1-1.html", "http://bbs.seedit.com/thread-3593132-1-1.html", "http://www.seedit.com/tools/songzimiao.htm?from=focus_ad?08d6b4a061280063d3e9b68aab81318c=0d060525aa05d0d123f601f537042c4f", "http://bbs.seedit.com/thread-1216084-1-1.html", "http://bbs.seedit.com/forum.php?mod=viewthread&tid=210801&extra=&ordertype=1&page=1", "http://www.seedit.com/tools/songzimiao.htm?from=涓诲鑸?", "http://bbs.seedit.com/thread-37435471-7-1.html", "http://m.seedit.com/forum.php?mod=viewthread&tid=3661919&mobile=no", "http://bbs.seedit.com/thread-153602-1-1.html", "http://bbs.seedit.com/forum.php?mod=viewthread&tid=37291363&reltid=37392729&pre_pos=5&ext="]
-                categories: ["flash", "common_ad", "直接", "top_ad", "bbs", "focus_ad", "exchange", "www_1screen_ad", "bzref_la=rj", "bbs_nav_top_ad", "nav", "%E4%B8%BB%E5%AF%BC%E8%88%AA", "bbs_topic_ad", "bzref_la=cm", "主导航", "bzref_la=rj~~", "account_bozhong", "account_thirdpart", "weibo", "www_tools"]
-            },
-            series: [
-                {
-                    dataLabels: {
-                        enabled: true
-                    },
-                    name: '来源',
-                    data: [29255, 7017, 4380, 3345, 2408, 1837, 1016, 391, 294, 305, 197, 181, 210, 75, 84, 55, 73, 50, 26, 20]
-                }
-            ]
-        });
+
 
     });
 
