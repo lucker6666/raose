@@ -50,6 +50,13 @@ module.exports = {
             });
             res.send({
                 error: 0,
+                sum: (function () {
+                    return rs.map(function (one) {
+                        return one[1]
+                    }).reduce(function (p, n) {
+                            return p * 1 + n * 1;
+                        });
+                })(),
                 rows: rs
             });
         })

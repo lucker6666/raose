@@ -3,12 +3,13 @@
  */
 var cronJob = require('cron').CronJob;
 var tasks = function () {
+    require('./bless')();
     require('./baidu')();
 };
 tasks();
-new cronJob('1 * * * * *', function () {
-    console.log('每分钟执行一次', new Date());
-    //require('./bless')();
+new cronJob('5 * * * * *', function () {
+    console.log('每5分钟执行一次', new Date());
     tasks();
+    require('./baidu')();
 }, null, true, "Asia/Hong_Kong");
 
