@@ -372,6 +372,9 @@ var MiaoCtrl = function ($scope, $http) {
 
         ];
 
+       $http.get('http://106.3.38.38:8004/api/datapool?name=miaoFrom').success(function(data){
+
+       });
 
         var from = [
             {
