@@ -106,7 +106,7 @@ app.get('/partials/:name', routes.partials);
 // API接口的登录验证
 app.get('/api/*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    //res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Headers", "*");
     // the track api do not requrie authentication
     if (req.originalUrl.indexOf('datapool') !== -1 || req.originalUrl.indexOf('trackdata') !== -1 || req.originalUrl.indexOf('_.gif') !== -1 || req.originalUrl.indexOf('crazy') !== -1 || req.originalUrl.indexOf('datastore') !== -1) {
         next();
