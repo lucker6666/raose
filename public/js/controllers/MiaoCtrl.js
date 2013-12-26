@@ -2,7 +2,7 @@ var baiduAdapter = function (raw) {
     console.log('raw', raw);
     // 生成x轴
     var categories = raw.items[0].map(function (one) {
-        return one[0].slice(5); // 去除前面的年份
+        return one[0]//.slice(5); // 去除前面的年份
     });
 
     //categories = categories.reverse();
@@ -63,9 +63,6 @@ var $start = +new Date('2013-12-14');
  * meta参数用$$分隔 目标选择器$$图表类型$$标题
  */
 
-
-
-
 var ApplyCtrl = function ($scope, $http) {
     $.get('http://106.3.38.38:8004/api/datastore/export?filters=type%3Dapply&start-date=2013-11-01&end-date=2013-12-29').success(function (data) {
         $scope.numbers = [];
@@ -78,46 +75,24 @@ var ApplyCtrl = function ($scope, $http) {
             });
         })();
 
-
-        $("#numbers").dxChart({
-            dataSource: dataSource,
-            commonSeriesSettings: {
-                type: "splineArea",
-                argumentField: "date"
+        $('#numbers').createChart({
+            chart: {
+                type: 'areaspline'
+            },
+            xAxis: {
+                categories: data.rows.map(function (one) {
+                    return one[0].slice(8);
+                })
             },
             series: [
                 {
-                    valueField: "count",
-                    name: "申请人数"
+                    name: '申请人数',
+                    data: data.rows.map(function (one) {
+                        return one[1] - 0;
+                    })
                 }
-            ],
-            argumentAxis: {
-                grid: {
-                    visible: true
-                }
-            },
-            tooltip: {
-                enabled: true
-            },
-            title: "申请人数",
-            legend: {
-                verticalAlignment: "bottom",
-                horizontalAlignment: "center"
-            },
-            commonPaneSettings: {
-                border: {
-                    visible: true,
-                    right: false
-                }
-            }
+            ]
         });
-
-        var numbers = (function () {
-            return data.rows.map(function (one) {
-                return [one[0].slice(5), one[1]];
-            })
-        })();
-        $scope.applys = numbers;
     });
 };
 

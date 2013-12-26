@@ -5,7 +5,10 @@ var querystring = require('querystring');
 var no = 0;
 var exit = function () {
     no++;
-    if (no === 2)  process.exit(code = 0)
+    if (no === 2) {
+        io.disconnect();
+        //process.exit(code=0);
+    }
 };
 module.exports = function () {
 

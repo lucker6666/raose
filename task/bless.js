@@ -19,7 +19,7 @@ var task = {
 };
 
 task.run = function () {
-    var $5daysAgo = helper.getTimeByDay(10) / 1000;
+    var $5daysAgo = helper.getTimeByDay(30) / 1000;
     helper.Get('http://common.seedit.com/tools/bless.json?time=' + $5daysAgo + '&limit=2000000', function (data) {
         data = JSON.parse(data);
         getTrend(data.data.data);
