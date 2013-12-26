@@ -13,6 +13,7 @@ var Datapool = mongoose.model('datapool', {
 module.exports = {
     get: function (req, res) {
         Datapool.findOne({name: req.query.name}).exec(function (err, item) {
+            item.data = JSON.parse(item.data);
             res.send({
                 error: 0,
                 data: item
@@ -25,7 +26,7 @@ module.exports = {
         // find if exists
         Datapool.findOne({name: data.name}).exec(function (err, item) {
             if (err) throw err;
-            console.log(item) ;
+            console.log(item);
             // insert
             if (!item) {
                 var datapool = new Datapool(data);
@@ -42,7 +43,7 @@ module.exports = {
                     res.send({
                         error: 0,
                         msg: 'update successfully',
-                        data:item3
+                        data: item3
                     });
                 });
             }
