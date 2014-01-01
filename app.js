@@ -2,19 +2,8 @@
  * Module dependencies.
  */
 var nodeExcel = require('excel-export');
+var helper = require('./lib/helper.js');
 
-var httpGet = function (url, callback) {
-    var http = require('http');
-    http.get(url, function (rs) {
-        var data = '';
-        rs.on('data', function (chunk) {
-            data += chunk;
-        });
-        rs.on('end', function () {
-            callback(data);
-        });
-    });
-};
 
 var express = require('express'),
     routes = require('./routes'),
@@ -49,7 +38,7 @@ app.use(express.session({
             mongoose_connection: mongoose.connection
         },
         function (err) {
-            if (err) console.log('mongodb setup fail')
+            if (err) console.log('mongodb setup fail');
             //console.log(err || 'connect-mongodb setup ok');
         })
 }));
@@ -523,7 +512,7 @@ var baiduAdapter = function (data) {
 // 百度数据接口
 app.get('/api/baidu.json*', function (req, res) {
     var type = req.query.type;
-    httpGet('http://106.3.38.38:8888/api/baidu.json?type=' + type, function (data) {
+    helper.Get('http://106.3.38.38:8888/api/baidu.json?type=' + type, function (data) {
         var data = baiduAdapter(data);
         res.send(data);
     });
