@@ -1,14 +1,8 @@
-require('nodetime').profile({
-    accountKey: '3cb27a3f92a1d6c2d1a5a2f4139eaed5a5dba4f4', 
-    appName: 'Node.js Application'
-  });
-
 /**
  * Module dependencies.
  */
 var nodeExcel = require('excel-export');
 var helper = require('./lib/helper.js');
-
 
 var express = require('express'),
     routes = require('./routes'),
@@ -28,6 +22,13 @@ app.set('view options', {
     layout: false
 });
 
+// custom header
+app.use(function(req, res, next) {
+    app.disable('x-powered-by');
+    res.setHeader('X-Powered-By', 'Raose:Team Collaboration Tool');
+    next();
+});
+
 // 图片上传到uploads
 app.use(express.bodyParser({
     uploadDir: './public/uploads'
@@ -42,7 +43,7 @@ app.use(express.session({
     store: new MongoStore({
             mongoose_connection: mongoose.connection
         },
-        function (err) {
+        function(err) {
             if (err) console.log('mongodb setup fail');
             //console.log(err || 'connect-mongodb setup ok');
         })
@@ -53,14 +54,14 @@ app.use(passport.session());
 app.use(flash());
 app.use(app.router);
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser(function(user, done) {
     done(null, user);
 });
 
-passport.deserializeUser(function (user, done) {
+passport.deserializeUser(function(user, done) {
     User.findOne({
         username: user.username
-    }, '_id username flag', function (err, user) {
+    }, '_id username flag', function(err, user) {
         done(err, {
             username: user.username,
             uid: user._id
@@ -74,11 +75,11 @@ var User = mongoose.model('user', {
 });
 
 passport.use(new LocalStrategy(
-    function (username, password, done) {
+    function(username, password, done) {
         User.findOne({
             username: username,
             password: password
-        }, function (err, user) {
+        }, function(err, user) {
             if (err) {
                 return done(err);
             }
@@ -98,7 +99,7 @@ app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
 // API接口的登录验证
-app.get('/api/*', function (req, res, next) {
+app.get('/api/*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "*");
     // the track api do not requrie authentication
@@ -116,7 +117,7 @@ app.get('/api/*', function (req, res, next) {
     next();
 });
 
-app.get('/test/mail', function (req, res) {
+app.get('/test/mail', function(req, res) {
     var mail = require('./routes/mail.js');
 
     // Message object
@@ -135,13 +136,13 @@ app.get('/test/mail', function (req, res) {
         // HTML body
         html: '激活链接：<a href="http://172.16.5.108:8004/api/account/doActive?hash=helloworld">点此激活</a>'
     };
-    mail.send(message, function (err) {
+    mail.send(message, function(err) {
         res.send(err);
     });
 });
 
 // 登录检测
-app.get('/api/usercheck', function (req, res) {
+app.get('/api/usercheck', function(req, res) {
     if (!req.user) {
         res.send({
             error: 0,
@@ -270,12 +271,11 @@ app.get('/api/log/:type*', api.log.list);
 app.get('/api/_.gif', api.tracker.track);
 app.get('/api/track/_.gif', api.tracker.track_test);
 
-
 /**
  *----------------------deploy--------------------------
  */
 
-app.post('/api/secret/deploy', function (req, res) {
+app.post('/api/secret/deploy', function(req, res) {
     var sys = require('sys'),
         exec = require('child_process').exec;
 
@@ -288,7 +288,7 @@ app.post('/api/secret/deploy', function (req, res) {
                     rs: stdout
                 }
             },
-            function (err, item) {
+            function(err, item) {
                 if (err) throw err;
                 exec("grunt minJS");
                 res.send({
@@ -304,7 +304,7 @@ app.post('/api/secret/deploy', function (req, res) {
 /**
  *---------------------数据接口------------------------------
  */
-app.get('/api/iData/:name', function (req, res) {
+app.get('/api/iData/:name', function(req, res) {
     var type = req.params.name;
     var data = require('./cron/data/' + type + '.json');
     res.send(data);
@@ -339,7 +339,7 @@ app.get('/api/user/:id?', api.user.get);
 // app.get('/api/members/:name',api.members.get);
 // 所有话题 
 
-app.get('/account/signin', function (req, res) {
+app.get('/account/signin', function(req, res) {
     if (req.user) {
         res.redirect('back');
         return;
@@ -352,7 +352,7 @@ app.get('/account/signin', function (req, res) {
     });
 });
 
-app.get('/account/signup', function (req, res) {
+app.get('/account/signup', function(req, res) {
     res.send('<form action="/account/signup" method="post">\
     <div>\
         <label>Username:</label>\
@@ -378,7 +378,7 @@ app.post('/account/signin',
 
 // API 登录
 
-app.post('/api/signin', function (req, res, next) {
+app.post('/api/signin', function(req, res, next) {
     var rs = {
         error: 0,
         msg: '登录成功'
@@ -390,7 +390,7 @@ app.post('/api/signin', function (req, res, next) {
             msg: '信息不完整哦'
         });
     }
-    passport.authenticate('local', function (err, user, info) {
+    passport.authenticate('local', function(err, user, info) {
         if (err) {
             // add log
             api.log.add({
@@ -401,7 +401,7 @@ app.post('/api/signin', function (req, res, next) {
                     deal: rs,
                     ip: req.ip
                 }
-            }, function (err, item) {
+            }, function(err, item) {
                 if (err) throw err;
                 res.send({
                     error: -1,
@@ -410,7 +410,7 @@ app.post('/api/signin', function (req, res, next) {
             });
             return;
         } else {
-            req.login(user, function (err) {
+            req.login(user, function(err) {
                 if (err) {
                     rs = {
                         error: -1,
@@ -432,7 +432,7 @@ app.post('/api/signin', function (req, res, next) {
                         deal: rs,
                         ip: req.ip
                     }
-                }, function (err, item) {
+                }, function(err, item) {
                     if (err) throw err;
                     res.send(rs);
                 });
@@ -443,19 +443,19 @@ app.post('/api/signin', function (req, res, next) {
     })(req, res, next);
 });
 
-app.post('/account/signup', function (req, res) {
+app.post('/account/signup', function(req, res) {
     var one = new User(req.body);
-    one.save(function (err, data) {
+    one.save(function(err, data) {
         console.log(err);
         res.send('注册成功鸟');
     });
 });
 
-app.get('/account/success', function (req, res) {
+app.get('/account/success', function(req, res) {
     res.send('success' + JSON.stringify(req.user));
 });
 
-app.get('/account/fail', function (req, res) {
+app.get('/account/fail', function(req, res) {
     res.send('fail');
 });
 
@@ -464,7 +464,7 @@ app.post('/api/sendmail', api.mail.sendmail);
 app.get('/api/account/doActive', api.account.doActive);
 
 // 图片上传接口
-app.post('/api/upload', function (req, res) {
+app.post('/api/upload', function(req, res) {
     var fs = require('fs');
     var target_path = null;
     // get the temporary location of the file
@@ -476,7 +476,7 @@ app.post('/api/upload', function (req, res) {
     target_path = req.files.file.path + ext;
 
     // move the file from the temporary location to the intended location
-    fs.rename(tmp_path, target_path, function (err) {
+    fs.rename(tmp_path, target_path, function(err) {
         if (err) throw err;
         res.send({
             error: 0,
@@ -500,14 +500,14 @@ app.post('/api/upload', function (req, res) {
     });
 });
 
-var baiduAdapter = function (data) {
+var baiduAdapter = function(data) {
     var data = JSON.parse(data);
     var dates = data.data.items[0];
     var datas = data.data.items[1];
     var rs = {
         rows: []
     };
-    dates.forEach(function (one, index) {
+    dates.forEach(function(one, index) {
         rs['rows'].push([dates[index][0], datas[index][0] === '--' ? 0 : datas[index][0]]);
     });
     rs['rows'].reverse();
@@ -515,9 +515,9 @@ var baiduAdapter = function (data) {
 };
 
 // 百度数据接口
-app.get('/api/baidu.json*', function (req, res) {
+app.get('/api/baidu.json*', function(req, res) {
     var type = req.query.type;
-    helper.Get('http://106.3.38.38:8888/api/baidu.json?type=' + type, function (data) {
+    helper.Get('http://106.3.38.38:8888/api/baidu.json?type=' + type, function(data) {
         var data = baiduAdapter(data);
         res.send(data);
     });
@@ -525,7 +525,7 @@ app.get('/api/baidu.json*', function (req, res) {
 
 // 数据接口
 // 使用美帝VPS做代理
-app.post('/api/ga.json', function (req, res) {
+app.post('/api/ga.json', function(req, res) {
 
     var user = req.body;
     if (!user.username || !user.password) {
@@ -536,21 +536,20 @@ app.post('/api/ga.json', function (req, res) {
         return;
     }
 
-
-    User.findOne(req.body, function (err, user) {
+    User.findOne(req.body, function(err, user) {
         if (user) {
             var search = req.originalUrl.replace('/api/ga.json?', ''),
                 proxyUrl = 'http://173.208.199.49:8888' + req.originalUrl,
                 http = require('http');
-            http.get(proxyUrl, function (res1) {
+            http.get(proxyUrl, function(res1) {
                 var data = '';
-                res1.on('data', function (chunk) {
+                res1.on('data', function(chunk) {
                     data += chunk;
                 });
-                res1.on('error', function (err) {
+                res1.on('error', function(err) {
                     console.log(err);
                 });
-                res1.on('end', function () {
+                res1.on('end', function() {
                     if (data.length) {
                         // add log
                         api.log.add({
@@ -559,7 +558,7 @@ app.post('/api/ga.json', function (req, res) {
                             details: {
                                 filters: req.query.filters
                             }
-                        }, function (err, item) {
+                        }, function(err, item) {
                             if (err) throw err;
                             res.send(JSON.parse(data));
                         });
@@ -580,47 +579,37 @@ app.post('/api/ga.json', function (req, res) {
     });
 });
 
-app.get('/excel/:site', function (req, res) {
+app.get('/excel/:site', function(req, res) {
     var site = req.params.site;
     var conf = {};
-    conf.cols = [
-        {
-            caption: '日期',
-            type: 'string'
-        },
-        {
-            caption: '浏览量',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '日均浏览量',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: '访问次数',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '日均访问次数',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        }
-    ];
+    conf.cols = [{
+        caption: '日期',
+        type: 'string'
+    }, {
+        caption: '浏览量',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '日均浏览量',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: '访问次数',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '日均访问次数',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }];
 
     conf.rows = require('./cron/' + site + '.json');
     var result = nodeExcel.execute(conf);
@@ -629,64 +618,50 @@ app.get('/excel/:site', function (req, res) {
     res.end(result, 'binary');
 });
 
-app.get('/api/excel/app', function (req, res) {
+app.get('/api/excel/app', function(req, res) {
     //var site = req.params.site;
     // 获取全站数据
     var conf = {};
-    conf.cols = [
-        {
-            caption: '日期',
-            type: 'string'
-        },
-        {
-            caption: '新增用户',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: '活跃用户',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: '启动用户',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        }
-    ];
+    conf.cols = [{
+        caption: '日期',
+        type: 'string'
+    }, {
+        caption: '新增用户',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: '活跃用户',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: '启动用户',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }];
 
     conf.rows = require('./cron/allapp_parse.json');
     var result = nodeExcel.execute(conf);
@@ -695,80 +670,62 @@ app.get('/api/excel/app', function (req, res) {
     res.end(result, 'binary');
 });
 
-app.get('/api/excel/bbs', function (req, res) {
+app.get('/api/excel/bbs', function(req, res) {
     //var site = req.params.site;
     // 获取全站数据
     var conf = {};
-    conf.cols = [
-        {
-            caption: '日期',
-            type: 'string'
-        },
-        {
-            caption: '全部来源',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: '搜索引擎',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: '直接访问',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: '引荐来源',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        }
-    ];
+    conf.cols = [{
+        caption: '日期',
+        type: 'string'
+    }, {
+        caption: '全部来源',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: '搜索引擎',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: '直接访问',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: '引荐来源',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }];
 
     conf.rows = require('./cron/allbbs_parse.json');
     var result = nodeExcel.execute(conf);
@@ -777,224 +734,170 @@ app.get('/api/excel/bbs', function (req, res) {
     res.end(result, 'binary');
 });
 
-app.get('/api/excel/site', function (req, res) {
+app.get('/api/excel/site', function(req, res) {
     //var site = req.params.site;
     // 获取全站数据
     var conf = {};
-    conf.cols = [
-        {
-            caption: '日期',
-            type: 'string'
-        },
-        {
-            caption: '全部发贴',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: 'WAP发贴',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: 'IOS发贴',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: 'Android发贴',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: 'WEB发贴',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: '全部回复',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: 'Android回复',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: 'WAP回帖',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: 'IOS回贴',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: 'WEB回贴',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: '日记',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: '注册',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        },
-        {
-            caption: '登录',
-            type: 'number'
-        },
-        {
-            caption: '日环比增长',
-            type: 'string'
-        },
-        {
-            caption: '周均',
-            type: 'number'
-        },
-        {
-            caption: '周环比增长',
-            type: 'string'
-        }
-    ];
+    conf.cols = [{
+        caption: '日期',
+        type: 'string'
+    }, {
+        caption: '全部发贴',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: 'WAP发贴',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: 'IOS发贴',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: 'Android发贴',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: 'WEB发贴',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: '全部回复',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: 'Android回复',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: 'WAP回帖',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: 'IOS回贴',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: 'WEB回贴',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: '日记',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: '注册',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }, {
+        caption: '登录',
+        type: 'number'
+    }, {
+        caption: '日环比增长',
+        type: 'string'
+    }, {
+        caption: '周均',
+        type: 'number'
+    }, {
+        caption: '周环比增长',
+        type: 'string'
+    }];
 
     conf.rows = require('./cron/allsite_parse.json');
     var result = nodeExcel.execute(conf);
@@ -1010,7 +913,6 @@ app.get('/api/follows*', api.follow.list);
 app.get('/api/follow/:id*', api.follow.get);
 app.delete('/api/follow/:id*', api.follow.delete);
 app.post('/api/follows', api.follow.restAdd);
-
 
 /**
  *  datastore
@@ -1029,14 +931,14 @@ var Crazy = mongoose.model('crazy', {
     data: Object
 });
 
-app.get('/api/crazy', function (req, res) {
+app.get('/api/crazy', function(req, res) {
     var data = req.query;
     var callback = req.query.__c;
 
     var crazy = new Crazy({
         data: data
     });
-    crazy.save(function (err, item) {
+    crazy.save(function(err, item) {
         if (err) {
             res.send(callback + "({error_code:-1,msg:'没有成功哦'})");
         } else {
@@ -1046,10 +948,13 @@ app.get('/api/crazy', function (req, res) {
 });
 
 // still a TMP API
-app.get('/api/exports/crazy', function (req, res) {
-    Crazy.find({}, function (err, data) {
+app.get('/api/exports/crazy', function(req, res) {
+    Crazy.find({}, function(err, data) {
         if (err) throw err;
-        res.send({error: 0, data: data});
+        res.send({
+            error: 0,
+            data: data
+        });
     });
 });
 
@@ -1068,6 +973,6 @@ app.get('*', routes.index);
  app.post('/account/resetpwd', api.members.resetpwd);*/
 
 // Start server
-app.listen(8004, function () {
+app.listen(8004, function() {
     console.log("Express server listening on port %d in %s mode", 8004, app.settings.env);
 });
