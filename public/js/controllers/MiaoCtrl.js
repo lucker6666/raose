@@ -63,38 +63,7 @@ var $start = +new Date('2013-12-14');
  * meta参数用$$分隔 目标选择器$$图表类型$$标题
  */
 
-var ApplyCtrl = function ($scope, $http) {
-    $.get('http://106.3.38.38:8004/api/datastore/export?filters=type%3Dapply&start-date=2013-11-01&end-date=2013-12-29').success(function (data) {
-        $scope.numbers = [];
-        var dataSource = (function () {
-            return data.rows.map(function (one) {
-                return {
-                    date: one[0].slice(5),
-                    count: one[1] - 0
-                }
-            });
-        })();
 
-        $('#numbers').createChart({
-            chart: {
-                type: 'areaspline'
-            },
-            xAxis: {
-                categories: data.rows.map(function (one) {
-                    return one[0].slice(8);
-                })
-            },
-            series: [
-                {
-                    name: '申请人数',
-                    data: data.rows.map(function (one) {
-                        return one[1] - 0;
-                    })
-                }
-            ]
-        });
-    });
-};
 
 var MiaoCtrl = function ($scope, $http) {
 
@@ -443,61 +412,6 @@ var MiaoCtrl = function ($scope, $http) {
             console.log(options);
             $('#gongde').highcharts(options);
         });
-
-
-        var pie = [
-            ["http://www.seedit.com/tools/songzimiao.htm?from=flash", 29255],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=common_ad", 7017],
-            ["http://www.seedit.com/tools/songzimiao.htm", 4380],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=top_ad", 3345],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=bbs", 2408],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=focus_ad", 1837],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=exchange", 1016],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=www_1screen_ad", 391],
-            ["http://www.seedit.com/tools/songzimiao.htm?bzref_la=rj", 294],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=bbs_nav_top_ad", 305],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=nav", 197],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=%E4%B8%BB%E5%AF%BC%E8%88%AA", 181],
-            ["http://www.seedit.com/tools/songzimiao.htm?bbs_topic_ad", 210],
-            ["http://www.seedit.com/tools/songzimiao.htm?bzref_la=cm", 75],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=主导航", 84],
-            ["http://www.seedit.com/tools/songzimiao.htm?bzref_la=rj~~", 55],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=account_bozhong", 73],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=account_thirdpart", 50],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=weibo", 26],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=www_tools", 20],
-            ["http://a.seedit.cn/admin/cms/preview/preview/type/page/id/52a55f35a3c3b15d42000004", 1],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=", 13],
-            ["http://www.seedit.com", 11],
-            ["http://www.seedit.com/tools/songzimiao.htm?", 6],
-            ["http://riji.seedit.com", 2],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=top_line", 5],
-            ["http://www.hao123.com/?tn=99563495_hao_pg", 5],
-            ["http://www.hao123.com/?tn=91392420_hao_pg", 3],
-            ["http://bbs.seedit.com/forum-24-1.html", 1],
-            ["http://riji.seedit.com/home.php?mod=spacecp&ac=mylabel&op=base", 1],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=%EF%BF%BD%EF%BF%BD%EF%BF%BD", 3],
-            ["http://common.seedit.com/cms/content.html?type=page&id=52a55f35a3c3b15d42000004", 1],
-            ["http://bbs.seedit.com/forum-1928-1.html", 2],
-            ["http://m.baidu.com/redirect.jsp?from=tc&bd_page_type=1&ssid=0&uid=0&pu=osna…a1aa1604d7bdcea5b0a403b5c&read=0&url=http://bbs.seedit.com/forum-24-1.html", 1],
-            ["http://bbs.seedit.com", 2],
-            ["http://bbs.seedit.com/index.php", 1],
-            ["http://www.seedit.com/tools/songzimiao.htm?mqq_source=iphoneqq&bzref_la=cm", 1],
-            ["http://www.hao123.com/?tn=92182484_hao_pg", 2],
-            ["http://www.seedit.com/tools/songzimiao.htm?a6fe68eb04a41cb4feed03322998c1ed=6506f8bd4df0f05bb26378d5bb9bcc93", 1],
-            ["http://bbs.seedit.com/thread-36959725-1-1.html", 1],
-            ["http://bbs.seedit.com/thread-36604878-1-1.html", 1],
-            ["http://bbs.seedit.com/thread-3593132-1-1.html", 1],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=focus_ad?08d6b4a061280063d3e9b68aab81318c=0d060525aa05d0d123f601f537042c4f", 1],
-            ["http://bbs.seedit.com/thread-1216084-1-1.html", 1],
-            ["http://bbs.seedit.com/forum.php?mod=viewthread&tid=210801&extra=&ordertype=1&page=1", 1],
-            ["http://www.seedit.com/tools/songzimiao.htm?from=涓诲鑸?", 1],
-            ["http://bbs.seedit.com/thread-37435471-7-1.html", 1],
-            ["http://m.seedit.com/forum.php?mod=viewthread&tid=3661919&mobile=no", 1],
-            ["http://bbs.seedit.com/thread-153602-1-1.html", 1],
-            ["http://bbs.seedit.com/forum.php?mod=viewthread&tid=37291363&reltid=37392729&pre_pos=5&ext=", 1]
-        ];
-
 
     });
 

@@ -10,6 +10,6 @@ tasks();
 new cronJob('5 * * * * *', function () {
     console.log('每5分钟执行一次', new Date());
     tasks();
-    require('./baidu')();
+    tasks();
 }, null, true, "Asia/Hong_Kong");
 
