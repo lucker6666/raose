@@ -48,7 +48,8 @@
     "cron": "",
     "eventproxy": "~0.2.6",
     "cookies": "~0.3.8",
-    "moment": "~2.4.0"
+    "moment": "~2.4.0",
+    "kue": "~0.6.2"
   },
   "keywords": []
 }
