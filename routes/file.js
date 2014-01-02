@@ -1,23 +1,34 @@
 /**
- * File Model
+ * File and Foler Model
  */
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 var File = mongoose.model('File', {
+    // 0 for file, 1 for folder
+    type: Number,
     // name
     name: String,
+    // path
+    path: String,
+    // size
+    size: Number,
+    // ext
+    ext: String,
     // owner
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
     // belong to 
-    dir: String,
+    folder: {
+        type: Schema.Types.ObjectId,
+        ref: 'File'
+    },
     // create time
     create_at: Date,
-    // version
+    // file may has a version control
     version: Number,
-    // everyone can see it
+    // if everyone can see it
     public: {
         type: Boolean,
         default: true
