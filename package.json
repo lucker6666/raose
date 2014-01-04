@@ -32,7 +32,7 @@
     "mongoose": "~3.8.0",
     "node-markdown": "*",
     "jade": "~0.35.0",
-    "passport": "*",
+    "passport": "~0.1.18",
     "nodemailer": "*",
     "passport-local": "*",
     "connect-mongo": "~0.4.0",
@@ -53,7 +53,8 @@
     "mongoose-validator": "~0.2.2",
     "express-validator": "~0.3.1",
     "supertest": "~0.5.1",
-    "should": "~1.2.1"
+    "should": "~1.2.1",
+    "jwt-simple": "~0.1.0"
   },
   "keywords": []
 }
