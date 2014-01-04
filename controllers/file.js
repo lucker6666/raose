@@ -4,6 +4,7 @@ module.exports = {
         var file = new File(data);
         file.save(function(err, item) {
             var error;
+           // if(err) throw err;
             if (err) err = err.errors.name.message
             callback(err, item);
         });
