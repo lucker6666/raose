@@ -8,7 +8,6 @@ var server = require('../server');
 
 server.start();
 
-
 request = request('http://localhost:8004');
 
 describe('GET /issues', function() {
@@ -26,16 +25,58 @@ describe('GET /issues', function() {
 
 });
 
-describe('User',function(){
+describe('User', function() {
 
-    it('Login::wrong password',function(done){
+    it('Login::missing username', function(done) {
         request.post('/api/user/signin')
-        .expect('Content-Type',/json/)
-        .end(function(err,res){
-            console.log(err);
-            done();
-        });
-        
+            .send({})
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                res.body.msg.should.equal('username not specified');
+                done();
+            });
+
+    });
+
+    it('Login::missing password', function(done) {
+        request.post('/api/user/signin')
+            .send({
+                username: 'airyland',
+                password: ''
+            })
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                res.body.msg.should.equal('password not specified');
+                done();
+            });
+    });
+
+    it('Login::success', function(done) {
+        request.post('/api/user/signin')
+            .send({
+                username: 'airyland',
+                password: '2472252'
+            })
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                res.body.data.username.should.equal('airyland');
+                console.log(res.headers);
+                done();
+            });
+    });
+
+    it('Login::fail', function(done) {
+        request.post('/api/user/signin')
+            .send({
+                username: 'airyland',
+                password: '247225'
+            })
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                res.body.msg.should.equal('wrong username or password');
+                done();
+            });
+
     });
 
 });

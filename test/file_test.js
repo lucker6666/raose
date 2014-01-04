@@ -2,6 +2,7 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://127.0.0.1/raose');
 var File = require('../controllers/file.js');
+var User = require('../controllers/User.js');
 
 exports['file'] = {
     setUp: function(done) {
@@ -33,3 +34,25 @@ exports['file:passed'] = {
         });
     }
 };
+
+exports['user:create'] = {
+    setUp: function(done) {
+        done();
+    },
+    'user:create': function(test) {
+        User.addUser({
+            username: 'h2ed1dsd421771sdfdfdfdsfllo',
+            password: 'w2od1fd274d17frld',
+            email: 'air2y1lddf2dffddfand@qq.com'
+        }, function(err, data) {
+            if (err.code === 11000 && /users.\$username/.test(err.err)) {
+                console.log('用户名重复了')
+            }
+            if(data){
+                console.log('创建成功');
+            }
+            test.done();
+        });
+
+    }
+}

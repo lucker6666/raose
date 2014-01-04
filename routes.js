@@ -30,44 +30,6 @@ function setup(app, passport) {
         next();
     });
 
-    app.get('/test/mail', function(req, res) {
-        var mail = require('./routes/mail.js');
-
-        // Message object
-        var message = {
-            // sender info
-            from: '播种网产品工具 <lizheng@bozhong.com>',
-            // Comma separated list of recipients
-            to: '"Receiver Name" <lizheng@bozhong.com>',
-            // Subject of the message
-            subject: 'hello world again', //
-            headers: {
-                'X-Laziness-level': 1000
-            },
-            // plaintext body
-            text: 'Hello to myself!',
-            // HTML body
-            html: '激活链接：<a href="http://172.16.5.108:8004/api/account/doActive?hash=helloworld">点此激活</a>'
-        };
-        mail.send(message, function(err) {
-            res.send(err);
-        });
-    });
-
-    // 登录检测
-    app.get('/api/usercheck', function(req, res) {
-        if (!req.user) {
-            res.send({
-                error: 0,
-                data: {
-                    hasSignin: false
-                }
-            });
-        } else {
-            api.me.profile.call(this, req, res);
-        }
-    });
-
     /**
      *-----------------------状态相关-------------------
      */
@@ -288,11 +250,6 @@ function setup(app, passport) {
             failureFlash: true
         })
     );
-
-    // API 登录
-    app.post('/api/user/signin', function(req, res) {
-        
-    });
 
     app.post('/api/signin', function(req, res, next) {
         var rs = {
@@ -878,6 +835,34 @@ function setup(app, passport) {
     app.get('/api/datapools', api.datapool.set);
     app.get('/api/datapool', api.datapool.get);
 
+    // signin
+    app.post('/api/user/signin', api.user.loginUser);
+    app.get('/api/user/profile', function(req, res) {
+        if (!req.user) {
+            res.send({
+                error: 0,
+                data: {
+                    hasSignin: false
+                }
+            });
+        } else {
+            api.me.profile.call(this, req, res);
+        }
+    });
+
+    // 登录检测
+    app.get('/api/usercheck', function(req, res) {
+        if (!req.user) {
+            res.send({
+                error: 0,
+                data: {
+                    hasSignin: false
+                }
+            });
+        } else {
+            api.me.profile.call(this, req, res);
+        }
+    });
     // redirect all others to the index (HTML5 history)
     app.get('*', routes.index);
 }
