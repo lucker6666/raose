@@ -1,55 +1,108 @@
 var json = require('./helper.js').json;
-
 var mongoose = require('mongoose');
-var User = mongoose.model('User', {
-    // 用户名
-    username: String,
-    // 密码，暂时为明码
-    password: String,
-    // 权限标识
-    flag: {
-        type: Number,
-        default: 0
-    },
-    // 真实姓名
-    realname: {
-        type: String,
-        default: ''
-    },
-    // 邮箱
-    email: {
-        type: String,
-        default: ''
-    },
-    //头像
-    avatar: {
-        type: String,
-        default: '/avatar/default.png'
-    }
-});
+var User = require('../models/user.js');
+var UserCtrl = require('../controllers/user.js');
+var passport = require('passport');
 
+var uuid = require('../lib/uuid.js');
+var jwt = require('jwt-simple');
 // add user
-var addUser = function(data, callback){
-  var user = new User(data);
-  user.save(function(err,item){
-      callback && callback(err,item);
-  });
-  //@todo email notify option
+var addUser = function(data, callback) {
+    // generate secret
+    var secret = uuid.create();
+    // generate token
+    var payload = {
+        username: data.username
+    };
+    var token = jwt.encode(payload, uuid);
+    data.secret = secret;
+    data.token = token;
+
+    var user = new User(data);
+    user.save(function(err, item) {
+        callback && callback(err, item);
+    });
+    //@todo email notify option
 };
 
 exports.Model = User;
 exports.user = {
+    loginUser: function(req, res, next) {
+        /*       passport.authenticate('local', function(err, user, info) {
+            if (err) {
+                // return next(err);
+                res.send({
+                    error: 1001,
+                    msg: err
+
+                });
+            }
+            if (!user) {
+                res.send({
+                    error: 1001,
+                    msg: err
+
+                });
+                //return res.redirect('/login');
+            }
+            req.logIn(user, function(err) {
+                res.send({
+                    error: 1001,
+                    msg: err
+
+                });
+               
+            });
+        })(req, res, next);*/
+        // return;
+        UserCtrl.findUser(req.body.username, req.body.password, function(err, user) {
+            if (!req.body.username) {
+                res.send({
+                    error: 1001,
+                    msg: 'username not specified'
+                });
+            }
+
+            if (!req.body.password) {
+                res.send({
+                    error: 1001,
+                    msg: 'password not specified'
+                });
+            }
+
+            if (user) {
+                req.login(user, function(err) {
+                    if (err) {
+                        res.send({
+                            error: 1002,
+                            msg: 'login fail'
+                        });
+                    }
+                    res.send({
+                        error: 0,
+                        data: user
+                    });
+                });
+
+            } else {
+                res.send({
+                    error: 1002,
+                    msg: 'wrong username or password'
+                })
+            }
+
+        });
+    },
     // add a user
-    add: function(req, res){
+    add: function(req, res) {
         var data = req.body;
-        addUser(data, function(err,item){
+        addUser(data, function(err, item) {
             res.send({
-                error : err ? 1 : 0, 
-                data : item
+                error: err ? 1 : 0,
+                data: item
             });
         });
     },
-    
     // 获取用户列表
     list: function(req, res) {
         User.find({}, '-password', function(err, data) {
