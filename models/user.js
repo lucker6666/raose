@@ -1,8 +1,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     validate = require('mongoose-validator').validate,
-    uuid = require('../lib/uuid.js'),
-    jwt = require('jwt-simple');
+    uuid = require('../lib/uuid'),
+    tokenHelper = require('../lib/token');
 
 var userSchema = mongoose.Schema({
     // username
@@ -52,7 +52,7 @@ userSchema.pre('save', function(next) {
     var payload = {
         username: this.username
     };
-    var token = jwt.encode(payload, secret);
+    var token = tokenHelper.encode(payload, secret);
     this.secret = secret;
     this.token = token;
     next();
