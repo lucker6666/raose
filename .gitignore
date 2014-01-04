@@ -10,3 +10,4 @@ cron/data/*.json
 /public/other/*.png
 /config/*.json
 !/config/*_sample.json
+*.rdb
