@@ -58,9 +58,9 @@ describe('User', function() {
                 password: '2472252'
             })
             .expect('Content-Type', /json/)
+            .expect('Set-cookie',/connect\.sid/)
             .end(function(err, res) {
                 res.body.data.username.should.equal('airyland');
-                console.log(res.headers);
                 done();
             });
     });

@@ -11,3 +11,4 @@ cron/data/*.json
 /config/*.json
 !/config/*_sample.json
 *.rdb
+/lib/*.json

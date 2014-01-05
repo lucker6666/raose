@@ -28,32 +28,6 @@ var addUser = function(data, callback) {
 exports.Model = User;
 exports.user = {
     loginUser: function(req, res, next) {
-        /*       passport.authenticate('local', function(err, user, info) {
-            if (err) {
-                // return next(err);
-                res.send({
-                    error: 1001,
-                    msg: err
-
-                });
-            }
-            if (!user) {
-                res.send({
-                    error: 1001,
-                    msg: err
-
-                });
-                //return res.redirect('/login');
-            }
-            req.logIn(user, function(err) {
-                res.send({
-                    error: 1001,
-                    msg: err
-
-                });
-               
-            });
-        })(req, res, next);*/
         // return;
         UserCtrl.findUser(req.body.username, req.body.password, function(err, user) {
             if (!req.body.username) {
@@ -61,6 +35,7 @@ exports.user = {
                     error: 1001,
                     msg: 'username not specified'
                 });
+                return;
             }
 
             if (!req.body.password) {
@@ -68,6 +43,7 @@ exports.user = {
                     error: 1001,
                     msg: 'password not specified'
                 });
+                return;
             }
 
             if (user) {
@@ -88,7 +64,7 @@ exports.user = {
                 res.send({
                     error: 1002,
                     msg: 'wrong username or password'
-                })
+                });
             }
 
         });
