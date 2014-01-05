@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     validate = require('mongoose-validator').validate,
-    uuid = require('../lib/uuid'),
+    uuid = require('node-uuid'),
     tokenHelper = require('../lib/token'),
     Email = require('../controllers/Email')
 
