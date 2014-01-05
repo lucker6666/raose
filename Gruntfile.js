@@ -18,7 +18,7 @@ module.exports = function(grunt) {
         src: ['routes/**/*.js', 'public/controllers/*.js']
       },
       test: {
-        src: ['test/**.js']
+        src: ['test/*_test.js']
       },
     },
     uglify: {

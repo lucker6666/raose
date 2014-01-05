@@ -58,6 +58,7 @@ exports['user:create'] = {
             email: 'abcd@qq.com'
         }, function(err, data) {
             test.equal(data.username, 'raoseee', 'should be abcd');
+            test.equal(data.email,'abcd@qq.com','email should be equal');
             test.done();
         });
 
