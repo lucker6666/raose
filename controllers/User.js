@@ -34,9 +34,16 @@ module.exports = {
             };
         }
         User.count(query).exec(function(err, count) {
-            if(err) throw err;
+            if (err) throw err;
             var existed = count >= 1;
             callback(existed);
+        });
+    },
+    checkToken: function(token, callback) {
+        User.findOne({
+            token: token
+        }).exec(function(err, item) {
+            callback(item);
         });
     }
 };

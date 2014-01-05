@@ -8,8 +8,7 @@
     api = require('./routes/api'),
     app = express();
   var flash = require('connect-flash');
-  var mongoose = require('mongoose');
-  //mongoose.createConnection('mongodb://localhost/raose');
+  var mongoose = require('./lib/mongoose');
   var User = mongoose.model('user', {
     username: String,
     password: String
