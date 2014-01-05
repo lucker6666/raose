@@ -6,3 +6,4 @@ services:
   - redis-server
 before_script:
   - npm install -g grunt-cli
+  - mv config/database_sample.json  config/database.json
