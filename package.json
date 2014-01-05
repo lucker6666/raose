@@ -56,7 +56,8 @@
     "should": "~1.2.1",
     "jwt-simple": "~0.1.0",
     "socket.io": "~0.9.16",
-    "node-uuid": "~1.4.1"
+    "node-uuid": "~1.4.1",
+    "speakeasy": "~1.0.3"
   },
   "keywords": []
 }
