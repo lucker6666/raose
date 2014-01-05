@@ -837,6 +837,8 @@ function setup(app, passport) {
 
     // signin
     app.post('/api/user/signin', api.user.loginUser);
+    app.post('/api/user/check',api.user.checkUser);
+
     app.get('/api/user/profile', function(req, res) {
         if (!req.user) {
             res.send({

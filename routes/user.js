@@ -27,6 +27,14 @@ var addUser = function(data, callback) {
 
 exports.Model = User;
 exports.user = {
+    checkUser: function(req, res) {
+        UserCtrl.checkUser(req.body.username, function(existed) {
+            res.send({
+                error: 0,
+                data: existed
+            });
+        });
+    },
     loginUser: function(req, res, next) {
         // return;
         UserCtrl.findUser(req.body.username, req.body.password, function(err, user) {

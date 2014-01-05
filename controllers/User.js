@@ -18,5 +18,25 @@ module.exports = {
             callback && callback(err, item);
         });
         //@todo email notify option
+    },
+
+    /**
+     * check if a username or Email exists
+     */
+    checkUser: function(username, callback) {
+        var query = {
+            username: username
+        };
+        // if is an Email
+        if (/@/.test(username)) {
+            query = {
+                email: username
+            };
+        }
+        User.count(query).exec(function(err, count) {
+            if(err) throw err;
+            var existed = count >= 1;
+            callback(existed);
+        });
     }
 };
