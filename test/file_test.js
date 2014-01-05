@@ -58,7 +58,7 @@ exports['user:create'] = {
             email: 'abcd@qq.com'
         }, function(err, data) {
             test.equal(data.username, 'raoseee', 'should be abcd');
-            test.equal(data.email,'abcd@qq.com','email should be equal');
+            test.equal(data.email, 'abcd@qq.com', 'email should be equal');
             test.done();
         });
 
@@ -96,28 +96,44 @@ exports['user:create'] = {
 };
 
 exports['user:check'] = {
+    setUp: function(done) {
+        new UserModel({
+            username: 'test001',
+            password: 'w2od1fd274d17frld',
+            email: 'test001@qq.com'
+        }).save(function(err, item) {
+            done();
+        });
+    },
     'check by username:exited': function(test) {
-        User.checkUser('airyland', function(existed) {
+        User.checkUser('test001', function(existed) {
             test.equal(existed, true, 'should has existed');
             test.done();
         });
     },
     'check by username:not existed': function(test) {
-        User.checkUser('airylandddddd', function(existed) {
+        User.checkUser('test002', function(existed) {
             test.equal(existed, false, 'should has existed');
             test.done();
         });
     },
     'check by email:existed': function(test) {
-        User.checkUser('airyland@qq.com', function(existed) {
+        User.checkUser('test001@qq.com', function(existed) {
             test.equal(existed, true, 'should has existed');
             test.done();
         });
     },
     'check by email:not existed': function(test) {
-        User.checkUser('airylanddddd@qq.com', function(existed) {
+        User.checkUser('test002@qq.com', function(existed) {
             test.equal(existed, false, 'should has existed');
             test.done();
+        });
+    },
+    tearDown: function(done) {
+        UserModel.findOne({
+            username: /test/
+        }).remove(function(err) {
+            done();
         });
     }
 };
