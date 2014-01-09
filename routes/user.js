@@ -1,7 +1,7 @@
 var json = require('./helper.js').json;
 var mongoose = require('mongoose');
 var User = require('../models/user.js');
-var UserCtrl = require('../controllers/user.js');
+var UserCtrl = require('../controllers/User.js');
 var passport = require('passport');
 
 var uuid = require('../lib/uuid.js');
