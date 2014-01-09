@@ -1,18 +1,17 @@
 'use strict';
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1/raose');
+var mongoose = require('../lib/mongoose');
 var File = require('../controllers/file.js');
-var User = require('../controllers/User.js');
+
 
 exports['file'] = {
-    setUp: function(done) {
+    setUp: function (done) {
         // setup here
         done();
     },
-    'file:name validate::at least 3 words': function(test) {
+    'file:name validate::at least 3 words': function (test) {
         File.add({
             name: 'ab'
-        }, function(err, data) {
+        }, function (err, data) {
             test.equal(err, 'name shoud has at least 3 characters', 'should be error.');
             test.done();
         });
@@ -20,14 +19,13 @@ exports['file'] = {
 };
 
 exports['file:passed'] = {
-    setUp: function(done) {
-        // setup here
+    setUp: function (done) {
         done();
     },
-    'file:name validate::passed': function(test) {
+    'file:name validate::passed': function (test) {
         File.add({
             name: 'abc'
-        }, function(err, data) {
+        }, function (err, data) {
             test.equal(err, null, 'should be null.');
             test.equal(data.name, 'abc', 'name saved should be equal');
             test.done();
@@ -35,24 +33,3 @@ exports['file:passed'] = {
     }
 };
 
-exports['user:create'] = {
-    setUp: function(done) {
-        done();
-    },
-    'user:create': function(test) {
-        User.addUser({
-            username: 'h2ed1dsd421771sdfdfdfdsfllo',
-            password: 'w2od1fd274d17frld',
-            email: 'air2y1lddf2dffddfand@qq.com'
-        }, function(err, data) {
-            if (err.code === 11000 && /users.\$username/.test(err.err)) {
-                console.log('用户名重复了')
-            }
-            if(data){
-                console.log('创建成功');
-            }
-            test.done();
-        });
-
-    }
-}

@@ -8,8 +8,7 @@
     api = require('./routes/api'),
     app = express();
   var flash = require('connect-flash');
-  var mongoose = require('mongoose');
-  //mongoose.createConnection('mongodb://localhost/raose');
+  var mongoose = require('./lib/mongoose');
   var User = mongoose.model('user', {
     username: String,
     password: String
@@ -75,15 +74,18 @@
     app.use(express.static(__dirname + '/public'));
     app.use(express.cookieParser('raosee'));
 
-     app.use(express.session({
+    app.use(express.session({
       secret: 'secret',
       maxAge: new Date(Date.now() + 3600000),
-      store: new MongoStore({ db: 'raose' },
-          function(err) {
-              if (err) console.log('mongodb setup fail');
-              //console.log(err || 'connect-mongodb setup ok');
-          })
-  }));
+      store: new MongoStore({
+          db: 'raose',
+          auto_reconnect: true
+        },
+        function(err) {
+          if (err) console.log('mongodb setup fail');
+          //console.log(err || 'connect-mongodb setup ok');
+        })
+    }));
     app.use(passport.initialize());
     app.use(passport.session());
 

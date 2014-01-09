@@ -2,7 +2,7 @@ function setup(app, passport) {
     /**
      * Module dependencies.
      */
-    var mongoose = require('mongoose');
+    var mongoose = require('./lib/mongoose');
 
     // Routes
     var routes = require('./routes/index'),
@@ -20,7 +20,7 @@ function setup(app, passport) {
             next();
             return;
         }
-        if (req.body && !req.user && !req.body.username && !req.body.password) {
+        if (req.body && !req.user && !req.body.username && !req.body.password && !req.query.token) {
             res.send({
                 error: 403,
                 msg: 'not logined yet'
@@ -837,6 +837,8 @@ function setup(app, passport) {
 
     // signin
     app.post('/api/user/signin', api.user.loginUser);
+    app.post('/api/user/check', api.user.checkUser);
+
     app.get('/api/user/profile', function(req, res) {
         if (!req.user) {
             res.send({

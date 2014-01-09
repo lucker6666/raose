@@ -3,5 +3,11 @@ node_js:
   - 0.10
 services:
   - mongodb
+  - redis-server
 before_script:
   - npm install -g grunt-cli
+  - mv config/database_sample.json  config/database.json
+notifications:
+  email:
+    on_success: never
+    on_failure: always

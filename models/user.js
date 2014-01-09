@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     validate = require('mongoose-validator').validate,
-    uuid = require('../lib/uuid'),
+    uuid = require('node-uuid'),
     tokenHelper = require('../lib/token'),
     Email = require('../controllers/Email')
 
@@ -48,7 +48,7 @@ var mongoose = require('mongoose'),
 // generate secret and token
 userSchema.pre('save', function(next) {
     // generate secret
-    var secret = uuid.create();
+    var secret = uuid.v1();
     // generate token
     var payload = {
         username: this.username
