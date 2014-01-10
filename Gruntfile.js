@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         nodeunit: {
-            files: ['test/**/*_test.js'],
+            files: ['test/**/*_test.js']
         },
         jshint: {
             options: {
@@ -28,7 +28,16 @@ module.exports = function (grunt) {
                 options: {
                     mangle: false
                 }
-            }
+            },
+          beautify:{
+             src: 'public/js/app.js',
+             dest: 'public/js/app.js',
+             options: {
+               mangle: false,
+               beautify:true,
+               compress:false
+                }
+          }
         },
         watch: {
             gruntfile: {
@@ -58,10 +67,10 @@ module.exports = function (grunt) {
 
     // Default task.
     grunt.registerTask('default', ['jshint', 'nodeunit']);
-    // jshint test
     grunt.registerTask('test', ['jshint:test', 'nodeunit']);
     // uglify task
     grunt.registerTask('minJS', ['uglify:minjs']);
+    grunt.registerTask('btfJS', ['uglify:beautify']);
     grunt.registerTask('watchJS', ['watch:js']);
 
 };
