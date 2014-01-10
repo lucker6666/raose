@@ -43,7 +43,7 @@ module.exports = {
         User.findOne({
             token: token
         }).exec(function(err, item) {
-            callback(item);
+            callback(err,item);
         });
     }
 };

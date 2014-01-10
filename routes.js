@@ -1,4 +1,5 @@
 var siteConfig = require("./config/site.json");
+var User = require('./controllers/User');
 function setup(app, passport) {
     var mongoose = require("./lib/mongoose");
     // Routes
@@ -29,14 +30,36 @@ function setup(app, passport) {
             }
             return false;
         }();
+      
         if (excludeAuth) {
             return next();
         }
+      
         if (req.body && !req.user && !req.body.username && !req.body.password && !req.query.token) {
             return next("auth fail");
         }
+      
+       
+      
         next();
     });
+  
+  app.get('/api/*',function(req,res,next){
+     if(req.query.token){
+       User.checkToken(req.query.token,function(err,token){
+         if(err){
+           return next(err);
+         }
+         if(!token){
+           return res.send({
+             error:1004,
+             msg:'invalid token'
+           });
+         }
+         return next();
+       });
+     }
+  });
     /**
      *-----------------------状态相关-------------------
      */
