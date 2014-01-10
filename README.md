@@ -3,17 +3,22 @@
 project management
 
 ## Getting Started
-Install the module with: `npm install raose`
 
-```javascript
-var raose = require('raose');
-raose.awesome(); // "awesome"
-```
+### Using Nitrous
 
++ install mongodb and start: 
+ 
+    parts install mongodb
+    parts start mongodb
+    
++ install redis and start
+  
+    parts install redis
+    parts start redis
+  
++ npm install
+  
 ## Documentation
-_(Coming soon)_
-
-## Examples
 _(Coming soon)_
 
 ## Contributing
@@ -23,5 +28,5 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 _(Nothing yet)_
 
 ## License
-Copyright (c) 2013 airyland  
+Copyright (c) 2014 airyland  
 Licensed under the MIT license.
