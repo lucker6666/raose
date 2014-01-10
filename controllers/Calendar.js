@@ -10,5 +10,10 @@ module.exports = {
     Calendar.find(filter).exec(function(err,datas){
       callback && callback(err,datas);
     });
+  },
+  getSingle:function(id,callback){
+    Calendar.findById(id).exec(function(err,item){
+      callback && callback(err,item);
+    });
   }
 };

@@ -9,5 +9,11 @@ exports['create'] = {
       console.log(err,data);
         test.done();
       });
-    }
+    },
+  'list':function(test){
+    calendar.list({},function(err,data){
+      console.log(err,data);
+      test.done();
+    });
+  }
 }
