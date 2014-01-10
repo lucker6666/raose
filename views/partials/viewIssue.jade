@@ -1,6 +1,6 @@
 h1 {{form.title}}
 hr
-p(ng-bind-html-unsafe='form.content') 
+p(ng-bind-html='form.content | unsafe') 
 
 
 hr
