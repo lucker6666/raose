@@ -23,8 +23,10 @@ module.exports = function (grunt) {
         },
         uglify: {
             minjs: {
-                src: 'public/js/controllers/*.js',
-                dest: 'public/js/controller.min.js',
+                files:{
+                  'public/js/app.js':'public/js/app.js',
+                  'routes.js':'routes.js'
+                },
                 options: {
                     mangle: false
                 }
@@ -35,7 +37,8 @@ module.exports = function (grunt) {
              options: {
                mangle: false,
                beautify:true,
-               compress:false
+               compress:false,
+               preserveComments:'all'
                 }
           }
         },

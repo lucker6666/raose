@@ -25,9 +25,18 @@ function setup(app, passport) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "*");
         // the track api do not requrie authentication
-        if (req.originalUrl.indexOf('test') !== -1 || req.originalUrl.indexOf('datapool') !== -1 || req.originalUrl.indexOf('trackdata') !== -1 || req.originalUrl.indexOf('_.gif') !== -1 || req.originalUrl.indexOf('crazy') !== -1 || req.originalUrl.indexOf('datastore') !== -1) {
-            next();
-            return;
+        var excludeAuth = function() {
+            var list = siteConfig.auth.exclude;
+            for (var i = 0; i < list.length; i++) {
+                if (originalUrl.indexOf(list[i]) !== -1) {
+                    return true;
+                }
+            }
+            return false;
+        }();
+      
+        if (excludeAuth) {
+            return next();
         }
         if (req.body && !req.user && !req.body.username && !req.body.password && !req.query.token) {
             return next('auth fail');
