@@ -23,7 +23,7 @@ function setup(app, passport) {
         var excludeAuth = function() {
             var list = siteConfig.auth.exclude;
             for (var i = 0; i < list.length; i++) {
-                if (originalUrl.indexOf(list[i]) !== -1) {
+                if (req.originalUrl.indexOf(list[i]) !== -1) {
                     return true;
                 }
             }
