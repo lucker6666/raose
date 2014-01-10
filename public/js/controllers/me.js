@@ -1,4 +1,4 @@
-var meCtrl = function($http, $scope) {
+var MeCtrl = function($http, $scope) {
   // 获取消息
   $http.get('/api/me/messages').success(function(data) {
     $scope.messages = data.data;

@@ -1,4 +1,3 @@
-var mongoose = require('./lib/mongoose');
 var server = require('./server');
 server.start();
 

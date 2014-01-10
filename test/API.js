@@ -2,12 +2,13 @@ var request = require('supertest');
 var should = require('should');
 var assert = require('assert');
 var server = require('../server');
-
+var mongoose = require('../lib/mongoose');
+mongoose.disconnect();
 server.start();
 
 request = request('http://localhost:8004');
 
-describe('GET /issues', function () {
+/*describe('GET /issues', function () {
 
     it('GET::respond with 403', function (done) {
         request.get('/api/issues')
@@ -20,9 +21,15 @@ describe('GET /issues', function () {
             });
     });
 
-});
+});*/
 
 describe('User', function () {
+    var databaseConfig = require('../config/database.json');
+    beforeEach(function (done) {
+        mongoose.disconnect();
+        mongoose.createConnection('mongodb://localhost/' + databaseConfig.database);
+        done();
+    });
 
     it('Login::missing username', function (done) {
         request.post('/api/user/signin')
@@ -74,6 +81,11 @@ describe('User', function () {
                 done();
             });
 
+    });
+
+    after(function (done) {
+        mongoose.connection.close();
+        done();
     });
 
 });
