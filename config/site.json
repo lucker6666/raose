@@ -1,0 +1,4 @@
+{
+  "sessionExpire" : "comment::3600*24*30",
+  "sessionExpire" : 2592000
+}

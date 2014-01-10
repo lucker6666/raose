@@ -9,6 +9,7 @@ cron/data/*.json
 !/public/avatar/default.png
 /public/other/*.png
 /config/*.json
+!/config/site.json
 !/config/*_sample.json
 *.rdb
 /lib/*.json

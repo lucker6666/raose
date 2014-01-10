@@ -14,6 +14,9 @@
     password: String
   });
 
+// load site config
+var siteConfig = require('./config/site.json');
+
   passport.use(new LocalStrategy(
     function(username, password, done) {
       User.findOne({
@@ -76,7 +79,7 @@
 
     app.use(express.session({
       secret: 'secret',
-      maxAge: new Date(Date.now() + 3600000),
+      maxAge: new Date(Date.now() + siteConfig.sessionExpire),
       store: new MongoStore({
           db: 'raose',
           auto_reconnect: true
