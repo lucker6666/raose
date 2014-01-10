@@ -8,24 +8,34 @@ function capitaliseFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 var routes = ['me'];
-var app = angular.module('myApp', ['ngRoute']).config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+var app = angular.module('myApp', ['ngRoute']).
+   directive('contenteditable',function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attrs, ctrl) {
+                // view -> model
+                element.bind('blur', function () {
+                    scope.$apply(function () {
+                        ctrl.$setViewValue(element.html());
+                    });
+                });
 
-        routes.forEach(function (one) {
-            $routeProvider.when('/' + one, {
-                templateUrl: 'partials/' + one,
-                controller: window[capitaliseFirstLetter(one) + 'Ctrl']
-            });
-        });
+                // model -> view
+                ctrl.$render = function () {
+                    element.html(ctrl.$viewValue);
+                };
 
-        // index
-        $routeProvider.when('/', {
-            templateUrl: 'partials/me',
-            controller: MeCtrl
-        });
-
-        $routeProvider.otherwise({ redirectTo: '/me' });
-        $locationProvider.html5Mode(true);
-    }]).
+                // load init value from DOM
+                // ctrl.$setViewValue(element.html());
+            }
+        }; 
+    }).
+// from 1.2,html-bind-html-unsafe is removed, so we have to use a filter
+filter('unsafe', function($sce) {
+    return function(val) {
+        return $sce.trustAsHtml(val);
+    };
+}).
     filter("rate",function () {
         return function (rate) {
             if (!rate) return '0%';
@@ -61,4 +71,175 @@ var app = angular.module('myApp', ['ngRoute']).config(['$routeProvider', '$locat
             };
             return map[level];
         }
-    });
+    }).config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+
+        routes.forEach(function (one) {
+            $routeProvider.when('/' + one, {
+                templateUrl: 'partials/' + one,
+                controller: window[capitaliseFirstLetter(one) + 'Ctrl']
+            });
+        });
+
+        // index
+        $routeProvider.when('/', {
+                    templateUrl: 'partials/me',
+                    controller: MeCtrl
+                }).
+                when('/addStatus', {
+                    templateUrl: 'partials/addStatus',
+                    controller: AddStatusCtrl
+                }).
+                when('/todos/add', {
+                    templateUrl: 'partials/addTodo',
+                    controller: AddTodoCtrl
+                }).
+                when('/upload', {
+                    templateUrl: 'partials/upload',
+                    controller: UploadCtrl
+                }). // 需求状态
+                when('/status', {
+                    templateUrl: 'partials/status',
+                    controller: StatusCtrl
+                }).
+                when('/status/:id', {
+                    templateUrl: 'partials/editStatus',
+                    controller: ViewStatusCtrl
+                }).
+                when('/account/active', {
+                    templateUrl: 'partials/signup',
+                    controller: RegisterCtrl
+                }).
+                when('/issues', {
+                    templateUrl: 'partials/issues',
+                    controller: IssuesCtrl
+                }).
+                when('/issue/:id/edit', {
+                    templateUrl: 'partials/addIssue',
+                    controller: editIssueCtrl
+                }).
+                when('/issue/:id', {
+                    templateUrl: 'partials/viewIssue',
+                    controller: ViewIssueCtrl
+                }).
+                when('/issues/add', {
+                    templateUrl: 'partials/addIssue',
+                    controller: AddIssueCtrl
+                }).
+                when('/features', {
+                    templateUrl: 'partials/features',
+                    controller: FeaturesCtrl
+                }).
+                when('/features/add', {
+                    templateUrl: 'partials/addFeature',
+                    controller: AddFeatureCtrl
+                }).
+                when('/feature/:id/edit', {
+                    templateUrl: '/partials/addFeature',
+                    controller: AddFeatureCtrl
+                }).
+                when('/feature/:id', {
+                    templateUrl: 'partials/viewFeature',
+                    controller: ViewFeatureCtrl
+                }).
+                when('/topic/:id', {
+                    templateUrl: 'partials/viewTopic',
+                    controller: ViewTopicCtrl
+                }).
+                when('/docs', {
+                    templateUrl: 'partials/docs',
+                    controller: DocsCtrl
+                }).
+                when('/topics', {
+                    templateUrl: 'partials/topics',
+                    controller: TopicsCtrl
+                }).
+                when('/datas', {
+                    templateUrl: 'partials/datas',
+                    controller: DatasCtrl
+                }).
+                when('/todos', {
+                    templateUrl: 'partials/todos',
+                    controller: TodosCtrl
+                }).
+                when('/todo/:id', {
+                    templateUrl: 'partials/viewTodo',
+                    controller: ViewTodoCtrl
+                }).
+                when('/datas/add', {
+                    templateUrl: 'partials/addData',
+                    controller: AddDataCtrl
+                }).
+                when('/topics/add', {
+                    templateUrl: 'partials/addTopic',
+                    controller: AddTopicCtrl
+                }).
+                when('/data/:id/:action', {
+                    templateUrl: 'partials/addData',
+                    controller: EditDataCtrl
+                }).
+                when('/data/:id', {
+                    templateUrl: 'partials/viewData',
+                    controller: ViewDataCtrl
+                }).
+                when('/weeklyData', {
+                    templateUrl: 'partials/weeklyData',
+                    controller: WeeklyDataCtrl
+                }).
+                when('/account/signin', {
+                    templateUrl: 'partials/signin',
+                    controller: SigninCtrl
+                }).
+                when('/docs/add', {
+                    templateUrl: 'partials/addDoc',
+                    controller: AddDocCtrl
+                }).
+                when('/doc/:id/edit', {
+                    templateUrl: 'partials/addDoc',
+                    controller: EditDocCtrl
+                }).
+                when('/doc/:id', {
+                    templateUrl: 'partials/viewDoc',
+                    controller: ViewDocCtrl
+                }).
+                when('/settings', {
+                    templateUrl: 'partials/settings',
+                    controller: SettingsCtrl
+                }).
+                when('/visitData', {
+                    templateUrl: 'partials/visitData',
+                    controller: VisitDataCtrl
+                }).
+                when('/me/following/datas', {
+                    templateUrl: 'partials/foDatas',
+                    controller: meFoDataCtrl
+                }).
+                when('/files/add', {
+                    templateUrl: 'partials/addFile',
+                    controller: AddFileCtrl
+                }).when('/files', {
+                    templateUrl: 'partials/listFiles',
+                    controller: ListFilesCtrl
+                }).when('/file/:id', {
+                    templateUrl: 'partials/viewFile',
+                    controller: ViewFileCtrl
+                }).when('/taxonomy', {
+                    templateUrl: 'partials/addTaxonomy',
+                    controller: AddTaxonomyCtrl
+                }).when('/deploy', {
+                    templateUrl: 'partials/viewDeploy',
+                    controller: ViewDeployCtrl
+                }).when('/members', {
+                    templateUrl: 'partials/members',
+                    controller: ViewMemberCtrl
+                }).when('/miao', {
+                    templateUrl: 'partials/miao',
+                    controller: MiaoCtrl
+                }).when('/apply', {
+                    templateUrl: 'partials/apply',
+                    controller: ApplyCtrl
+                }).when('/tools', {
+                    templateUrl: 'partials/tools',
+                    controller: ToolCtrl
+                }).otherwise({ redirectTo: '/me' });
+        $locationProvider.html5Mode(true);
+    }]);
