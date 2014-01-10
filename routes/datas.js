@@ -1,5 +1,4 @@
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var mongoose = require('mongoose');
 var EventProxy = require('eventproxy');
 var querystring = require('querystring');
 var moment = require('moment');

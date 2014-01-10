@@ -1,9 +1,6 @@
 var json = require('./helper.js').json;
-var mongoose = require('mongoose');
 var User = require('../models/user.js');
 var UserCtrl = require('../controllers/User.js');
-var passport = require('passport');
-
 var uuid = require('../lib/uuid.js');
 var jwt = require('jwt-simple');
 // add user
@@ -39,11 +36,7 @@ exports.user = {
         // return;
         UserCtrl.findUser(req.body.username, req.body.password, function(err, user) {
             if (!req.body.username) {
-                res.send({
-                    error: 1001,
-                    msg: 'username not specified'
-                });
-                return;
+              return next('params should be complete');
             }
 
             if (!req.body.password) {

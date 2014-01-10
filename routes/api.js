@@ -5,7 +5,6 @@ exports.issues = require('./issue.js').issues;
 exports.feature = require('./feature.js').feature;
 // message
 exports.message = require('./message.js').message;
-var messageModel = require('./message.js').messageModel;
 // todo
 exports.todo = require('./todo.js').todo;
 // data
@@ -36,6 +35,8 @@ exports.tracker = require('./tracker');
 exports.datas = require('./datas');
 // datapool
 exports.datapool = require('./datapool');
+// calendar
+exports.calendar = require('./calendar');
 
 var error = {
     innerError: {
@@ -103,7 +104,7 @@ exports.account = {
                         activeInfo: {
                             sendTime: data[0].activeInfo.sendTime,
                             hasActived: true,
-                            activeTime: new Date
+                            activeTime: new Date()
                         }
                     }, function (err) {
                         if (err) {
@@ -116,9 +117,9 @@ exports.account = {
                             res.send({
                                 error: 0,
                                 msg: '激活成功鸟'
-                            })
+                            });
                         }
-                    })
+                    });
 
                 } else {
                     res.send({
@@ -128,7 +129,7 @@ exports.account = {
                 }
             });
     }
-}
+};
 exports.mail = {
     sendmail: function (req, res) {
         var email = req.body.email;
@@ -206,7 +207,7 @@ exports.mail = {
                 });
 
             }
-        })
+        });
 
     }
-}
+};
