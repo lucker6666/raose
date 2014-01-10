@@ -5,7 +5,6 @@ block body
         ul
             li(class='txt-center')
                 //img#avatar(class='avatar',width='60',height='60',ng-src='{{avatar}}',ng-init='avatar="img/avatar.png"')
-
             li
                 a(href='/me')='Hi,'+user.username
 
@@ -17,6 +16,7 @@ block body
 
             li
                 a(href='/tools') 工具
+                
             li
                 a(href='/miao') 神庙数据
 
@@ -42,23 +42,13 @@ block body
     div(class='content',ng-view)
     //script(src='js/sea.js')
     script(src='js/lib/socket.io.min.js')
-
-    //script(src='http://cdn.staticfile.org/angular.js/1.2.5/angular.min.js')
-    //script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js')
-
-
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js')
     script(src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js')
-    script(src='http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js')
-    script(src='http://cdn3.devexpress.com/jslib/13.2.5/js/dx.chartjs.js')
     script(src='js/hightchart/highcharts.js')
-    script(src='js/angular.1.2.7.min.js')
     script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular-route.min.js')
     //script(src='js/ui-bootstrap-0.6.0.min.js')
     script(src='js/app.js')
-    script(src='js/services.js')
     script(src='js/controller.min.js')
-    script(src='js/filters.js')
-    script(src='js/directives.js')
     script(src='js/angular-file-upload.js')
     script(src='js/lib.js')
     script(src='js/option.js')

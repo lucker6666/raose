@@ -7,7 +7,16 @@ function setup(app, passport) {
     // Routes
     var routes = require('./routes/index'),
         api = require('./routes/api');
-
+    // this is the error handler
+    app.use(function(err,req,res,next){
+      if(!err) return next(); // you also need this line
+      return res.send({
+        error:2,
+        msg:err
+      });
+    });
+  
+  
     app.get('/', routes.index);
     app.get('/partials/:name', routes.partials);
 
@@ -16,16 +25,12 @@ function setup(app, passport) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "*");
         // the track api do not requrie authentication
-        if (req.originalUrl.indexOf('datapool') !== -1 || req.originalUrl.indexOf('trackdata') !== -1 || req.originalUrl.indexOf('_.gif') !== -1 || req.originalUrl.indexOf('crazy') !== -1 || req.originalUrl.indexOf('datastore') !== -1) {
+        if (req.originalUrl.indexOf('test') !== -1 || req.originalUrl.indexOf('datapool') !== -1 || req.originalUrl.indexOf('trackdata') !== -1 || req.originalUrl.indexOf('_.gif') !== -1 || req.originalUrl.indexOf('crazy') !== -1 || req.originalUrl.indexOf('datastore') !== -1) {
             next();
             return;
         }
         if (req.body && !req.user && !req.body.username && !req.body.password && !req.query.token) {
-            res.send({
-                error: 403,
-                msg: 'not logined yet'
-            });
-            return;
+            return next('auth fail');
         }
         next();
     });
@@ -865,6 +870,15 @@ function setup(app, passport) {
             api.me.profile.call(this, req, res);
         }
     });
+  
+    // calendar
+    app.post('/api/calendars',api.calendar.add);
+    app.get('/api/calendars',api.calendar.list);
+    app.get('/api/calendars/:id',api.calendar.getSingle);
+  
+    
+    // test ENV setup
+    app.get('/api/test/setup',require('./routes/test.js').setup);
     // redirect all others to the index (HTML5 history)
     app.get('*', routes.index);
 }
