@@ -6,17 +6,17 @@ project management
 
 ### Using Nitrous
 
-+ install mongodb and start: 
+#### install mongodb and start: 
  
     parts install mongodb
     parts start mongodb
     
-+ install redis and start
+#### install redis and start
   
     parts install redis
     parts start redis
   
-+ npm install
+#### npm install
   
 ## Documentation
 _(Coming soon)_
