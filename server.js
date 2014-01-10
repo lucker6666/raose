@@ -74,7 +74,7 @@ app.configure(function() {
     app.use(express.cookieParser("raosee"));
     app.use(express.session({
         secret: "secret",
-        maxAge: new Date(Date.now() + siteConfig.sessionExpire),
+        maxAge: new Date(Date.now() + 3600000),
         store: new MongoStore({
             db: "raose",
             auto_reconnect: true

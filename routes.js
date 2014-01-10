@@ -1,3 +1,4 @@
+var siteConfig = require("./config/site.json");
 function setup(app, passport) {
     var mongoose = require("./lib/mongoose");
     // Routes
@@ -6,9 +7,9 @@ function setup(app, passport) {
     app.use(function(err, req, res, next) {
         if (!err) return next();
         // you also need this line
-        console.log(err);
-        return res.send({
-            error: 2,
+        console.log(err,typeof err);
+        res.send({
+            error: 1001,
             msg: err
         });
     });

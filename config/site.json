@@ -1,4 +1,7 @@
 {
   "sessionExpire" : "comment::3600*24*30",
-  "sessionExpire" : 2592000
+  "sessionExpire" : 2592000,
+  "auth" : {
+    "exclude":['test','datatrack','_.gif','datapool','datastore','crazy']
+  }
 }
