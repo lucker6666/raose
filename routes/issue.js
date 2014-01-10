@@ -3,11 +3,15 @@ var Schema = mongoose.Schema;
 var MessageModel = require('./message.js').MessageModel;
 var Message = require('./message.js').Model;
 var Discussion = require('./discussion.js').Model;
+var url2img = require('../lib/url2image');
 // issue 
 var Issues = require('../models/Issue');
 exports.Model = Issues;
 exports.issues = {
-    // issues summary
+    /**
+    * issues summary
+    * @todo add cache
+    */
     summary: function(req, res) {
         var ep = require('eventproxy').create("allno", "open", "mysubmit", "mysubmitOpen", "blame2me", function($1, $2, $3, $4, $5) {
             res.send({
@@ -74,8 +78,7 @@ exports.issues = {
         discussion.save(function(err, item) {
             if (err) throw err;
             res.send({
-                erro: 0,
-                msg: '添加成功',
+                error: 0,
                 data: item
             });
         });
@@ -109,7 +112,7 @@ exports.issues = {
         issue.save(function(err, rs) {
             if (err) {
                 res.send({
-                    erro: -1,
+                    error: -1,
                     msg: err
                 });
                 return;
@@ -152,6 +155,8 @@ exports.issues = {
         });
     },
     update: function(req, res) {
+        delete req.body.created_by;
+      
         var id = req.body._id;
         delete req.body._id;
 
@@ -182,7 +187,8 @@ exports.issues = {
             req.body.open = true;
             message = '重新开启了Issue';
         }
-
+        console.log(req.body);
+      
         Issues.findByIdAndUpdate(req.params.id, req.body, function(err, item) {
             if (err === null) {
                 MessageModel.add({
