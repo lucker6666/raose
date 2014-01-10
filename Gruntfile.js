@@ -32,8 +32,11 @@ module.exports = function (grunt) {
                 }
             },
           beautify:{
-             src: 'public/js/app.js',
-             dest: 'public/js/app.js',
+             files:{
+              'public/js/app.js':'public/js/app.js',
+              'routes.js':'routes.js',
+              'server.js':'server.js'
+             },
              options: {
                mangle: false,
                beautify:true,
