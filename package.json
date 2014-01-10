@@ -58,7 +58,8 @@
     "socket.io": "~0.9.16",
     "node-uuid": "~1.4.1",
     "speakeasy": "~1.0.3",
-    "string": "~1.7.0"
+    "string": "~1.7.0",
+    "mocha": "~1.17.0"
   },
   "keywords": []
 }
