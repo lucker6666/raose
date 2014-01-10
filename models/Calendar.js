@@ -7,9 +7,15 @@ var mongoose = require('../lib/mongoose'),
 
 var CalendarScheme = Schema({
     //id: String,
-    title: String,
+    title: {
+      type:String,
+      required:true
+    },
     allDay: Boolean,
-    start: Date,
+  start: {
+    type:Date,
+    required:true
+  },
     end: Date,
     url: String,
     className: String,
