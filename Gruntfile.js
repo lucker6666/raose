@@ -1,6 +1,11 @@
 'use strict';
-
-module.exports = function (grunt) {
+var simpleCombine = {
+    mangle: false,
+    beautify: true,
+    compress: false,
+    preserveComments: 'all'
+};
+module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
@@ -23,27 +28,21 @@ module.exports = function (grunt) {
         },
         uglify: {
             minjs: {
-                files:{
-                  'public/js/app.js':'public/js/app.js',
-                  'routes.js':'routes.js'
+                files: {
+                    'public/js/controller.min.js': 'public/js/controllers/*.js',
                 },
                 options: {
                     mangle: false
                 }
             },
-          beautify:{
-             files:{
-              'public/js/app.js':'public/js/app.js',
-              'routes.js':'routes.js',
-              'server.js':'server.js'
-             },
-             options: {
-               mangle: false,
-               beautify:true,
-               compress:false,
-               preserveComments:'all'
-                }
-          }
+            beautify: {
+                files: {
+                    'public/js/app.js': 'public/js/app.js',
+                    'routes.js': 'routes.js',
+                    'server.js': 'server.js'
+                },
+                options: simpleCombine
+            }
         },
         watch: {
             gruntfile: {
