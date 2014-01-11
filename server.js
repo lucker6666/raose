@@ -59,6 +59,10 @@ app.configure(function() {
     app.set("view options", {
         layout: false
     });
+    app.use(express.errorHandler({
+        showStack: true,
+        dumpExceptions: true
+    }));
     // custom header
     app.use(function(req, res, next) {
         app.disable("x-powered-by");
@@ -74,7 +78,7 @@ app.configure(function() {
     app.use(express.cookieParser("raosee"));
     app.use(express.session({
         secret: "secret",
-        maxAge: new Date(Date.now() + 3600000),
+        maxAge: new Date(Date.now() + 36e5),
         store: new MongoStore({
             db: "raose",
             auto_reconnect: true
