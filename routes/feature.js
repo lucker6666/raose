@@ -19,7 +19,12 @@ var Feature = mongoose.model('Feature', {
   // 成员
   members: Array,
   // 文件列表
-  files: Array
+  files: Array,
+  // is archive
+  archived:{
+    type: Boolean,
+    default:false
+  }
 });
 
 exports.feature = {
