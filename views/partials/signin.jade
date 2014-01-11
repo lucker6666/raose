@@ -7,5 +7,5 @@ div(class='form-group')
     input(ng-model='form.password',class='form-control',type='password',ng-enter='login()')
 
 div(class='form-group')
-    button(ng-click='login()',class='btn btn-primary') 登录
+    button(ui-keyup='{"enter":"login()"}',class='btn btn-primary') 登录
 

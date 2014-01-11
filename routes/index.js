@@ -3,12 +3,12 @@
  */
 var staticDomain = require('../config/site.json').staticDomain;
 exports.index = function(req, res) {
-    if (!req.user) {
+   if (!req.user && !/signin/.test(req.originalUrl)) {
         res.redirect('/account/signin');
         return;
     }
-    // var isAdmin = (req.user.flag === 0) ? 'show' : 'hid';
-    // console.log(req.user, isAdmin, req.user.flag, typeof req.user.flag, req.user.flag === 0);
+    
+
     res.render('index', {
         showWeeklyReport: true,
         user: req.user ? req.user : {
@@ -24,12 +24,11 @@ exports.partials = function(req, res) {
         return;
     }
     var name = req.params.name;
-    // var isAdmin = (req.user.flag === 0) ? 'show' : 'hid';
-    // console.log(req.user, isAdmin, req.user.flag, typeof req.user.flag, req.user.flag === 0);
     res.render('partials/' + name, {
         showWeeklyReport: true,
         user: req.user ? req.user : {
             username: 'null'
-        }
+        },
+        static:staticDomain
     });
 };

@@ -8,7 +8,7 @@ socket.on("connect", function() {
     console.log("Client has connected to the server!");
 });
 
-var routes = [ "me" ], app = angular.module("myApp", [ "ngRoute" ]).directive("ngEnter", function() {
+var routes = [ "me" ], app = angular.module("myApp", [ "ngRoute","ui.utils" ]).directive("ngEnter", function() {
     return function(scope, element, attrs) {
         element.bind("keydown keypress", function(event) {
             13 === event.which && (scope.$apply(function() {

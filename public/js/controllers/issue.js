@@ -143,7 +143,7 @@ var ViewIssueCtrl = function ($scope, $http, $routeParams, $location) {
             typeId: $routeParams.id
         };
         $http.post('/api/issue/' + $routeParams.id + '/discussions', $scope.discussion).success(function (data) {
-            $scope.list.unshift(data.data);
+            $scope.list.push(data.data); 
             $scope.discussion.content = '';
         });
     };
