@@ -1,14 +1,10 @@
-function capitaliseFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 var socket = io.connect("http://106.3.38.38:8888/data");
 
 socket.on("connect", function() {
     console.log("Client has connected to the server!");
 });
 
-var routes = [ "me" ], app = angular.module("myApp", [ "ngRoute","ui.utils" ]).directive("ngEnter", function() {
+var app = angular.module("myApp", [ "ngRoute","ui.utils" ]).directive("ngEnter", function() {
     return function(scope, element, attrs) {
         element.bind("keydown keypress", function(event) {
             13 === event.which && (scope.$apply(function() {
@@ -60,12 +56,11 @@ var routes = [ "me" ], app = angular.module("myApp", [ "ngRoute","ui.utils" ]).d
         return map[level];
     };
 }).config([ "$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
-    routes.forEach(function(one) {
-        $routeProvider.when("/" + one, {
-            templateUrl: "partials/" + one,
-            controller: window[capitaliseFirstLetter(one) + "Ctrl"]
-        });
-    }), $routeProvider.when("/", {
+    $locationProvider.html5Mode(true);
+    $routeProvider.when("/", {
+        templateUrl: "partials/me",
+        controller: MeCtrl
+    }).when("/me", {
         templateUrl: "partials/me",
         controller: MeCtrl
     }).when("/addStatus", {
@@ -193,5 +188,5 @@ var routes = [ "me" ], app = angular.module("myApp", [ "ngRoute","ui.utils" ]).d
         controller: ToolCtrl
     }).otherwise({
         redirectTo: "/me"
-    }), $locationProvider.html5Mode(!0);
+    });
 } ]);
