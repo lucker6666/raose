@@ -800,6 +800,10 @@ function setup(app, passport) {
     app.get("/api/calendar/:id", api.calendar.getSingle);
     // test ENV setup
     app.get("/api/test/setup", require("./routes/test.js").setup);
+    // user info js
+    app.get('/api/userinfo.js', function(req,res){
+      res.send('var user='+JSON.stringify(req.user));
+    });
     // redirect all others to the index (HTML5 history)
     app.get("*", routes.index);
 }
