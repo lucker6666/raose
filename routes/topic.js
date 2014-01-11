@@ -1,19 +1,5 @@
-var mongoose = require('mongoose');
 var Discussion = require('./discussion.js').Model;
-var Topic = mongoose.model('Topic', {
-  title: String, // 标题
-  date: { // 日期
-    type: Date,
-    default: Date.now
-  },
-  content: String, // 内容
-  author: String, // 作者
-  mention: Array, // 提到的人
-  related: {
-    type: Number, // 关联到需求或者待办
-    id: Number // 需求或者待办的id
-  }
-});
+var Topic = require('../models/Topic');
 
 // 讨论相关
 exports.topic = {
