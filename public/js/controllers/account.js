@@ -12,10 +12,11 @@ var RegisterCtrl = function($scope, $http) {
 };
 
 // 登录
+
 var SigninCtrl = function($scope, $http, $location) {
   $scope.login = function() {
-    $http.post('/api/signin', $scope.form).success(function(data) {
-      if (data['error'] === 0) {
+    $http.post('/api/user/signin', $scope.form).success(function(data) {
+      if (data['error'] === 0) { 
         $scope.hideNav = false;
         document.location.href = '/me';
       } else {
