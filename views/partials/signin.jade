@@ -4,7 +4,7 @@ div(class='form-group')
 
 div(class='form-group')
     label 密码
-    input(ng-model='form.password',class='form-control',type='password')
+    input(ng-model='form.password',class='form-control',type='password',ng-enter='login()')
 
 div(class='form-group')
     button(ng-click='login()',class='btn btn-primary') 登录
