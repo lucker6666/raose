@@ -1,7 +1,7 @@
 /*
  * GET home page.
  */
-
+var staticDomain = require('../config/site.json').staticDomain;
 exports.index = function(req, res) {
     if (!req.user) {
         res.redirect('/account/signin');
@@ -13,7 +13,8 @@ exports.index = function(req, res) {
         showWeeklyReport: true,
         user: req.user ? req.user : {
             username: 'null'
-        }
+        },
+        static:staticDomain
     });
 };
 
