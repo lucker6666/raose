@@ -1,16 +1,22 @@
+function capitaliseFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 var socket = io.connect("http://106.3.38.38:8888/data");
 
 socket.on("connect", function() {
     console.log("Client has connected to the server!");
 });
 
-function capitaliseFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-var routes = [ "me" ];
-
-var app = angular.module("myApp", [ "ngRoute" ]).directive("contenteditable", function() {
+var routes = [ "me" ], app = angular.module("myApp", [ "ngRoute" ]).directive("ngEnter", function() {
+    return function(scope, element, attrs) {
+        element.bind("keydown keypress", function(event) {
+            13 === event.which && (scope.$apply(function() {
+                scope.$eval(attrs.ngEnter);
+            }), event.preventDefault());
+        });
+    };
+}).directive("contenteditable", function() {
     return {
         require: "ngModel",
         link: function(scope, element, attrs, ctrl) {
@@ -18,8 +24,7 @@ var app = angular.module("myApp", [ "ngRoute" ]).directive("contenteditable", fu
                 scope.$apply(function() {
                     ctrl.$setViewValue(element.html());
                 });
-            });
-            ctrl.$render = function() {
+            }), ctrl.$render = function() {
                 element.html(ctrl.$viewValue);
             };
         }
@@ -30,23 +35,17 @@ var app = angular.module("myApp", [ "ngRoute" ]).directive("contenteditable", fu
     };
 }).filter("rate", function() {
     return function(rate) {
-        if (!rate) return "0%";
-        if (rate < 0) return '<span class="vivid">' + rate + "%</span>";
-        return rate + "%";
+        return rate ? 0 > rate ? '<span class="vivid">' + rate + "%</span>" : rate + "%" : "0%";
     };
 }).filter("time", function() {
     return function(time) {
-        if (!time) return "";
-        return friendlyDate(time);
+        return time ? friendlyDate(time) : "";
     };
 }).filter("toMinute", function() {
     return function(time) {
-        if (!time) {
-            return "00:00";
-        }
+        if (!time) return "00:00";
         time = Math.round(time);
-        var minute = "0" + Math.floor(time / 60);
-        var sec = "0" + time % 60;
+        var minute = "0" + Math.floor(time / 60), sec = "0" + time % 60;
         return minute.slice(-2) + ":" + sec.slice(-2);
     };
 }).filter("issueLevel", function() {
@@ -66,8 +65,7 @@ var app = angular.module("myApp", [ "ngRoute" ]).directive("contenteditable", fu
             templateUrl: "partials/" + one,
             controller: window[capitaliseFirstLetter(one) + "Ctrl"]
         });
-    });
-    $routeProvider.when("/", {
+    }), $routeProvider.when("/", {
         templateUrl: "partials/me",
         controller: MeCtrl
     }).when("/addStatus", {
@@ -195,6 +193,5 @@ var app = angular.module("myApp", [ "ngRoute" ]).directive("contenteditable", fu
         controller: ToolCtrl
     }).otherwise({
         redirectTo: "/me"
-    });
-    $locationProvider.html5Mode(true);
+    }), $locationProvider.html5Mode(!0);
 } ]);
