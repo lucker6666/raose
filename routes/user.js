@@ -32,8 +32,16 @@ exports.user = {
             });
         });
     },
+    // logout
+    logoutUser: function(req,res,next){
+      req.logout();
+      res.send({
+        error:0,
+        msg:'logout success'
+      });
+    },
+    // login user
     loginUser: function(req, res, next) {
-        // return;
         UserCtrl.findUser(req.body.username, req.body.password, function(err, user) {
             if (!req.body.username) {
               return next('params should be complete');
