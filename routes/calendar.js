@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
 
 module.exports = {
   add : function(req,res,next){
+    req.body.created_by = req.user.uid;
     Calendar.add(req.body,function(err,data){
       if(err) {
         return next(err);

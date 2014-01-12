@@ -6,16 +6,24 @@ var mongoose = require('../lib/mongoose'),
  */
 
 var CalendarScheme = Schema({
+    created_at:{
+      type:Date,
+      default:Date.now
+    },
+    created_by:{
+       type: Schema.Types.ObjectId,
+       ref: 'User'
+    },
     //id: String,
     title: {
       type:String,
       required:true
     },
     allDay: Boolean,
-  start: {
-    type:Date,
-    required:true
-  },
+    start: {
+      type:Date,
+      required:true
+    },
     end: Date,
     url: String,
     className: String,

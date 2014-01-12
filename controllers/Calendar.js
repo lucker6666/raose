@@ -7,7 +7,7 @@ module.exports = {
   },
   list:function(filter,callback){
     filter = filter || {};
-    Calendar.find(filter).exec(function(err,datas){
+    Calendar.find(filter).populate('created_by','-password -token -secret').exec(function(err,datas){
       callback && callback(err,datas);
     });
   },
