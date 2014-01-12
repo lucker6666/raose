@@ -20,6 +20,11 @@ hr
 .form-group
     button.btn.btn-primary(ng-click='updateProfile()') 更新
 
+hr
+
+.form-group
+    label 数据密钥(用于请求产品数据，每个用户有且只有一个，勿公开)
+    input.form-control(ng-model='user.token',readonly)
 
 .alert.alert-success(ng-show='showSuccess') {{message}}
 .alert.alert-danger(ng-show='showFail') {{message}}

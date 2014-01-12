@@ -4,7 +4,11 @@ html(ng-app="myApp")
     meta(charset='utf8')
     base(href='/')
     title Seedit Data Visualization
-    link(rel='stylesheet', href='/css/bootstrap.css')
+    link(rel='stylesheet', href=static+'/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/app.css')
+    link(rel='stylesheet', href=static+'/js/vendors/fullcalendar/fullcalendar.css')
+    link(rel='stylesheet', href=static+'/js/vendors/jquery-ui.css')
+    link(rel='stylesheet', href=static+'/js/vendors/jquery.ui.datepicker.css')
+    
   body
     block body

@@ -30,7 +30,7 @@ function setup(app, passport) {
             }
             return false;
         }();
-      
+    
         if (excludeAuth) {
             return next();
         }
@@ -39,9 +39,7 @@ function setup(app, passport) {
             return next("auth fail");
         }
       
-       
-      
-        next();
+        return next();
     });
   
   app.get('/api/*',function(req,res,next){
@@ -59,6 +57,7 @@ function setup(app, passport) {
          return next();
        });
      }
+    return next();
   });
     /**
      *-----------------------状态相关-------------------
@@ -220,18 +219,7 @@ function setup(app, passport) {
     // 成员信息
     // app.get('/api/members/:name',api.members.get);
     // 所有话题 
-    app.get("/account/signin", function(req, res) {
-        if (req.user) {
-            res.redirect("back");
-            return;
-        }
-        res.render("index", {
-            user: {
-                username: null,
-                flag: 1
-            }
-        });
-    });
+    app.get("/account/:name", routes.index);
     app.get("/account/signup", function(req, res) {
         res.send('<form action="/account/signup" method="post">    <div>        <label>Username:</label>        <input type="text" name="username"/>    </div>    <div>        <label>Password:</label>        <input type="password" name="password"/>    </div>    <div>        <input type="submit" value="Sign up"/>    </div></form>');
     });
@@ -810,8 +798,13 @@ function setup(app, passport) {
     app.post("/api/calendars", api.calendar.add);
     app.get("/api/calendars", api.calendar.list);
     app.get("/api/calendar/:id", api.calendar.getSingle);
+    app.put("/api/calendar/:id",api.calendar.update);
     // test ENV setup
     app.get("/api/test/setup", require("./routes/test.js").setup);
+    // user info js
+    app.get('/api/userinfo.js', function(req,res){
+      res.send('var user='+JSON.stringify(req.user));
+    });
     // redirect all others to the index (HTML5 history)
     app.get("*", routes.index);
 }

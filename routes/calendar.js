@@ -34,5 +34,12 @@ module.exports = {
         data:item
       });
     });
+  },
+  update:function(req,res,next){
+   delete req.body._id;
+    Calendar.update(req.params.id,req.body,function(err,data){
+      if(err) return next(err);
+      res.send({error:0,data:data});
+    });
   }
 };
