@@ -50,7 +50,7 @@ var AddCalendarCtrl = function($scope,$http,$location){
   $scope.startMinute = minute;
   $scope.submitCalendar = function(){
     console.log($scope.startDate,$scope.startHour,$scope.startMinute);
-    var start = new Date((+new Date($scope.startDate))+24*3600000+$scope.startHour*3600000 + $scope.startMinute * 60000);
+    var start = new Date((+new Date($scope.startDate))+$scope.startHour*3600000 + $scope.startMinute * 60000);
     console.log(start);
     $http.post('/api/calendars',{title:$scope.form.title,start:start}).success(function(data){
       if(data.error!==0){
