@@ -351,53 +351,25 @@ function setup(app, passport) {
     });
     // 数据接口
     // 使用美帝VPS做代理
-    app.post("/api/ga.json", function(req, res) {
-        var user = req.body;
-        if (!user.username || !user.password) {
-            res.send({
-                error: -2,
-                msg: "鉴权信息不完整"
-            });
-            return;
-        }
-        User.findOne(req.body, function(err, user) {
-            if (user) {
-                var search = req.originalUrl.replace("/api/ga.json?", ""), proxyUrl = "http://192.157.212.191:8888" + req.originalUrl, http = require("http");
-                http.get(proxyUrl, function(res1) {
-                    var data = "";
-                    res1.on("data", function(chunk) {
-                        data += chunk;
-                    });
-                    res1.on("error", function(err) {
-                        console.log(err);
-                    });
-                    res1.on("end", function() {
-                        if (data.length) {
-                            // add log
-                            api.log.add({
-                                type: "getData",
-                                operator: req.user && req.user.uid ? req.user.uid : "null",
-                                details: {
-                                    filters: req.query.filters
-                                }
-                            }, function(err, item) {
-                                if (err) throw err;
-                                res.send(JSON.parse(data));
-                            });
-                        } else {
-                            res.send({
-                                error: "has some problem"
-                            });
-                        }
-                    });
-                });
-            } else {
-                res.send({
-                    error: -1,
-                    msg: "登录失败了"
-                });
-            }
-        });
+    app.all("/api/ga.json*", function(req, res) {
+      var http = require('http');
+      var search = req.originalUrl.replace('/api/ga.json?', '');
+      var proxyUrl = 'http://192.157.212.191:8888' + req.originalUrl;
+      http.get(proxyUrl, function (res1) {
+          var data = '';
+          res1.on('data', function (chunk) {
+              data += chunk;
+          })
+          res1.on('end', function () {
+              if (data.length) {
+                  res.send(JSON.parse(data));
+              } else {
+                  res.send({
+                      error: 'has some problem'
+                  });
+              }
+          })
+      });
     });
     app.get("/excel/:site", function(req, res) {
         var site = req.params.site;
