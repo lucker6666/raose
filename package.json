@@ -25,7 +25,8 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "grunt nodeunit"
+    "test": "grunt nodeunit",
+    "API_test": "make test"
   },
   "devDependencies": {
     "express": "~3.4.7",
