@@ -26,16 +26,16 @@ ul.sd-list-items
         p {{one.content}}
 
 // 评论框
-
-div(class='form-group')
-    input(type='hidden',value='{{form._id}}',ng-model='discussion.typeId')
-    input(type='hidden',value='topic',ng-model='discussion.type')
-    label 评论与说明
-    span (支持ctrl+enter 提交了吖)
-    textarea(class='form-control',ng-model='discussion.content',ng-paste='paste()',ui-keyup="{'ctrl-enter':'submitDiscussion()'}")
-
-div(class='form-group')
-    button(class='btn btn-primary',ng-click='submitDiscussion()') 提交
+form(name="discussion_form",novalidate)
+  div(class='form-group')
+      input(type='hidden',value='{{form._id}}',ng-model='discussion.typeId')
+      input(type='hidden',value='topic',ng-model='discussion.type')
+      label 评论与说明
+      span (支持ctrl+enter 提交了吖)
+      textarea(required,class='form-control',ng-readonly='onsubmit',ng-model='discussion.content',ng-paste='paste()',ui-keyup="{'ctrl-enter':'submitDiscussion()'}")
+  
+  div(class='form-group')
+      button(class='btn btn-primary',ng-click='submitDiscussion()',ng-disabled="discussion_form.$invalid") 提交
     
 
 
