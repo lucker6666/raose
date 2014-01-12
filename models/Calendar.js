@@ -19,7 +19,10 @@ var CalendarScheme = Schema({
       type:String,
       required:true
     },
-    allDay: Boolean,
+    allDay: {
+      type:Boolean,
+      default:false 
+    },
     start: {
       type:Date,
       required:true
