@@ -2,28 +2,28 @@ h1 添加日程
 hr
 
 .form-group
-  lable 标题
-  input.form-control(ng-model='form.title')
+    lable 标题
+    input.form-control(ng-model='form.title')
 
 .form-group
-  label 开始时间
-  .row
-    .col-md-2(style='')
-      input.form-control(ng-model='startDate',ui-date)
-    .col-md-1(style='')
-      input.form-control(ng-model='startHour',placeholder="小时")
-    .col-md-1(style='')
-      input.form-control(ng-model='startMinute',placeholder="分钟")
+    label 开始时间
+    .row
+        .col-md-2(style='')
+            input.form-control(ng-model='startDate',ui-date)
+        .col-md-1(style='')
+            input.form-control(ng-model='startHour',placeholder="小时")
+        .col-md-1(style='')
+            input.form-control(ng-model='startMinute',placeholder="分钟")
 
 .form-group
-  label 结束时间
-  .row
-    .col-md-2(style='')
-      input.form-control(ng-model='endDate',ui-date)
-    .col-md-1(style='')
-      input.form-control(ng-model='endHour',placeholder="小时")
-    .col-md-1(style='')
-      input.form-control(ng-model='endMinute',placeholder="分钟")
-  
+    label 结束时间
+    .row
+        .col-md-2(style='')
+            input.form-control(ng-model='endDate',ui-date)
+        .col-md-1(style='')
+            input.form-control(ng-model='endHour',placeholder="小时")
+        .col-md-1(style='')
+            input.form-control(ng-model='endMinute',placeholder="分钟")
+
 hr
 button.btn.btn-primary(ng-click='submitCalendar()') 提交
