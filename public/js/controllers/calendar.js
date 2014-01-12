@@ -4,7 +4,7 @@ var ViewCalendarCtrl = function ($scope, $http) {
             header: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'month,basicWeek,basicDay'
+                right: 'month,agendaWeek,agendaDay'
             },
             views: {
                 defaultView: 'basicWeek'
