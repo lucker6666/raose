@@ -1,8 +1,8 @@
 {
-  "sessionExpire" : "comment::3600*24*30",
-  "sessionExpire" : 2592000,
-  "auth" : {
-    "exclude":["test","datatrack","_.gif","datapool","datastore","crazy"]
-  },
-  "staticDomain":"http://raose.qiniudn.com"
+    "sessionExpire": 2592000,
+    "auth": {
+        "exclude": ["test", "datatrack", "_.gif", "datapool", "datastore", "crazy"]
+    },
+    "staticDomain": "http://raose.qiniudn.com",
+    "port": 8005
 }

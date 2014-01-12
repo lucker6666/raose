@@ -1,4 +1,4 @@
-var getNearestDay = function(day, d, doFormat) {
+var getNearestDay = function (day, d, doFormat) {
     d = d || new Date();
     d = new Date(d);
     var nowDay = d.getDay();
@@ -15,27 +15,27 @@ var getNearestDay = function(day, d, doFormat) {
 }
 
 // 日期格式化
-var format = function(date) {
+var format = function (date) {
     var month = (date.getMonth() + 1) + '',
         day = date.getDate() + '',
         rs = date.getFullYear() + '-' + (month.length === 1 ? '0' + month : month) + '-' + (day.length === 1 ? '0' + day : day);
     return rs;
 };
-var httpGet = function(url, callback) {
+var httpGet = function (url, callback) {
     var http = require('http');
-    http.get(url, function(rs) {
+    http.get(url, function (rs) {
         var data = '';
-        rs.on('data', function(chunk) {
+        rs.on('data', function (chunk) {
             data += chunk;
         });
-        rs.on('end', function() {
+        rs.on('end', function () {
             callback(JSON.parse(data));
         });
     });
 };
 
 // 取得几天前数据 
-var daysAgo = function(day, date, isFormat) {
+var daysAgo = function (day, date, isFormat) {
     var today;
     if (date) {
         today = +new Date(date);
@@ -47,16 +47,16 @@ var daysAgo = function(day, date, isFormat) {
     return format(new Date(today - offset));
 };
 
-var getWeekDate = function(startDate) {
+var getWeekDate = function (startDate) {
     var date = [];
     var endDate = getNearestDay(5, new Date);
     date.push(endDate);
     while (+new Date(endDate) >= +new Date(startDate)) {
         endDate = getNearestDay(5, endDate);
         date.push(endDate);
-    };
+    }
     return date;
-}
+};
 
 var config = {
     "all": "62079070",
@@ -68,16 +68,16 @@ var config = {
     "riji": "648824",
     "zhishi": "16257208",
     "account": "74817277"
-}
+};
 
 for (var i in config) {
     var ids = config[i];
 
-    (function(i, ids) {
-        httpGet('http://192.157.212.191:8888/api/ga.json?max-results=10000&ids=ga%3A' + ids + '&dimensions=ga%3Adate&start-date=2013-06-15&end-date=' + daysAgo(2) + '&metrics=ga%3Apageviews%2Cga%3Avisits', function(data) {
+    (function (i, ids) {
+        httpGet('http://192.157.212.191:8888/api/ga.json?max-results=10000&ids=ga%3A' + ids + '&dimensions=ga%3Adate&start-date=2013-06-15&end-date=' + daysAgo(2) + '&metrics=ga%3Apageviews%2Cga%3Avisits', function (data) {
             var raw = data.rows;
             // 处理浏览量日增
-            raw.forEach(function(one, index) {
+            raw.forEach(function (one, index) {
                 if (index > 0) {
                     var rate = (((raw[index][1] - raw[index - 1][1]) / raw[index - 1][1]) * 100).toFixed(2) + '%';
                 } else {
@@ -87,7 +87,7 @@ for (var i in config) {
             });
 
             // 处理访问次数日增
-            raw.forEach(function(one, index) {
+            raw.forEach(function (one, index) {
                 if (index > 0) {
                     var rate = (((raw[index][3] - raw[index - 1][3]) / raw[index - 1][3]) * 100).toFixed(2) + '%';
                 } else {
@@ -101,30 +101,30 @@ for (var i in config) {
             var dates = getWeekDate(new Date('2013/06/15'));
             var indexArray = [];
             // 根据日期遍历
-            dates.forEach(function(one, index) {
+            dates.forEach(function (one, index) {
                 var date = [];
                 for (var i = 0; i <= 6; i++) {
                     date.push(daysAgo(i, one, false));
                 }
 
-                date = date.map(function(one) {
+                date = date.map(function (one) {
                     return one.replace(/-/g, '');
                 });
                 var sum = 0;
                 var sum02 = 0;
                 var startIndex = 0;
                 // 遍历一个周期内的数据
-                date.forEach(function(one, oneIndex) {
+                date.forEach(function (one, oneIndex) {
                     //console.log(oneIndex);
 
                     // 取得特定日期的数据
-                    var dataItem = raw.filter(function(two) {
+                    var dataItem = raw.filter(function (two) {
                         return two[0] === one;
                     });
 
                     if (dataItem.length) {
                         // 取得当前在raw中的index
-                        var index = (function() {
+                        var index = (function () {
                             return raw.indexOf(dataItem[0]);
                         })();
                         var dataItem = dataItem[0];
@@ -140,7 +140,7 @@ for (var i in config) {
             });
 
             // 没有平均数的以0填充 
-            raw.forEach(function(one, index) {
+            raw.forEach(function (one, index) {
                 // 和前面不为0的数比
                 if (!one[5]) {
                     one[5] = '';
@@ -163,7 +163,7 @@ for (var i in config) {
             //console.log(dates);
             // 数字部分转换成数字 
 
-            raw.forEach(function(one) {
+            raw.forEach(function (one) {
                 one[1] *= 1;
                 one[3] *= 1;
             });
