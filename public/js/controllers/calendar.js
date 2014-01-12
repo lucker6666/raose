@@ -7,6 +7,7 @@ var ViewCalendarCtrl = function ($scope, $http) {
                 right: 'month,agendaWeek,agendaDay'
             },
             defaultView: 'agendaWeek',
+            ignoreTimezone: false,
             editable: true,
             events: data.data,
             eventResize: function (event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {
