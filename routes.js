@@ -362,7 +362,7 @@ function setup(app, passport) {
         }
         User.findOne(req.body, function(err, user) {
             if (user) {
-                var search = req.originalUrl.replace("/api/ga.json?", ""), proxyUrl = "http://173.208.199.49:8888" + req.originalUrl, http = require("http");
+                var search = req.originalUrl.replace("/api/ga.json?", ""), proxyUrl = "http://192.157.212.191:8888" + req.originalUrl, http = require("http");
                 http.get(proxyUrl, function(res1) {
                     var data = "";
                     res1.on("data", function(chunk) {

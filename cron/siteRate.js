@@ -30,7 +30,7 @@ for (var i in config) {
     var ids = config[i];
 
     (function(i, ids) {
-        var api = 'http://173.208.199.49:8888/api/ga.json?max-results=100&ids=ga%3A' + ids + '&dimensions=&start-date=2013-09-12&end-date=2013-10-10&metrics=ga%3AvisitBounceRate%2Cga%3AavgTimeOnSite%2Cga%3ApageviewsPerVisit%2Cga%3ApercentNewVisits';
+        var api = 'http://192.157.212.191:8888/api/ga.json?max-results=100&ids=ga%3A' + ids + '&dimensions=&start-date=2013-09-12&end-date=2013-10-10&metrics=ga%3AvisitBounceRate%2Cga%3AavgTimeOnSite%2Cga%3ApageviewsPerVisit%2Cga%3ApercentNewVisits';
         httpGet(api, function(data) {
             j++;
             datas[i] = (function() {

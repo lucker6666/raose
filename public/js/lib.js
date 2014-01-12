@@ -354,7 +354,7 @@ var renderVisitData = function(option, offset, target, chartOption) {
             'max-results': 1000
         };
         $.extend(eventOption, option.option);
-        api = 'http://173.208.199.49:8888' + '/api/ga.json?' + $.param(eventOption)
+        api = 'http://192.157.212.191:8888' + '/api/ga.json?' + $.param(eventOption)
     } else if (option.type === 'umeng') {
         api = option.api;
     } else if (option.type === 'seedit') {
@@ -483,7 +483,7 @@ var parseOption = function(option) {
         option['end-date'] = daysAgo(option['end-date']);
     }
     var params = $.param(option);
-    var API = 'http://173.208.199.49:8888/api/ga.json?' + params;
+    var API = 'http://192.157.212.191:8888/api/ga.json?' + params;
     return API;
 }
 

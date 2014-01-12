@@ -356,7 +356,7 @@ var MiaoCtrl = function ($scope, $http) {
         });
 
 
-        $http.get('http://173.208.199.49:8888/api/ga.json?ids=ga%3A63911100&dimensions=ga%3Adate&metrics=ga%3AtotalEvents&filters=ga%3AeventCategory%3D%3D%E9%80%81%E5%AD%90%E7%81%B5%E5%BA%99%3Bga%3AeventAction%3D%3D%E5%BC%80%E5%A7%8B%E4%B8%8A%E9%A6%99&max-results=100&start-date=2013-12-12&end-date=2013-12-23').success(function (data) {
+        $http.get('http://192.157.212.191:8888/api/ga.json?ids=ga%3A63911100&dimensions=ga%3Adate&metrics=ga%3AtotalEvents&filters=ga%3AeventCategory%3D%3D%E9%80%81%E5%AD%90%E7%81%B5%E5%BA%99%3Bga%3AeventAction%3D%3D%E5%BC%80%E5%A7%8B%E4%B8%8A%E9%A6%99&max-results=100&start-date=2013-12-12&end-date=2013-12-23').success(function (data) {
             // console.log(data);
             var options = {
                 chart: {
@@ -383,7 +383,7 @@ var MiaoCtrl = function ($scope, $http) {
             $('#xiang').highcharts(options);
         });
 
-        var gongdeUrl = 'http://173.208.199.49:8888/api/ga.json?ids=ga%3A63911100&dimensions=ga%3Adate&metrics=ga%3AtotalEvents&filters=ga%3AeventCategory%3D%3D%E9%80%81%E5%AD%90%E7%81%B5%E5%BA%99%3Bga%3AeventAction%3D%3D%E6%8D%90%E5%8A%9F%E5%BE%B7&max-results=100&start-date=2013-12-12&end-date=2013-12-23';
+        var gongdeUrl = 'http://192.157.212.191:8888/api/ga.json?ids=ga%3A63911100&dimensions=ga%3Adate&metrics=ga%3AtotalEvents&filters=ga%3AeventCategory%3D%3D%E9%80%81%E5%AD%90%E7%81%B5%E5%BA%99%3Bga%3AeventAction%3D%3D%E6%8D%90%E5%8A%9F%E5%BE%B7&max-results=100&start-date=2013-12-12&end-date=2013-12-23';
 
         $http.get(gongdeUrl).success(function (data) {
             console.log(data);
