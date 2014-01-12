@@ -29,7 +29,7 @@ div.alert.alert-success
 div.intro
     div.form-group
         label 指派给 {{form.owner}} (默认为自己)
-        select.form-control(ng-model='form.owner',ng-init='form.owner=\''+user.uid+'\'')
+        select.form-control(ng-model='form.owner',ng-init='form.owner=\''+user.username+'\'')
             option(ng-repeat='user in users',value='{{user.username}}') {{user.username}} ({{user.realname}})
 
     div.alert.alert-success
