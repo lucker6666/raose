@@ -61,12 +61,15 @@ var app = angular.module("myApp", [ "ngRoute","ui.utils","ui.date"]).directive("
         templateUrl: "partials/me",
         controller: MeCtrl
     }).when("/calendar", {
+        title: "产品日历",
         templateUrl: "partials/viewCalendar",
         controller: ViewCalendarCtrl
     }).when("/addCalendar", {
+        title:"添加日程",
         templateUrl: "partials/addCalendar",
         controller: AddCalendarCtrl
     }).when("/me", {
+        title:"我的空间",
         templateUrl: "partials/me",
         controller: MeCtrl
     }).when("/addStatus", {
@@ -196,3 +199,9 @@ var app = angular.module("myApp", [ "ngRoute","ui.utils","ui.date"]).directive("
         redirectTo: "/me"
     });
 } ]);
+
+app.run(['$location', '$rootScope', function($location, $rootScope) {
+    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+        $rootScope.title = current.$$route.title;
+    });
+}]);
