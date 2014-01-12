@@ -798,6 +798,7 @@ function setup(app, passport) {
     app.post("/api/calendars", api.calendar.add);
     app.get("/api/calendars", api.calendar.list);
     app.get("/api/calendar/:id", api.calendar.getSingle);
+    app.put("/api/calendar/:id",api.calendar.update);
     // test ENV setup
     app.get("/api/test/setup", require("./routes/test.js").setup);
     // user info js

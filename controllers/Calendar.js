@@ -15,5 +15,10 @@ module.exports = {
     Calendar.findById(id).exec(function(err,item){
       callback && callback(err,item);
     });
+  },
+  update:function(id,data,callback){
+    Calendar.findByIdAndUpdate(id,data,function(err,data){
+      callback && callback(err,data);
+    });
   }
 };
