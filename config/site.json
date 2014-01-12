@@ -1,7 +1,7 @@
 {
     "sessionExpire": 2592000,
     "auth": {
-        "exclude": ["test", "datatrack", "_.gif", "datapool", "datastore", "crazy"]
+        "exclude": ["test", "datatrack", "_.gif", "datapool", "datastore", "crazy", "ga"]
     },
     "staticDomain": "http://raose.qiniudn.com",
     "port": 8005
