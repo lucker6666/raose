@@ -2,11 +2,12 @@ var request = require('supertest');
 var should = require('should');
 var assert = require('assert');
 var server = require('../server');
-var mongoose = require('../lib/mongoose');
-mongoose.disconnect();
-server.start();
+var app = server.app;
+//var mongoose = require('mongoose');
+//mongoose.disconnect();
+//server.start();
 
-request = request('http://localhost:8004');
+request = request(app);
 
 /*describe('GET /issues', function () {
 
@@ -25,10 +26,15 @@ request = request('http://localhost:8004');
 
 describe('User', function () {
     var databaseConfig = require('../config/database.json');
-    beforeEach(function (done) {
-        mongoose.disconnect();
-        mongoose.createConnection('mongodb://localhost/' + databaseConfig.database);
-        done();
+    var serverHandler;
+    before(function (done) {
+       //mongoose.disconnect();
+      //  mongoose.createConnection('mongodb://localhost/' + databaseConfig.database);
+      //server = app.listen(0,done);
+      serverHandler = server.start(0,done);
+    });
+    after(function(){
+      serverHandler.close();
     });
 
     it('Login::missing username', function (done) {
@@ -36,7 +42,8 @@ describe('User', function () {
             .send({})
             .expect('Content-Type', /json/)
             .end(function (err, res) {
-                res.body.msg.should.equal('username not specified');
+               // console.log(err,res);
+                res.body.msg.should.equal('params should be complete');
                 done();
             });
 
@@ -59,7 +66,7 @@ describe('User', function () {
         request.post('/api/user/signin')
             .send({
                 username: 'airyland',
-                password: '2472252'
+                password: '123456'
             })
             .expect('Content-Type', /json/)
             .expect('Set-cookie', /connect\.sid/)
@@ -83,9 +90,5 @@ describe('User', function () {
 
     });
 
-    after(function (done) {
-        mongoose.connection.close();
-        done();
-    });
 
 });

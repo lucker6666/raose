@@ -92,12 +92,16 @@ app.configure(function() {
     app.use(app.router);
 });
 
-function start() {
+function start(port,done) {
     require("./routes").setup(app, passport);
-    var port = siteConfig.port || 8004;
+    if(typeof port ==='undefined'){
+      port = 8004;
+    }
     var server = app.listen(port, function() {
         console.log("Express server listening on port %d in %s mode", 8004, app.settings.env);
+        done && done();
     });
+    return server;
     var io = socket.listen(server);
 }
 

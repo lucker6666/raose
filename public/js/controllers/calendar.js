@@ -4,24 +4,22 @@ var ViewCalendarCtrl = function ($scope, $http) {
             header: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'month,basicWeek,basicDay'
+                right: 'month,agendaWeek,agendaDay'
             },
-            views: {
-                defaultView: 'basicWeek'
-            },
-            defaultView: 'basicWeek',
+            defaultView: 'agendaWeek',
+            ignoreTimezone: false,
             editable: true,
             events: data.data,
             eventResize: function (event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {
-                $http.put('/api/calendar/' + event._id, {start: event.start, end: event._end}, function (data) {
+              $http.put('/api/calendar/' + event._id, {start: event.start, end: event._end, allDay: event.allDay}, function (data) {
                     if (data.error !== 0) {
                         revertFunc();
-                        alert('提交出错哦');
+                        alert('提交出错哦');  
                     }
                 });
             },
             eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
-                $http.put('/api/calendar/' + event._id, {start: event.start, end: event.end}, function (data) {
+              $http.put('/api/calendar/' + event._id, {start: event.start, end: event.end, allDay: event.allDay}, function (data) {
                     if (data.error !== 0) {
                         revertFunc();
                         alert('提交出错哦');
