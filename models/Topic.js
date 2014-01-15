@@ -1,12 +1,22 @@
-var mongoose = require('../lib/mongoose');
+var mongoose = require('../lib/mongoose'),
+    Schema = mongoose.Schema;
 var Topic = mongoose.model('Topic', {
-  title: String, // 标题
+  title: {
+    type: String,
+    required: true
+  }, // 标题
   date: { // 日期
     type: Date,
     default: Date.now
   },
-  content: String, // 内容
-  author: String, // 作者
+  content: {
+    type: String,
+    required: true
+  }, // 内容
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }, // 作者
   mention: Array, // 提到的人
   related: {
     type: Number, // 关联到需求或者待办

@@ -5,7 +5,10 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 var File = mongoose.model('iFile', {
     // 0 for file, 1 for folder
-    type: Number,
+    type: {
+        type: Number,
+        default: 0
+    },
     // name
     name: String,
     // path
