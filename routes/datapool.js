@@ -13,7 +13,9 @@ var Datapool = mongoose.model('datapool', {
 module.exports = {
     get: function (req, res) {
         Datapool.findOne({name: req.query.name}).exec(function (err, item) {
-            item.data = JSON.parse(item.data);
+            if(item){
+              item.data = JSON.parse(item.data);
+            }
             res.send({
                 error: 0,
                 data: item

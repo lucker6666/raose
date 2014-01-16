@@ -111,7 +111,7 @@ var MiaoCtrl = function ($scope, $http) {
 
     // 入口页面 'siteId=3846977&st=1385222400000&et=1387728000000&indicators=out_pv_count%2Cvisitor_count%2Cip_count&flag=pv&order=out_pv_count%2Cdesc&offset=0&pageSize=50&reportId=15&method=visit%2Flandingpage%2Fa&queryId='
 
-    $.get('http://106.3.38.38:8004/api/datastore/export?filters=type%3Dbless&start-date=2013-12-12&end-date=2013-12-29').success(function (data) {
+    $.get('http://106.3.38.38:8004/api/datastore/export?filters=type%3Dbless&start-date=2013-12-12&end-date=2015-01-01').success(function (data) {
         var dataSource = (function () {
             return data.rows.map(function (one) {
                 return {

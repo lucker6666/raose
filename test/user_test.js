@@ -1,10 +1,9 @@
 'use strict';
-var mongoose = require('mongoose');
-mongoose.disconnect();
-mongoose.connect('mongodb://127.0.0.1/raose');
+var mongoose = require('../lib/mongoose');
+//mongoose.disconnect();
+//mongoose.connect('mongodb://127.0.0.1/raose');
 var User = require('../controllers/User.js');
 var UserModel = require('../models/user');
-
 
 exports['user:create'] = {
     setUp: function (done) {
