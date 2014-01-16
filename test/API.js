@@ -31,6 +31,9 @@ describe('User', function () {
        //mongoose.disconnect();
       //  mongoose.createConnection('mongodb://localhost/' + databaseConfig.database);
       //server = app.listen(0,done);
+      request.get('/api/test/setup').end(function(err,res){
+        console.log('setup results',res.body);
+      });
       serverHandler = server.start(0,done);
     });
     after(function(){
