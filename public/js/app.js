@@ -91,6 +91,7 @@ var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date"]).directive
                 templateUrl: "partials/signup",
                 controller: RegisterCtrl
             }).when("/issues", {
+                title: "Issues",
                 templateUrl: "partials/issues",
                 controller: IssuesCtrl
             }).when("/issue/:id/edit", {
