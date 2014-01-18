@@ -92,6 +92,34 @@ describe('User', function () {
             });
 
     });
+  
+    
+  /**
+  * Datastore test
+  */
+  
+  it('should respond with 1002',function(done){
+    request.get('/api/datastore/export.json')
+      .expect('Content-Type',/json/)
+      .end(function(err,res){
+        res.body.error.should.equal(1002);
+        res.body.msg.should.equal('arg missing: type');
+        done();
+      });
+  });
+  
+  it('should error with missing start-date',function(done){
+    request.get('/api/datastore/export.json')
+      .expect('Content-Type',/json/)
+      .end(function(err,res){
+        res.body.error.should.equal(1002);
+        res.body.msg.should.equal('arg missing: start-date');
+        done();
+      });
+  });
+    
+    
+
 
 
 });

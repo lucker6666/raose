@@ -32,7 +32,7 @@ exports.follow = require('./follow');
 // tracker
 exports.tracker = require('./tracker');
 // datastore
-exports.datas = require('./datastore');
+exports.datastore = require('./datastore');
 // datapool
 exports.datapool = require('./datapool');
 // calendar

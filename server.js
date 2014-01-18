@@ -1,17 +1,16 @@
 // load site config
-var siteConfig = require("./config/site.json");
+var siteConfig = require("./config/site.json"),
+    socket = require("socket.io"),
+    nodeExcel = require("excel-export"),
+    helper = require("./lib/helper.js"),
+    passport = require("passport"), 
+    LocalStrategy = require("passport-local").Strategy;
 
-var socket = require("socket.io");
-
-var nodeExcel = require("excel-export");
-
-var helper = require("./lib/helper.js");
-
-var passport = require("passport"), LocalStrategy = require("passport-local").Strategy;
-
-var express = require("express"), routes = require("./routes"), api = require("./routes/api"), app = express();
-
-var flash = require("connect-flash");
+var express = require("express"), 
+    routes = require("./routes"), 
+    api = require("./routes/api"), 
+    app = express(),
+    flash = require("connect-flash");
 
 var mongoose = require("./lib/mongoose");
 
@@ -69,7 +68,7 @@ app.configure(function() {
         res.setHeader("X-Powered-By", "Raose:Team Collaboration Tool");
         next();
     });
-    // 图片上传到uploads
+    // upload handler  
     app.use(express.bodyParser({
         uploadDir: "./public/uploads"
     }));

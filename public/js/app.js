@@ -148,6 +148,7 @@ var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date"]).directive
                 templateUrl: "partials/weeklyData",
                 controller: WeeklyDataCtrl
             }).when("/account/signin", {
+                title: "登录", 
                 templateUrl: "partials/signin",
                 controller: SigninCtrl
             }).when("/docs/add", {

@@ -1,35 +1,32 @@
-var mongoose = require('mongoose');
-var EventProxy = require('eventproxy');
-var querystring = require('querystring');
-var moment = require('moment');
+var mongoose = require('mongoose'),
+    EventProxy = require('eventproxy');
+    querystring = require('querystring'),
+    moment = require('moment'),
+    util = require('util');
+var validator = require('../middlewares/reqValidator');
 // common data put API
-
-var DataStore = mongoose.model('datastore', {
-    type: String,
-    date: Date,
-    data: Object
-});
-
+var DataStore = require('../models/Datastore');
 
 module.exports = {
     addOne: function (req, res) {
 
     },
-    list: function (req, res) {
+    list: function (req, res, next) {
         var filters = querystring.parse(req.query.filters);
         if (!filters) {
             filters = {};
         }
         // start-date
-        // end-date
-        if (!req.query['start-date']) res.send({
+        if (!req.query['start-date']) 
+          return next({
             error: 1,
-            msg: 'param start-required'
+            msg: 'param start-date is required'
         });
-
-        if (!req.query['end-date']) res.send({
+        
+        // end-date
+        if (!req.query['end-date']) return next({
             error: 1,
-            msg: 'param end-required'
+            msg: 'param end-date is required'
         });
 
 
@@ -40,13 +37,28 @@ module.exports = {
             $gte: startDate,
             $lt: endDate
         };
-
+        console.log('before query');
         DataStore.find(filters).select('-type').sort('date').exec(function (err, data) {
+          if(err){
+            throw err;
+            return next(err);
+          } 
+          console.log(err,data,'after query');
+            if(data.length===0){
+              return res.send({
+                error: 0,
+                sum: 0,
+                rows: []
+              });
+            }else{
+             console.log('before map')
             var rs = data.map(function (one) {
                 if (typeof one.data === 'string') one.data = [one.data];
                 one.data.unshift(moment(one.date).format("YYYY-MM-DD"));
                 return one.data;
             });
+            }
+         
             res.send({
                 error: 0,
                 sum: (function () {

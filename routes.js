@@ -5,60 +5,15 @@ function setup(app, passport) {
     // Routes
     var routes = require("./routes/index"), api = require("./routes/api");
     // Error handler
-    app.use(function(err, req, res, next) {
-        if (!err) return next();
-        // you also need this line
-        console.log(err,typeof err);
-        res.send({
-            error: 1001,
-            msg: err
-        });
-    });
+    app.use(require('./middlewares/error'));
+    // token validator
+    app.use(require('./middlewares/tokenValidator'));
+    // auth handler
+    app.use(require('./middlewares/auth'));
     app.get("/", routes.index);
     app.get("/partials/:name", routes.partials);
-    // API接口的登录验证
-    app.get("/api/*", function(req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "*");
-        // the track api do not requrie authentication
-        var excludeAuth = function() {
-            var list = siteConfig.auth.exclude;
-            for (var i = 0; i < list.length; i++) {
-                if (req.originalUrl.indexOf(list[i]) !== -1) {
-                    return true;
-                }
-            }
-            return false;
-        }();
-    
-        if (excludeAuth) {
-            return next();
-        }
-      
-        if (req.body && !req.user && !req.body.username && !req.body.password && !req.query.token) {
-            return next("auth fail");
-        }
-      
-        return next();
-    });
-  
-  app.get('/api/*',function(req,res,next){
-     if(req.query.token){
-       User.checkToken(req.query.token,function(err,token){
-         if(err){
-           return next(err);
-         }
-         if(!token){
-           return res.send({
-             error:1004,
-             msg:'invalid token'
-           });
-         }
-         return next();
-       });
-     }
-    return next();
-  });
+
+
     /**
      *-----------------------状态相关-------------------
      */
@@ -697,11 +652,20 @@ function setup(app, passport) {
     app.get("/api/follow/:id*", api.follow.get);
     app.delete("/api/follow/:id*", api.follow.delete);
     app.post("/api/follows", api.follow.restAdd);
+  
     /**
      *  datastore
      */
-    app.get("/api/datastore/export", api.datas.list);
-    app.get("/api/datastore*", api.datas.add);
+    var validator = require('./middlewares/reqValidator');
+    app.get("/api/datastore/export.json",validator.validateQuery({
+      'start-date':{
+        type:Date,
+        required:true
+      }
+      }), api.datastore.list);
+    //app.get("/api/datastore*", api.datastore.add);
+  
+  
     app.get("/api/trackdata.json*", api.tracker.list);
     // 疯狂造人API
     var Crazy = mongoose.model("crazy", {
@@ -777,6 +741,7 @@ function setup(app, passport) {
     app.get('/api/userinfo.js', function(req,res){
       res.send('var user='+JSON.stringify(req.user));
     });
+    app.get('/api/sitestatus',require('./controllers/Site'));
     // redirect all others to the index (HTML5 history)
     app.get("*", routes.index);
 }
