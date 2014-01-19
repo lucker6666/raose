@@ -4,18 +4,34 @@ var mongoose = require('mongoose'),
     moment = require('moment'),
     util = require('util');
 var validator = require('../middlewares/reqValidator');
+var validate = validator.validate;
+
+
 // common data put API
 var DataStore = require('../models/Datastore');
 
 module.exports = {
     addOne: function (req, res) {
-
+      
     },
-    list: function (req, res, next) {
-        var filters = querystring.parse(req.query.filters);
-        if (!filters) {
-            filters = {};
+    listSchema :  {
+        'start-date':{
+          type:'isDate',
+          required:true
+        },
+        'end-date':{
+          type:'isDate',
+          required:true
         }
+      },
+    list: function (req, res, next) {
+      var filters = querystring.parse(req.query.filters);
+      var paramSchema = self.listSchema;
+   
+      validate(filters,paramSchema,function(err){
+        console.log('error is '+err);
+      });
+       
         // start-date
         if (!req.query['start-date']) 
           return next({

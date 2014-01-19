@@ -2,12 +2,8 @@ var request = require('supertest');
 var should = require('should');
 var assert = require('assert');
 var server = require('../server');
-var app = server.app;
-//var mongoose = require('mongoose');
-//mongoose.disconnect();
-//server.start();
-
-request = request(app);
+var app = server.app,
+    request = request(app);
 
 /*describe('GET /issues', function () {
 
@@ -32,7 +28,7 @@ describe('User', function () {
       //  mongoose.createConnection('mongodb://localhost/' + databaseConfig.database);
       //server = app.listen(0,done);
       request.get('/api/test/setup').end(function(err,res){
-        console.log('setup results',res.body);
+        //console.log('setup results',res.body);
       });
       serverHandler = server.start(0,done);
     });
@@ -46,7 +42,8 @@ describe('User', function () {
             .expect('Content-Type', /json/)
             .end(function (err, res) {
                // console.log(err,res);
-                res.body.msg.should.equal('params should be complete');
+              console.log(res.body.msg);
+                //res.body.msg.should.equal('params should be complete');
                 done();
             });
 
@@ -94,29 +91,7 @@ describe('User', function () {
     });
   
     
-  /**
-  * Datastore test
-  */
-  
-  it('should respond with 1002',function(done){
-    request.get('/api/datastore/export.json')
-      .expect('Content-Type',/json/)
-      .end(function(err,res){
-        res.body.error.should.equal(1002);
-        res.body.msg.should.equal('arg missing: type');
-        done();
-      });
-  });
-  
-  it('should error with missing start-date',function(done){
-    request.get('/api/datastore/export.json')
-      .expect('Content-Type',/json/)
-      .end(function(err,res){
-        res.body.error.should.equal(1002);
-        res.body.msg.should.equal('arg missing: start-date');
-        done();
-      });
-  });
+ 
     
     
 

@@ -656,39 +656,12 @@ function setup(app, passport) {
     /**
      *  datastore
      */
-    var validator = require('./middlewares/reqValidator');
-    app.get("/api/datastore/export.json",validator.validateQuery({
-      'start-date':{
-        type:Date,
-        required:true
-      }
-      }), api.datastore.list);
-    //app.get("/api/datastore*", api.datastore.add);
+    var validator = require('./middlewares/reqValidator').validateFilter;
+    app.get("/api/datastore/export.json", validator(api.datastore.listSchema),api.datastore.list);
+    app.post("/api/datastore*", api.datastore.add);
   
   
     app.get("/api/trackdata.json*", api.tracker.list);
-    // 疯狂造人API
-    var Crazy = mongoose.model("crazy", {
-        date: {
-            type: Date,
-            "default": Date.now
-        },
-        data: Object
-    });
-    app.get("/api/crazy", function(req, res) {
-        var data = req.query;
-        var callback = req.query.__c;
-        var crazy = new Crazy({
-            data: data
-        });
-        crazy.save(function(err, item) {
-            if (err) {
-                res.send(callback + "({error_code:-1,msg:'没有成功哦'})");
-            } else {
-                res.send(callback + "({error_code:0,msg:'成功了哦'})");
-            }
-        });
-    });
     // still a TMP API
     app.get("/api/exports/crazy", function(req, res) {
         Crazy.find({}, function(err, data) {
