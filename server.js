@@ -72,14 +72,14 @@ app.configure(function() {
     // body parser
     app.use(express.json());
     app.use(express.urlencoded());
-    
+   
     // timeout
     app.use(express.timeout(5000));
   
     app.use(express.methodOverride());
     app.use(express.static(__dirname + "/public"));
     app.use(express.cookieParser("raosee"));
-    app.use(express.session({
+    app.use(express.session({  
         secret: "secret",
         maxAge: new Date(Date.now() + 36e5),
         store: new MongoStore({

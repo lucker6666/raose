@@ -1,10 +1,8 @@
 module.exports = function(req, res, next) {
         var fs = require("fs");
         var target_path = null;
-        // get the temporary location of the file
-        console.log(req.files)
+        // get the temporary location of the file    
         var tmp_path = req.files.file.path;
-        console.log(tmp_path);
         var name = req.files.file.name;
         var ext = name.slice(name.lastIndexOf("."));
         // set where the file should actually exists - in this case it is in the "images" directory
@@ -19,7 +17,7 @@ module.exports = function(req, res, next) {
                     path: req.files.file.path.split("/")[2],
                     name: req.files.file.name,
                     date: new Date(),
-                    author: req.user.username
+                    author: req.user ? req.user.username:null
                 }
             });
         });

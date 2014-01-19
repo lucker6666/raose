@@ -258,7 +258,9 @@ function setup(app, passport) {
     app.post("/api/sendmail", api.mail.sendmail);
     app.get("/api/account/doActive", api.account.doActive);
     // 图片上传接口
-    app.post("/api/upload",require('connect-multiparty')(),api.upload);
+    var multipart = require('connect-multiparty');
+    var multipartMiddleware = multipart({ uploadDir: './public/uploads' });
+    app.post("/api/upload",multipartMiddleware,api.upload);
     var baiduAdapter = function(data) {
         var data = JSON.parse(data);
         var dates = data.data.items[0];
