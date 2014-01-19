@@ -5,7 +5,10 @@ var server = require('../server');
 var app = server.app,
     request = request(app);
 var code = require('../lib/error_code');
-
+var querystring = require('querystring');
+var buildFilter = function(opt){
+  return encodeURIComponent(querystring.stringify(opt));
+};
 
 describe('Datastore', function () {
     var databaseConfig = require('../config/database.json');
@@ -17,18 +20,31 @@ describe('Datastore', function () {
       serverHandler.close();
     });
 
-    /**
+ /**
   * Datastore test
   */
   
- 
-  var querystring = require('querystring');
-  it('should error with missing start-date',function(done){
-    
-    var filters = encodeURIComponent(querystring.stringify({
+  
+    it('GET:should error with missing bucket',function(done){
+    var filters = buildFilter({
       'end-date':'aaa'
-    }));                                            
-    request.get('/api/datastore/export.json')
+    });    
+    request.get('/api/datastore/export.json?filters='+filters)
+      .expect('Content-Type',/json/)
+      .end(function(err,res){
+        res.body.error.should.equal(code['ARG_MISSED'][0]);
+        res.body.msg.should.equal('missing arg:bucket');
+        done();
+      });
+  });
+  
+
+  it('GET:should error with missing start-date',function(done){
+    var filters = buildFilter({
+      'bucket':'test',
+      'end-date':'aaa'
+    });    
+    request.get('/api/datastore/export.json?filters='+filters)
       .expect('Content-Type',/json/)
       .end(function(err,res){
         res.body.error.should.equal(code['ARG_MISSED'][0]);
@@ -37,10 +53,11 @@ describe('Datastore', function () {
       });
   });
   
-   it('should error with start-date wrong type',function(done){
-    var filters = encodeURIComponent(querystring.stringify({
+  it('GET:should error with start-date wrong type',function(done){
+    var filters = buildFilter({
+      'bucket':'test',
       'start-date':'aaa'
-    }));                                            
+    });                                        
     request.get('/api/datastore/export.json?filters='+filters)
       .expect('Content-Type',/json/)
       .end(function(err,res){

@@ -15,6 +15,10 @@ module.exports = {
       
     },
     listSchema :  {
+        'bucket': {
+          type:'isLength 3',
+          required:true
+        },
         'start-date':{
           type:'isDate',
           required:true

@@ -5,21 +5,6 @@ var server = require('../server');
 var app = server.app,
     request = request(app);
 
-/*describe('GET /issues', function () {
-
-    it('GET::respond with 403', function (done) {
-        request.get('/api/issues')
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(function (err, res) {
-                res.body.error.should.equal(403);
-                done();
-            });
-    });
-
-});*/
-
 describe('User', function () {
     var databaseConfig = require('../config/database.json');
     var serverHandler;
@@ -87,14 +72,6 @@ describe('User', function () {
                 res.body.msg.should.equal('wrong username or password');
                 done();
             });
-
     });
-  
-    
  
-    
-    
-
-
-
 });
