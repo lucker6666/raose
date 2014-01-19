@@ -63,7 +63,8 @@
     "i18n": "~0.4.1",
     "restler": "~3.1.0",
     "validator": "~3.1.0",
-    "jscover": "~0.2.4"
+    "jscover": "~0.2.4",
+    "connect-multiparty": "~1.0.2"
   },
   "keywords": []
 }

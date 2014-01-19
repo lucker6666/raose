@@ -13,5 +13,10 @@ module.exports = {
         data:'account setup successfully'
       });
     });
-  }
+  },
+  timeout: function(req,res){
+    setTimeout(function(){
+            res.end('hello world\n');
+        },10000);
+  } 
 };

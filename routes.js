@@ -258,31 +258,7 @@ function setup(app, passport) {
     app.post("/api/sendmail", api.mail.sendmail);
     app.get("/api/account/doActive", api.account.doActive);
     // 图片上传接口
-    app.post("/api/upload", function(req, res) {
-        var fs = require("fs");
-        var target_path = null;
-        // get the temporary location of the file
-        var tmp_path = req.files.file.path;
-        console.log(tmp_path);
-        var name = req.files.file.name;
-        var ext = name.slice(name.lastIndexOf("."));
-        // set where the file should actually exists - in this case it is in the "images" directory
-        target_path = req.files.file.path + ext;
-        // move the file from the temporary location to the intended location
-        fs.rename(tmp_path, target_path, function(err) {
-            if (err) throw err;
-            res.send({
-                error: 0,
-                data: {
-                    ext: ext.slice(1),
-                    path: req.files.file.path.split("/")[2],
-                    name: req.files.file.name,
-                    date: new Date(),
-                    author: req.user.username
-                }
-            });
-        });
-    });
+    app.post("/api/upload",require('connect-multiparty')(),api.upload);
     var baiduAdapter = function(data) {
         var data = JSON.parse(data);
         var dates = data.data.items[0];
@@ -715,6 +691,7 @@ function setup(app, passport) {
       res.send('var user='+JSON.stringify(req.user));
     });
     app.get('/api/sitestatus',require('./controllers/Site'));
+    app.get('/api/test/timeout', require('./routes/test.js').timeout);
     // redirect all others to the index (HTML5 history)
     app.get("*", routes.index);
 }

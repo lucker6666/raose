@@ -13,6 +13,13 @@ module.exports = function(err, req, res, next) {
         msg:code['MONGODB_ERROR'][1]
       });
   }
+  // timeout error
+  if(/Response timeout/.test(util.inspect(err))){
+    return res.send({
+      error:code['TIMEOUT'][0],
+      msg:code['TIMEOUT'][1]
+    });
+  }
   // mongoose error
   // unknown error
   console.log('unknown error:'+err);

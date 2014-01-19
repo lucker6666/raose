@@ -37,6 +37,8 @@ exports.datastore = require('./datastore');
 exports.datapool = require('./datapool');
 // calendar
 exports.calendar = require('./calendar');
+// upload
+exports.upload = require('./upload');
 
 var error = {
     innerError: {

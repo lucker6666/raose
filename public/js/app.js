@@ -4,7 +4,7 @@ socket.on("connect", function () {
     console.log("Client has connected to the server!");
 });
 
-var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date"]).directive("ngEnter",function () {
+var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date","angularFileUpload"]).directive("ngEnter",function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
             13 === event.which && (scope.$apply(function () {

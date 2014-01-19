@@ -68,10 +68,14 @@ app.configure(function() {
         res.setHeader("X-Powered-By", "Raose:Team Collaboration Tool");
         next();
     });
-    // upload handler  
-    app.use(express.bodyParser({
-        uploadDir: "./public/uploads"
-    }));
+  
+    // body parser
+    app.use(express.json());
+    app.use(express.urlencoded());
+    
+    // timeout
+    app.use(express.timeout(5000));
+  
     app.use(express.methodOverride());
     app.use(express.static(__dirname + "/public"));
     app.use(express.cookieParser("raosee"));
