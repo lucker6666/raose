@@ -7,7 +7,6 @@ module.exports = {
       email:'airyland@qq.com',
       password:'123456'
     },function(err,item){
-      console.log(err);
       if(err) return next(err);
       res.send({
         error:0,
