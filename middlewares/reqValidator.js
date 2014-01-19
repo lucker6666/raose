@@ -1,25 +1,22 @@
+var code = require('../lib/error_code');
 /* Validation middleware for routes. */
 var validator = require('validator');
 var validate = function(params, schema, callback) {
     var errors = [];
     for (var i in schema) {
-        console.log(i)
-        
         var one = schema[i];
         // check require
         if (one.required === true) {
             if (!params[i]) {
-                errors.push(['missing arg', i]);
+              errors.push({error:code['ARG_MISSED'][0],msg:'missing arg:'+ i});
             }
         }
-        
         // check type
         if (one.type && params[i]) {
             if (!validator[one.type](params[i])) {
-                errors.push(['type not match'], i);
+              errors.push({error:code['ARG_WRONG_TYPE'][0],msg:'arg type not match:'+ i});
             }
         }
-
     }
     callback(errors.length ? errors : null, {});
 };
@@ -48,15 +45,10 @@ module.exports = {
     validateFilter: function(schema) {
         return function(req, res, next) {
              var filters = require('querystring').parse(req.query.filters);
-            validate(filters, schema, function(err, validObj) {
-              console.log('validator error:',err);
-                // req.query = validObj;
-                if(!err) return next();
-                return next({
-                    validator: 'validator',
-                    err: err
-                });
-            }, 'filters');
+              validate(filters, schema, function(err, validObj) {
+                  if(!err) return next();
+                  return next(err);
+              }, 'filters');
         };
 
     }
