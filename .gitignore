@@ -1,5 +1,6 @@
 /node_modules/
-/public/uploads/
+/public/uploads/*
+!/public/uploads/README.md
 cron/*.json
 databackup
 cron/data/*.json
