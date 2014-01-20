@@ -15,9 +15,20 @@ describe('Upload', function () {
     after(function(){
       serverHandler.close();
     });
+  
+  
+  it('POST:should return error '+code['ARG_MISSED'][0],function(done){
+    request.post('/api/upload')
+      .expect('Content-Type',/json/)
+      .end(function(err,res){
+        res.body.error.should.equal(code['ARG_MISSED'][0]);
+        res.body.msg.should.equal('missing arg:file');
+        done();
+      });
+  });
 
   
-    it('should return error 0',function(done){
+  it('POST:should return error 0',function(done){
     request.post('/api/upload')
       .attach('file', './test/avatar.png')
       .expect('Content-Type',/json/)

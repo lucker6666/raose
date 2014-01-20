@@ -1,4 +1,8 @@
+var code = require('../lib/error_code');
 module.exports = function(req, res, next) {
+        if(!req.files.file){
+          return next([{error:code['ARG_MISSED'][0],msg:'missing arg:'+ 'file'}]);
+        }
         var fs = require("fs");
         var target_path = null;
         // get the temporary location of the file    
