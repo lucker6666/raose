@@ -12,6 +12,10 @@ var express = require("express"),
     app = express(),
     flash = require("connect-flash");
 
+// logger
+ var expressWinston = require('express-winston'),
+     winston = require('winston'); // for transports.Console
+
 var mongoose = require("./lib/mongoose");
 
 var User = require("./models/user");
@@ -93,6 +97,15 @@ app.configure(function() {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());
+    // express-winston logger makes sense BEFORE the router.
+    app.use(expressWinston.logger({
+      transports: [
+        new winston.transports.Console({
+          json: true,
+          colorize: true
+        })
+      ]
+    }));
     app.use(app.router);
 });
 

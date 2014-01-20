@@ -64,7 +64,11 @@
     "restler": "~3.1.0",
     "validator": "~3.1.0",
     "jscover": "~0.2.4",
-    "connect-multiparty": "~1.0.2"
+    "connect-multiparty": "~1.0.2",
+    "express-winston": "~0.2.1"
   },
-  "keywords": []
+  "keywords": [],
+  "dependencies": {
+    "winston": "~0.7.2"
+  }
 }
