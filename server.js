@@ -72,14 +72,15 @@ app.configure(function() {
     // body parser
     app.use(express.json());
     app.use(express.urlencoded());
-   
+    app.use(express.multipart({ uploadDir: './public/uploads' }));
+    
     // timeout
     app.use(express.timeout(5000));
   
     app.use(express.methodOverride());
     app.use(express.static(__dirname + "/public"));
     app.use(express.cookieParser("raosee"));
-    app.use(express.session({  
+    app.use(express.session({
         secret: "secret",
         maxAge: new Date(Date.now() + 36e5),
         store: new MongoStore({
@@ -104,8 +105,8 @@ function start(port,done) {
         console.log("Express server listening on port %d in %s mode", 8004, app.settings.env);
         done && done();
     });
-    return server;
     var io = socket.listen(server);
+    return server;
 }
 
 exports.start = start;
