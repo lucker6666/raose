@@ -102,7 +102,7 @@ function start(port,done) {
       port = 8004;
     }
     var server = app.listen(port, function() {
-        console.log("Express server listening on port %d in %s mode", 8004, app.settings.env);
+        console.log("Express server listening on port %d in %s mode", port, app.settings.env);
         done && done();
     });
     var io = socket.listen(server);
