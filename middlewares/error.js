@@ -25,6 +25,7 @@ module.exports = function(err, req, res, next) {
   console.log('unknown error:'+err);
   res.send({
     error:500,
+    err: err.stack,
     msg:util.inspect(err)
   });
 };
