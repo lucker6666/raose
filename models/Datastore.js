@@ -5,10 +5,17 @@ var DataStore = mongoose.model('datastore', {
       type: String,
       required: true
     },
+    // data bucket
+    bucket: {
+      type: String,
+      required: true
+    },
+    // data date 
     date: {
       type: Date,
       required: true
     },
+    // data
     data: {
       type: Schema.Types.Mixed,
       required: true

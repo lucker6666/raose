@@ -690,7 +690,14 @@ function setup(app, passport) {
     app.get("/api/test/setup", require("./routes/test.js").setup);
     // user info js
     app.get('/api/userinfo.js', function(req,res){
-      res.send('var user='+JSON.stringify(req.user));
+      var userinfo;
+      if(req.user){
+        userinfo = req.user;
+      }else{
+        userinfo = null;
+      }
+      res.set('Content-Type','application/javascript');
+      res.send('var user='+JSON.stringify(userinfo));
     });
     app.get('/api/sitestatus',require('./controllers/Site'));
     app.get('/api/test/timeout', require('./routes/test.js').timeout);
