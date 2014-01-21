@@ -16,10 +16,10 @@ var validate = function(params, schema, callback) {
           var test = false;
           if(one.type.indexOf(' ')>0){
             var args = one.type.split(' ');
-           var arg = [params[i]].concat(args.slice(1));
+            var arg = [params[i]].concat(args.slice(1));
             test = validator[args[0]].apply(validator,arg);
           }else{
-              var test = validator[one.type](validator,params[i]);
+              var test = validator[one.type].call(validator,params[i]);
           }
             if (!test) {
               errors.push({error:code['ARG_WRONG_TYPE'][0],msg:'arg type not match:'+ i});
