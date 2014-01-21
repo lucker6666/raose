@@ -97,15 +97,18 @@ app.configure(function() {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());
-    // express-winston logger makes sense BEFORE the router.
-    app.use(expressWinston.logger({
-      transports: [
-        new winston.transports.Console({
-          json: true,
-          colorize: true
-        })
-      ]
-    }));
+    app.configure('dev',function(){
+      // express-winston logger makes sense BEFORE the router.
+      app.use(expressWinston.logger({
+        transports: [
+          new winston.transports.Console({
+            json: true,
+            colorize: true
+          })
+        ]
+      }));
+    });
+    
     app.use(app.router);
 });
 
