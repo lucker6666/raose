@@ -29,26 +29,7 @@ module.exports = {
         }
       },
     list: function (req, res, next) {
-      var filters = querystring.parse(req.query.filters);
-      var paramSchema = self.listSchema;
-   
-      validate(filters,paramSchema,function(err){
-        console.log('error is '+err);
-      });
-       
-        // start-date
-        if (!req.query['start-date']) 
-          return next({
-            error: 1,
-            msg: 'param start-date is required'
-        });
-        
-        // end-date
-        if (!req.query['end-date']) return next({
-            error: 1,
-            msg: 'param end-date is required'
-        });
-
+      var filters = querystring.parse(req.query.filters);   
 
         var startDate = new Date(req.query['start-date']);
         var endDate = new Date(req.query['end-date']);
@@ -57,13 +38,12 @@ module.exports = {
             $gte: startDate,
             $lt: endDate
         };
-        console.log('before query');
+
         DataStore.find(filters).select('-type').sort('date').exec(function (err, data) {
           if(err){
-            throw err;
             return next(err);
           } 
-          console.log(err,data,'after query');
+          
             if(data.length===0){
               return res.send({
                 error: 0,
@@ -71,7 +51,6 @@ module.exports = {
                 rows: []
               });
             }else{
-             console.log('before map')
             var rs = data.map(function (one) {
                 if (typeof one.data === 'string') one.data = [one.data];
                 one.data.unshift(moment(one.date).format("YYYY-MM-DD"));

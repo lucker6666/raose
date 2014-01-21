@@ -67,6 +67,25 @@ describe('Datastore', function () {
       });
   });
   
+    it('GET:should return empty array',function(done){
+    var filters = buildFilter({
+      'bucket':'test',
+      'start-date':'2014-01-09',
+      'end-date':'2014-01-15'
+    });                                        
+    request.get('/api/datastore/export.json?filters='+filters)
+      .expect('Content-Type',/json/)
+      .end(function(err,res){
+        console.log(res.body);
+        res.body.error.should.equal(0);
+        res.body.sum.should.equal(0);
+        res.body.rows.length.should.equal(0);
+        done();
+      });
+  });
+  
+  
+  
   
     
 });
