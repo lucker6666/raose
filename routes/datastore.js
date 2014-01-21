@@ -71,9 +71,9 @@ module.exports = {
             });
         })
     },
-    add: function (req, res) {
+    add: function (req, res, next) {
         var datas = req.query;
-
+        /**
         if (!datas.type || !datas.date) {
             res.send({
                 error: 1,
@@ -81,11 +81,13 @@ module.exports = {
             });
             return;
         }
+        **/
         // check if exists
         var ep = EventProxy.create('exist', function (exist) {
             if (exist === 0) {
                 var data = new DataStore(datas);
                 data.save(function (err) {
+                    if(err) return next(err);
                     res.send({
                         error: 0,
                         msg: 'insert successfully'
@@ -93,6 +95,7 @@ module.exports = {
                 });
             } else {
                 DataStore.findOneAndUpdate({type: datas.type, date: datas.date}, datas, function (err) {
+                    if(err) return next(err);
                     res.send({
                         error: 0,
                         msg: 'update successfully'

@@ -84,6 +84,14 @@ describe('Datastore', function () {
       });
   });
   
+  it('POST:should return bucket required error',function(done){
+    request.post('/api/datastore')
+    .expect('Content-Type',/json/)
+    .end(function(err,res){
+      console.log(res.body);
+      done();
+    });
+  })
   
   
   
