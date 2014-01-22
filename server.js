@@ -57,7 +57,6 @@ var MongoStore = require("connect-mongo")(express);
 app.configure(function() {
     app.set("views", __dirname + "/views");
     app.set("view engine", "jade");
-    //app.set('view cache', 'true');
     app.set("view options", {
         layout: false
     });
@@ -96,6 +95,13 @@ app.configure(function() {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());
+  
+    // enable view cache in product ENV
+    app.configure('product',function(){
+      app.set('view cache', 'true');
+    });
+    
+    // dev ENV config
     app.configure('dev',function(){
       // express-winston logger makes sense BEFORE the router.
       app.use(expressWinston.logger({
@@ -125,5 +131,4 @@ function start(port,done) {
 }
 
 exports.start = start;
-
 exports.app = app;
