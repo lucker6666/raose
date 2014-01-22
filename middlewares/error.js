@@ -3,7 +3,7 @@ var code = require('../lib/error_code');
 function mongooseErrorHandler(err) {
     //If it isn't a mongoose-validation error, just throw it.
     var messages = {
-        'required': "%s can't be blank.",
+        'required': "missing arg:%s",
         'format': "%s must be at least 3 characters.",
         'unique': "%s is already in use.",
         'email': "%s is invalid",
@@ -26,7 +26,7 @@ function mongooseErrorHandler(err) {
         else errors.push(require('util').format(messages[eObj.type], eObj.path));
     });
 
-    return errors;
+    return errors.reverse();
 }
 module.exports = function(err, req, res, next) {
   if (!err) return next();
@@ -52,7 +52,7 @@ module.exports = function(err, req, res, next) {
   if(/ValidationError/.test(util.inspect(err))){
     return res.send({
       error:5555,
-      msg:mongooseErrorHandler(err)
+      msg:mongooseErrorHandler(err)[0]
     });
     
     }

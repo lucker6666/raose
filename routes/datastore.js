@@ -10,6 +10,10 @@ var validate = validator.validate;
 // common data put API
 var DataStore = require('../models/Datastore');
 
+/**
+* may be we can build filters by the reqValidator
+*/
+
 module.exports = {
     addOne: function (req, res) {
       
@@ -29,17 +33,19 @@ module.exports = {
         }
       },
     list: function (req, res, next) {
-      var filters = querystring.parse(req.query.filters);   
-
-        var startDate = new Date(req.query['start-date']);
-        var endDate = new Date(req.query['end-date']);
-
-        filters['date'] = {
+        var filters = querystring.parse(req.query.filters);   
+        var startDate = new Date(filters['start-date']);
+        var endDate = new Date(filters['end-date']);
+        
+        var query = {
+          date: {
             $gte: startDate,
             $lt: endDate
+          },
+          bucket: filters['bucket']
         };
-
-        DataStore.find(filters).select('-type').sort('date').exec(function (err, data) {
+               
+        DataStore.find(query).select('-bucket').sort('date').exec(function (err, data) {
           if(err){
             return next(err);
           } 
@@ -50,14 +56,14 @@ module.exports = {
                 sum: 0,
                 rows: []
               });
-            }else{
+            }
+          
             var rs = data.map(function (one) {
-                if (typeof one.data === 'string') one.data = [one.data];
+                if (typeof one.data === 'string' || typeof one.data === 'number') one.data = [one.data];
                 one.data.unshift(moment(one.date).format("YYYY-MM-DD"));
                 return one.data;
             });
-            }
-         
+                 
             res.send({
                 error: 0,
                 sum: (function () {
@@ -70,19 +76,10 @@ module.exports = {
                 rows: rs
             });
         })
+          
     },
     add: function (req, res, next) {
-        var datas = req.query;
-        /**
-        if (!datas.type || !datas.date) {
-            res.send({
-                error: 1,
-                msg: 'no data specified'
-            });
-            return;
-        }
-        **/
-        // check if exists
+        var datas = req.body;
         var ep = EventProxy.create('exist', function (exist) {
             if (exist === 0) {
                 var data = new DataStore(datas);

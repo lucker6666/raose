@@ -88,12 +88,38 @@ describe('Datastore', function () {
     request.post('/api/datastore')
     .expect('Content-Type',/json/)
     .end(function(err,res){
-      console.log(res.body);
+      res.body.msg.should.equal('missing arg:bucket');
       done();
     });
-  })
+  });
+  
+   it('POST:should successfully insert',function(done){
+    request.post('/api/datastore')
+    .send({
+      bucket: 'test',
+      date: '2014-01-21',
+      data: 255
+    })
+    .expect('Content-Type',/json/)
+    .expect(/successfully/,done)
+  });
   
   
-  
-    
+ it('GET:should return array with one item',function(done){
+    var filters = buildFilter({
+      'bucket':'test',
+      'start-date':'2014-01-09',
+      'end-date':'2014-01-22'
+    });                                        
+    request.get('/api/datastore/export.json?filters='+filters)
+      .expect('Content-Type',/json/)
+      .end(function(err,res){
+        console.log(res.body);
+        res.body.error.should.equal(0);
+        res.body.sum.should.equal(255);
+        res.body.rows.length.should.equal(1);
+        done();
+      });
+  });
+      
 });
