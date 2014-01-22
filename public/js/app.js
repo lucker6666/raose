@@ -199,6 +199,9 @@ var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date","angularFil
             }).when("/tools", {
                 templateUrl: "partials/tools",
                 controller: ToolCtrl
+            }).when("/dataCollections", {
+                templateUrl: "partials/viewCollection",
+                controller: DatacollectionCtrl
             }).otherwise({
                 redirectTo: "/me"
             });

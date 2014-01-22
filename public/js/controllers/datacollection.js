@@ -1,0 +1,3 @@
+var DatacollectionCtrl = function($scope){
+
+};
