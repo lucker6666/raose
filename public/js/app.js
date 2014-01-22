@@ -4,7 +4,7 @@ socket.on("connect", function () {
     console.log("Client has connected to the server!");
 });
 
-var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date"]).directive("ngEnter",function () {
+var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date","angularFileUpload"]).directive("ngEnter",function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
             13 === event.which && (scope.$apply(function () {
@@ -31,7 +31,9 @@ var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date"]).directive
         };
     }).filter("rate",function () {
         return function (rate) {
-            return rate ? 0 > rate ? '<span class="vivid">' + rate + "%</span>" : rate + "%" : "0%";
+            if (!rate) return '0%';
+            if (rate < 0) return '<span class="vivid">' + rate + '%</span>';
+            return rate + '%';
         };
     }).filter("time",function () {
         return function (time) {
@@ -91,6 +93,7 @@ var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date"]).directive
                 templateUrl: "partials/signup",
                 controller: RegisterCtrl
             }).when("/issues", {
+                title: "Issues",
                 templateUrl: "partials/issues",
                 controller: IssuesCtrl
             }).when("/issue/:id/edit", {
@@ -148,6 +151,7 @@ var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date"]).directive
                 templateUrl: "partials/weeklyData",
                 controller: WeeklyDataCtrl
             }).when("/account/signin", {
+                title: "登录", 
                 templateUrl: "partials/signin",
                 controller: SigninCtrl
             }).when("/docs/add", {
@@ -195,6 +199,9 @@ var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date"]).directive
             }).when("/tools", {
                 templateUrl: "partials/tools",
                 controller: ToolCtrl
+            }).when("/dataCollections", {
+                templateUrl: "partials/viewCollection",
+                controller: DatacollectionCtrl
             }).otherwise({
                 redirectTo: "/me"
             });

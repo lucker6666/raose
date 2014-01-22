@@ -1,17 +1,19 @@
 // load site config
-var siteConfig = require("./config/site.json");
+var siteConfig = require("./config/site.json"),
+    socket = require("socket.io"),
+    helper = require("./lib/helper.js"),
+    passport = require("passport"), 
+    LocalStrategy = require("passport-local").Strategy;
 
-var socket = require("socket.io");
+var express = require("express"), 
+    routes = require("./routes"), 
+    api = require("./routes/api"), 
+    app = express(),
+    flash = require("connect-flash");
 
-var nodeExcel = require("excel-export");
-
-var helper = require("./lib/helper.js");
-
-var passport = require("passport"), LocalStrategy = require("passport-local").Strategy;
-
-var express = require("express"), routes = require("./routes"), api = require("./routes/api"), app = express();
-
-var flash = require("connect-flash");
+// logger
+ var expressWinston = require('express-winston'),
+     winston = require('winston'); // for transports.Console
 
 var mongoose = require("./lib/mongoose");
 
@@ -55,7 +57,6 @@ var MongoStore = require("connect-mongo")(express);
 app.configure(function() {
     app.set("views", __dirname + "/views");
     app.set("view engine", "jade");
-    //app.set('view cache', 'true');
     app.set("view options", {
         layout: false
     });
@@ -69,10 +70,15 @@ app.configure(function() {
         res.setHeader("X-Powered-By", "Raose:Team Collaboration Tool");
         next();
     });
-    // 图片上传到uploads
-    app.use(express.bodyParser({
-        uploadDir: "./public/uploads"
-    }));
+  
+    // body parser
+    app.use(express.json());
+    app.use(express.urlencoded());
+    app.use(express.multipart({ uploadDir: './public/uploads' }));
+    
+    // timeout
+    app.use(express.timeout(5000));
+  
     app.use(express.methodOverride());
     app.use(express.static(__dirname + "/public"));
     app.use(express.cookieParser("raosee"));
@@ -89,6 +95,25 @@ app.configure(function() {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());
+  
+    // enable view cache in product ENV
+    app.configure('product',function(){
+      app.set('view cache', 'true');
+    });
+    
+    // dev ENV config
+    app.configure('dev',function(){
+      // express-winston logger makes sense BEFORE the router.
+      app.use(expressWinston.logger({
+        transports: [
+          new winston.transports.Console({
+            json: true,
+            colorize: true
+          })
+        ]
+      }));
+    });
+    
     app.use(app.router);
 });
 
@@ -98,13 +123,12 @@ function start(port,done) {
       port = 8004;
     }
     var server = app.listen(port, function() {
-        console.log("Express server listening on port %d in %s mode", 8004, app.settings.env);
+        console.log("Express server listening on port %d in %s mode", port, app.settings.env);
         done && done();
     });
-    return server;
     var io = socket.listen(server);
+    return server;
 }
 
 exports.start = start;
-
 exports.app = app;

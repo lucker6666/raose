@@ -1,52 +1,69 @@
-var mongoose = require('mongoose');
-var EventProxy = require('eventproxy');
-var querystring = require('querystring');
-var moment = require('moment');
+var mongoose = require('mongoose'),
+    EventProxy = require('eventproxy');
+    querystring = require('querystring'),
+    moment = require('moment'),
+    util = require('util');
+var validator = require('../middlewares/reqValidator');
+var validate = validator.validate;
+
+
 // common data put API
+var DataStore = require('../models/Datastore');
 
-var DataStore = mongoose.model('datastore', {
-    type: String,
-    date: Date,
-    data: Object
-});
-
+/**
+* may be we can build filters by the reqValidator
+*/
 
 module.exports = {
     addOne: function (req, res) {
-
+      
     },
-    list: function (req, res) {
-        var filters = querystring.parse(req.query.filters);
-        if (!filters) {
-            filters = {};
+    listSchema :  {
+        'bucket': {
+          type:'isLength 3',
+          required:true
+        },
+        'start-date':{
+          type:'isDate',
+          required:true
+        },
+        'end-date':{
+          type:'isDate',
+          required:true
         }
-        // start-date
-        // end-date
-        if (!req.query['start-date']) res.send({
-            error: 1,
-            msg: 'param start-required'
-        });
-
-        if (!req.query['end-date']) res.send({
-            error: 1,
-            msg: 'param end-required'
-        });
-
-
-        var startDate = new Date(req.query['start-date']);
-        var endDate = new Date(req.query['end-date']);
-
-        filters['date'] = {
+      },
+    list: function (req, res, next) {
+        var filters = querystring.parse(req.query.filters);   
+        var startDate = new Date(filters['start-date']);
+        var endDate = new Date(filters['end-date']);
+        
+        var query = {
+          date: {
             $gte: startDate,
             $lt: endDate
+          },
+          bucket: filters['bucket']
         };
-
-        DataStore.find(filters).select('-type').sort('date').exec(function (err, data) {
+               
+        DataStore.find(query).select('-bucket').sort('date').exec(function (err, data) {
+          if(err){
+            return next(err);
+          } 
+          
+            if(data.length===0){
+              return res.send({
+                error: 0,
+                sum: 0,
+                rows: []
+              });
+            }
+          
             var rs = data.map(function (one) {
-                if (typeof one.data === 'string') one.data = [one.data];
+                if (typeof one.data === 'string' || typeof one.data === 'number') one.data = [one.data];
                 one.data.unshift(moment(one.date).format("YYYY-MM-DD"));
                 return one.data;
             });
+                 
             res.send({
                 error: 0,
                 sum: (function () {
@@ -59,22 +76,15 @@ module.exports = {
                 rows: rs
             });
         })
+          
     },
-    add: function (req, res) {
-        var datas = req.query;
-
-        if (!datas.type || !datas.date) {
-            res.send({
-                error: 1,
-                msg: 'no data specified'
-            });
-            return;
-        }
-        // check if exists
+    add: function (req, res, next) {
+        var datas = req.body;
         var ep = EventProxy.create('exist', function (exist) {
             if (exist === 0) {
                 var data = new DataStore(datas);
                 data.save(function (err) {
+                    if(err) return next(err);
                     res.send({
                         error: 0,
                         msg: 'insert successfully'
@@ -82,6 +92,7 @@ module.exports = {
                 });
             } else {
                 DataStore.findOneAndUpdate({type: datas.type, date: datas.date}, datas, function (err) {
+                    if(err) return next(err);
                     res.send({
                         error: 0,
                         msg: 'update successfully'

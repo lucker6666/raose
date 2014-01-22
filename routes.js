@@ -1,64 +1,20 @@
 var siteConfig = require("./config/site.json");
 var User = require('./controllers/User');
+var nodeExcel = require("excel-export");
 function setup(app, passport) {
     var mongoose = require("./lib/mongoose");
     // Routes
     var routes = require("./routes/index"), api = require("./routes/api");
     // Error handler
-    app.use(function(err, req, res, next) {
-        if (!err) return next();
-        // you also need this line
-        console.log(err,typeof err);
-        res.send({
-            error: 1001,
-            msg: err
-        });
-    });
+    app.use(require('./middlewares/error'));
+    // token validator
+    app.use(require('./middlewares/tokenValidator'));
+    // auth handler
+    app.use(require('./middlewares/auth'));
     app.get("/", routes.index);
     app.get("/partials/:name", routes.partials);
-    // API接口的登录验证
-    app.get("/api/*", function(req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "*");
-        // the track api do not requrie authentication
-        var excludeAuth = function() {
-            var list = siteConfig.auth.exclude;
-            for (var i = 0; i < list.length; i++) {
-                if (req.originalUrl.indexOf(list[i]) !== -1) {
-                    return true;
-                }
-            }
-            return false;
-        }();
-    
-        if (excludeAuth) {
-            return next();
-        }
-      
-        if (req.body && !req.user && !req.body.username && !req.body.password && !req.query.token) {
-            return next("auth fail");
-        }
-      
-        return next();
-    });
-  
-  app.get('/api/*',function(req,res,next){
-     if(req.query.token){
-       User.checkToken(req.query.token,function(err,token){
-         if(err){
-           return next(err);
-         }
-         if(!token){
-           return res.send({
-             error:1004,
-             msg:'invalid token'
-           });
-         }
-         return next();
-       });
-     }
-    return next();
-  });
+
+
     /**
      *-----------------------状态相关-------------------
      */
@@ -303,31 +259,9 @@ function setup(app, passport) {
     app.post("/api/sendmail", api.mail.sendmail);
     app.get("/api/account/doActive", api.account.doActive);
     // 图片上传接口
-    app.post("/api/upload", function(req, res) {
-        var fs = require("fs");
-        var target_path = null;
-        // get the temporary location of the file
-        var tmp_path = req.files.file.path;
-        console.log(tmp_path);
-        var name = req.files.file.name;
-        var ext = name.slice(name.lastIndexOf("."));
-        // set where the file should actually exists - in this case it is in the "images" directory
-        target_path = req.files.file.path + ext;
-        // move the file from the temporary location to the intended location
-        fs.rename(tmp_path, target_path, function(err) {
-            if (err) throw err;
-            res.send({
-                error: 0,
-                data: {
-                    ext: ext.slice(1),
-                    path: req.files.file.path.split("/")[2],
-                    name: req.files.file.name,
-                    date: new Date(),
-                    author: req.user.username
-                }
-            });
-        });
-    });
+    var multipart = require('connect-multiparty');
+    var multipartMiddleware = multipart({ uploadDir: './public/uploads' });
+    app.post("/api/upload",multipartMiddleware,api.upload);
     var baiduAdapter = function(data) {
         var data = JSON.parse(data);
         var dates = data.data.items[0];
@@ -697,34 +631,16 @@ function setup(app, passport) {
     app.get("/api/follow/:id*", api.follow.get);
     app.delete("/api/follow/:id*", api.follow.delete);
     app.post("/api/follows", api.follow.restAdd);
+  
     /**
      *  datastore
      */
-    app.get("/api/datastore/export", api.datas.list);
-    app.get("/api/datastore*", api.datas.add);
+    var validator = require('./middlewares/reqValidator').validateFilter;
+    app.get("/api/datastore/export.json", validator(api.datastore.listSchema),api.datastore.list);
+    app.post("/api/datastore*", api.datastore.add);
+  
+  
     app.get("/api/trackdata.json*", api.tracker.list);
-    // 疯狂造人API
-    var Crazy = mongoose.model("crazy", {
-        date: {
-            type: Date,
-            "default": Date.now
-        },
-        data: Object
-    });
-    app.get("/api/crazy", function(req, res) {
-        var data = req.query;
-        var callback = req.query.__c;
-        var crazy = new Crazy({
-            data: data
-        });
-        crazy.save(function(err, item) {
-            if (err) {
-                res.send(callback + "({error_code:-1,msg:'没有成功哦'})");
-            } else {
-                res.send(callback + "({error_code:0,msg:'成功了哦'})");
-            }
-        });
-    });
     // still a TMP API
     app.get("/api/exports/crazy", function(req, res) {
         Crazy.find({}, function(err, data) {
@@ -775,8 +691,17 @@ function setup(app, passport) {
     app.get("/api/test/setup", require("./routes/test.js").setup);
     // user info js
     app.get('/api/userinfo.js', function(req,res){
-      res.send('var user='+JSON.stringify(req.user));
+      var userinfo;
+      if(req.user){
+        userinfo = req.user;
+      }else{
+        userinfo = null;
+      }
+      res.set('Content-Type','application/javascript');
+      res.send('var user='+JSON.stringify(userinfo));
     });
+    app.get('/api/sitestatus',require('./controllers/Site'));
+    app.get('/api/test/timeout', require('./routes/test.js').timeout);
     // redirect all others to the index (HTML5 history)
     app.get("*", routes.index);
 }

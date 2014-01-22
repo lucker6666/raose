@@ -2,27 +2,8 @@ var request = require('supertest');
 var should = require('should');
 var assert = require('assert');
 var server = require('../server');
-var app = server.app;
-//var mongoose = require('mongoose');
-//mongoose.disconnect();
-//server.start();
-
-request = request(app);
-
-/*describe('GET /issues', function () {
-
-    it('GET::respond with 403', function (done) {
-        request.get('/api/issues')
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(function (err, res) {
-                res.body.error.should.equal(403);
-                done();
-            });
-    });
-
-});*/
+var app = server.app,
+    request = request(app);
 
 describe('User', function () {
     var databaseConfig = require('../config/database.json');
@@ -32,7 +13,7 @@ describe('User', function () {
       //  mongoose.createConnection('mongodb://localhost/' + databaseConfig.database);
       //server = app.listen(0,done);
       request.get('/api/test/setup').end(function(err,res){
-        console.log('setup results',res.body);
+        //console.log('setup results',res.body);
       });
       serverHandler = server.start(0,done);
     });
@@ -46,7 +27,8 @@ describe('User', function () {
             .expect('Content-Type', /json/)
             .end(function (err, res) {
                // console.log(err,res);
-                res.body.msg.should.equal('params should be complete');
+              console.log(res.body.msg);
+                //res.body.msg.should.equal('params should be complete');
                 done();
             });
 
@@ -90,8 +72,6 @@ describe('User', function () {
                 res.body.msg.should.equal('wrong username or password');
                 done();
             });
-
     });
-
-
+ 
 });

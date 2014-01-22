@@ -1,7 +1,7 @@
 h1 {{form.title}}
 hr
 p {{form.date | time}}
-p {{form.desc}}
+p(ng-bind-html='form.desc | unsafe')
 hr
 .form-group
     button.btn.btn-primary(ng-click='deleteTodo()') 删除
