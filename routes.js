@@ -1,5 +1,6 @@
 var siteConfig = require("./config/site.json");
 var User = require('./controllers/User');
+var nodeExcel = require("excel-export");
 function setup(app, passport) {
     var mongoose = require("./lib/mongoose");
     // Routes

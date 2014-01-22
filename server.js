@@ -1,7 +1,6 @@
 // load site config
 var siteConfig = require("./config/site.json"),
     socket = require("socket.io"),
-    nodeExcel = require("excel-export"),
     helper = require("./lib/helper.js"),
     passport = require("passport"), 
     LocalStrategy = require("passport-local").Strategy;
