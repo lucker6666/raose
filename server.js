@@ -58,7 +58,8 @@ app.configure(function() {
     app.set("views", __dirname + "/views");
     app.set("view engine", "jade");
     app.set("view options", {
-        layout: false
+        layout: false,
+        pretty: true
     });
     app.use(express.errorHandler({
         showStack: true,

@@ -34,7 +34,7 @@ module.exports = {
       },
     list: function (req, res, next) {
         var filters = querystring.parse(req.query.filters);   
-        var startDate = new Date(filters['start-date']);
+        var startDate = new Date((+new Date(filters['start-date'])-24*3600*1000));
         var endDate = new Date(filters['end-date']);
         
         var query = {
