@@ -140,7 +140,7 @@ function setup(app, passport) {
                 });
             });
         }
-        exec("git pull github master", puts);
+        exec("git pull github dev", puts);
     });
     /**
      *---------------------数据接口------------------------------
