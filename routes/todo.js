@@ -140,8 +140,10 @@ exports.todo = {
   },
   get: function(req, res) {
     Todo.findById(req.params.id, function(err, data) {
-      if (err) throw err;
-      data.desc = data.desc.replace(/\n/g,"<br />");
+      if (err) return next(err);
+      if (data.desc){
+        data.desc = data.desc.replace(/\n/g,"<br />");
+      }
       res.send({
         error: 0,
         data: data
