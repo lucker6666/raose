@@ -89,8 +89,6 @@ app.configure(function() {
         store: new MongoStore({
             db: "raose",
             auto_reconnect: true
-        }, function(err) {
-            if (err) console.log("mongodb setup fail");
         })
     }));
     app.use(passport.initialize());
