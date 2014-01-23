@@ -1,5 +1,6 @@
 {
     "sessionExpire": 2592000,
+    "cookieSecret": "raose",
     "auth": {
         "exclude": ["test", "datatrack", "_.gif", "datapool", "datastore", "crazy", "ga"]
     },
