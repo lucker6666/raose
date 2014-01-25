@@ -42,7 +42,20 @@ var mongoose = require('mongoose'),
         // secret to generate token
         secret: String,
         // token
-        token: String
+        token: String,
+        // email actived
+        active_metas: {
+          has_sent_actived_email:{
+            type: Boolean,
+            default: false
+          },
+          send_actived_email_at: Date,
+          has_actived:{
+            type: Boolean,
+            default: false
+          },
+          actived_at: Date
+        }
     });
 
 // generate secret and token
@@ -59,6 +72,9 @@ userSchema.pre('save', function(next) {
     next();
 });
 
+/**
+* send actived email
+*/
 userSchema.post('save', function(item) {
     Email.createJob({
         username: item.username
