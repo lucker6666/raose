@@ -48,11 +48,7 @@ exports.user = {
             }
 
             if (!req.body.password) {
-                res.send({
-                    error: 1001,
-                    msg: 'password not specified'
-                });
-                return;
+                return next('password not specified');
             }
 
             if (user) {

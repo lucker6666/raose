@@ -27,8 +27,7 @@ describe('User', function () {
             .expect('Content-Type', /json/)
             .end(function (err, res) {
                // console.log(err,res);
-              console.log(res.body.msg);
-                //res.body.msg.should.equal('params should be complete');
+                res.body.msg.should.equal('params should be complete');
                 done();
             });
 
