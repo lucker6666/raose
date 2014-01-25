@@ -75,7 +75,6 @@ app.configure(function() {
     // body parser
     app.use(express.json());
     app.use(express.urlencoded());
-    app.use(express.multipart({ uploadDir: './public/uploads' }));
     
     // timeout
     app.use(express.timeout(5000));
