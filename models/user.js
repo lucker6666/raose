@@ -42,8 +42,41 @@ var mongoose = require('mongoose'),
         // secret to generate token
         secret: String,
         // token
-        token: String
+        token: String,
+        // email actived
+        active_metas: {
+          has_sent_actived_email:{
+            type: Boolean,
+            default: false
+          },
+          send_actived_email_at: Date,
+          has_actived:{
+            type: Boolean,
+            default: false
+          },
+          actived_at: Date
+        }
     });
+
+// search method
+userSchema.statics.searchUserByName = function(name, callback) {
+    var reg = new RegExp(name);
+    this.find({
+        $or: [
+            [{
+                username: reg
+            }],
+            [{
+                realname: reg
+            }],
+            [{
+                email: reg
+            }]
+        ]
+    }).exec(function(err, items) {
+        callback(err, items);
+    });
+};
 
 // generate secret and token
 userSchema.pre('save', function(next) {
@@ -59,6 +92,9 @@ userSchema.pre('save', function(next) {
     next();
 });
 
+/**
+* send actived email
+*/
 userSchema.post('save', function(item) {
     Email.createJob({
         username: item.username

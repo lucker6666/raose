@@ -169,9 +169,7 @@ function setup(app, passport) {
     //app.post('/api/topics/:id/discussions', api.topic.addDiscussion);
     // 删除评论
     //app.delete('/api/discussion/:id', api.discussion.delete);
-    //成员相关
-    app.get("/api/users", api.user.list);
-    app.get("/api/user/:id?", api.user.get);
+   
     // 成员信息
     // app.get('/api/members/:name',api.members.get);
     // 所有话题 
@@ -702,6 +700,12 @@ function setup(app, passport) {
     });
     app.get('/api/sitestatus',require('./controllers/Site'));
     app.get('/api/test/timeout', require('./routes/test.js').timeout);
+  
+    // user
+    app.get("/api/users", api.user.list);
+    app.get('/api/user/search',api.user.searchUser);
+    app.get("/api/user/:id?", api.user.get);
+  
     // redirect all others to the index (HTML5 history)
     app.get("*", routes.index);
 }

@@ -24,6 +24,18 @@ var addUser = function(data, callback) {
 
 exports.Model = User;
 exports.user = {
+    // search user
+    searchUser:function(req, res, next){
+      var name = req.query.name;
+      console.log('search name is ',name);
+      User.searchUserByName(name, function(err, users){
+        if(err) return next();
+        res.send({
+          error: 0,
+          data: users
+        });
+      });
+    },
     checkUser: function(req, res) {
         UserCtrl.checkUser(req.body.username, function(existed) {
             res.send({

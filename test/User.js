@@ -26,5 +26,24 @@ describe('GET /api/userinfo.js', function () {
         done();
       });
   });
+  
+  
+  it('search:should return one user',function(done){
+    request.get('/api/user/search?name=airyland')
+      .expect('Content-Type',/json/)
+      .end(function(err,res){
+        assert.equal(res.body.data.length,1);
+        done();
+      });
+  });
+  
+  it('search:should return one user',function(done){
+    request.get('/api/user/search?name=qq')
+      .expect('Content-Type',/json/)
+      .end(function(err,res){
+        assert.equal(res.body.data.length,1);
+        done();
+      });
+  });
      
 });
