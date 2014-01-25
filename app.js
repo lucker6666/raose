@@ -9,7 +9,7 @@ console.log('start kue server on port 3000');
 process.on('SIGINT', function() {
     var mongoose = require('./lib/mongoose');
     mongoose.connection.close(function() {
-        console.log('Mongoose disconnected through app termination');
+        console.log("\n",'[Mongoose info]'.green,'Mongoose disconnected through app termination'.green);
         process.exit(0);
     });
 });
