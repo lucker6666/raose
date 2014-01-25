@@ -58,6 +58,26 @@ var mongoose = require('mongoose'),
         }
     });
 
+// search method
+userSchema.statics.searchUserByName = function(name, callback) {
+    var reg = new RegExp(name);
+    this.find({
+        $or: [
+            [{
+                username: reg
+            }],
+            [{
+                realname: reg
+            }],
+            [{
+                email: reg
+            }]
+        ]
+    }).exec(function(err, items) {
+        callback(err, items);
+    });
+};
+
 // generate secret and token
 userSchema.pre('save', function(next) {
     // generate secret
