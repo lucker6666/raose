@@ -5,5 +5,8 @@
         "exclude": ["test", "datatrack", "_.gif", "datapool", "datastore", "crazy", "ga"]
     },
     "staticDomain": "http://raose.qiniudn.com",
-    "port": 8004
+    "port": 8004,
+    "analytics": {
+        "google": "UA-47474218-1"
+    }
 }
