@@ -2,24 +2,22 @@
   "name": "raose",
   "description": "project management",
   "version": "0.1.0",
-  "homepage": "https://github.com/lizheng/raose",
+  "homepage": "https://github.com/airyland/raose",
   "author": {
     "name": "airyland",
     "email": "airyland@qq.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/lizheng/raose.git"
+    "url": "git://github.com/airyland/raose.git"
   },
   "bugs": {
-    "url": "https://github.com/lizheng/raose/issues"
+    "url": "https://github.com/airyland/raose/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/lizheng/raose/blob/master/LICENSE-MIT"
-    }
-  ],
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/airyland/raose/blob/master/LICENSE-MIT"
+  }],
   "main": "lib/raose",
   "engines": {
     "node": ">= 0.8.0"
@@ -27,7 +25,8 @@
   "scripts": {
     "test": "make test"
   },
-  "devDependencies": {
+  "keywords": [],
+  "dependencies": {
     "express": "~3.4.7",
     "mongoose": "~3.8.3",
     "node-markdown": "*",
@@ -37,38 +36,37 @@
     "passport-local": "*",
     "connect-mongo": "~0.4.0",
     "connect-flash": "*",
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt-contrib-watch": "~0.4.0",
-    "grunt-contrib-uglify": "",
-    "grunt": "~0.4.1",
     "node-zip": "1.x",
     "excel-export": "~0.3.7",
-    "exec-sync": "",
-    "cron": "",
+    "exec-sync": "*",
+    "cron": "*",
     "eventproxy": "~0.2.6",
     "cookies": "~0.3.8",
     "moment": "~2.4.0",
     "kue": "~0.6.2",
     "mongoose-validator": "~0.2.2",
-    "supertest": "~0.5.1",
-    "should": "~1.2.1",
     "jwt-simple": "~0.1.0",
     "socket.io": "~0.9.16",
     "node-uuid": "~1.4.1",
     "speakeasy": "~1.0.3",
     "string": "~1.7.0",
-    "mocha": "~1.17.0",
     "socket.io-client": "~0.9.16",
     "i18n": "~0.4.1",
     "restler": "~3.1.0",
     "validator": "~3.1.0",
-    "jscover": "~0.2.4",
     "connect-multiparty": "~1.0.2",
-    "express-winston": "~0.2.1"
-  },
-  "keywords": [],
-  "dependencies": {
+    "express-winston": "~0.2.1",
     "winston": "~0.7.2"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-watch": "~0.4.0",
+    "grunt-contrib-uglify": "*",
+    "grunt": "~0.4.1",
+    "mocha": "~1.17.0",
+    "jscover": "~0.2.4",
+    "supertest": "~0.5.1",
+    "should": "~1.2.1"
   }
 }
