@@ -4,7 +4,7 @@ var UserCtrl = require('../controllers/User.js');
 var uuid = require('../lib/uuid.js');
 var jwt = require('jwt-simple');
 // add user
-var addUser = function(data, callback) {
+var addUser = function (data, callback) {
     // generate secret
     var secret = uuid.create();
     // generate token
@@ -16,7 +16,7 @@ var addUser = function(data, callback) {
     data.token = token;
 
     var user = new User(data);
-    user.save(function(err, item) {
+    user.save(function (err, item) {
         callback && callback(err, item);
     });
     //@todo email notify option
@@ -25,19 +25,20 @@ var addUser = function(data, callback) {
 exports.Model = User;
 exports.user = {
     // search user
-    searchUser:function(req, res, next){
-      var name = req.query.name;
-      console.log('search name is ',name);
-      User.searchUserByName(name, function(err, users){
-        if(err) return next();
-        res.send({
-          error: 0,
-          data: users
+    searchUser: function (req, res, next) {
+        var name = req.query.name;
+        User.searchUserByName(name, function (err, users) {
+            if (err) {
+                return next();
+            }
+            res.send({
+                error: 0,
+                data: users
+            });
         });
-      });
     },
-    checkUser: function(req, res) {
-        UserCtrl.checkUser(req.body.username, function(existed) {
+    checkUser: function (req, res) {
+        UserCtrl.checkUser(req.body.username, function (existed) {
             res.send({
                 error: 0,
                 data: existed
@@ -45,18 +46,18 @@ exports.user = {
         });
     },
     // logout
-    logoutUser: function(req,res,next){
-      req.logout();
-      res.send({
-        error:0,
-        msg:'logout success'
-      });
+    logoutUser: function (req, res) {
+        req.logout();
+        res.send({
+            error: 0,
+            msg: 'logout success'
+        });
     },
     // login user
-    loginUser: function(req, res, next) {
-        UserCtrl.findUser(req.body.username, req.body.password, function(err, user) {
+    loginUser: function (req, res, next) {
+        UserCtrl.findUser(req.body.username, req.body.password, function (err, user) {
             if (!req.body.username) {
-              return next('params should be complete');
+                return next('params should be complete');
             }
 
             if (!req.body.password) {
@@ -64,7 +65,7 @@ exports.user = {
             }
 
             if (user) {
-                req.login(user, function(err) {
+                req.login(user, function (err) {
                     if (err) {
                         res.send({
                             error: 1002,
@@ -87,9 +88,9 @@ exports.user = {
         });
     },
     // add a user
-    add: function(req, res) {
+    add: function (req, res) {
         var data = req.body;
-        addUser(data, function(err, item) {
+        addUser(data, function (err, item) {
             res.send({
                 error: err ? 1 : 0,
                 data: item
@@ -97,23 +98,23 @@ exports.user = {
         });
     },
     // 获取用户列表
-    list: function(req, res) {
-        User.find({}, '-password', function(err, data) {
+    list: function (req, res) {
+        User.find({}, '-password', function (err, data) {
             json(res, err, data);
         });
     },
     // 获取单用户信息
-    get: function(req, res) {
+    get: function (req, res) {
         // 如果带id
         if (req.params.id) {
-            User.findById(req.params.id, '-password', function(err, data) {
+            User.findById(req.params.id, '-password', function (err, data) {
                 json(res, err, data);
             });
         } else {
             var username = req.user.username;
             User.find({
                 username: username
-            }, '-password', function(err, data) {
+            }, '-password', function (err, data) {
                 json(res, err, data);
             });
         }

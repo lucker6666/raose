@@ -2,7 +2,6 @@ var siteConfig = require("./config/site.json");
 var User = require('./controllers/User');
 var nodeExcel = require("excel-export");
 function setup(app, passport) {
-    var mongoose = require("./lib/mongoose");
     // Routes
     var routes = require("./routes/index"), api = require("./routes/api");
     // Error handler
@@ -71,6 +70,36 @@ function setup(app, passport) {
     app.get("/api/todo/:id", api.todo.get);
     app.put("/api/todo/:id", api.todo.put);
     app.delete("/api/todo/:id", api.todo.delete);
+
+    /**
+     * task
+     * @todo
+     *  GET     /task/:pid/feeds          the task action feeds
+     *  GET     /task/:pid/subtasks       get subtask list
+     *  POST    /task/:pid/subtasks       add a subtask
+     *  DELETE  /task/:pid
+     *  GET     /task/:pid/subtask/:id    get a specified subtask
+     *  DELETE  /task/:pid/subtask/:id    delete a subtask
+     *
+     *  POST    /task/:pid/attachments   add an attachment
+     *  POST    /task/:pid/docs          add a document
+     */
+
+    /**
+     * Projects
+     * GET     /projects                get all projects
+     * POST    /projects                add a project
+     *
+     * GET     /project/:id             get a project
+     * GET     /project/:id/followers   get followers of a project
+     * GET     /project/:id/feeds       get action feeds
+     * GET     /project/:id/tasks       get all tasks of a project
+     * PUT     /project/:id             update a project
+     * DELETE  /project/:id             delete a project
+     * POST    /project/:id/attachments   add an attachments to a project
+     *
+     */
+
     /**
      * ----------------------需求相关-------------------------
      */
