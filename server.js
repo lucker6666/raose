@@ -124,7 +124,9 @@ function start(port,done) {
         console.log("Express server listening on port %d in %s mode", port, app.settings.env);
         done && done();
     });
-    var io = socket.listen(server);
+  
+    var io = require('./lib/socketServer').listen(server)
+
     return server;
 }
 
