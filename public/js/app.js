@@ -208,8 +208,13 @@ var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date","angularFil
     } ]);
 
 app.run(['$location', '$rootScope', function ($location, $rootScope) {
+$rootScope.$on('$locationChangeStart', function (event) {
+    console.log('route change start');
+});
+
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-        $rootScope.title = current.$$route.title;
+       	console.log('route change success');
+	 $rootScope.title = current.$$route.title;
     });
 }]);
 
