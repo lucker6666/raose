@@ -11,6 +11,9 @@ services:
 before_script:
   - npm install -g grunt-cli
   - mv config/database_sample.json  config/database.json
+  - mv config/proxy_sample.json config/proxy.json
+  - mv config/deploy_sample.json config/deploy.json
+
 notifications:
   email:
     on_success: never
