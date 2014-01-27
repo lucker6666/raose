@@ -3,4 +3,4 @@
 
 ## Me
 
-PUT     /me/avatar          change avatar of current user
+`PUT`     `/me/avatar`          change avatar of current user
