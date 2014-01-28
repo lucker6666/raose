@@ -12,6 +12,10 @@ function setup(app, passport) {
     app.use(require('./middlewares/auth'));
     app.get("/", routes.index);
     app.get("/partials/:name", routes.partials);
+  
+    // multipart handler
+    var multipart = require('connect-multiparty');
+    var multipartMiddleware = multipart({ uploadDir: './public/uploads' });
 
 
     /**
@@ -125,7 +129,7 @@ function setup(app, passport) {
     app.get("/api/me/issues", api.me.issues);
     app.get("/api/me/profile", api.me.profile);
     app.put("/api/me/profile", api.me.updateProfile);
-    app.put("/api/me/setAvatar", api.me.setAvatar);
+    app.put("/api/me/setAvatar", multipartMiddleware, api.me.setAvatar);
     app.get("/api/me/dataHistory", api.me.dataHistory);
     /**
      *----------------------文件--------------------------
@@ -293,9 +297,7 @@ function setup(app, passport) {
     });
     app.post("/api/sendmail", api.mail.sendmail);
     app.get("/api/account/doActive", api.account.doActive);
-    // 图片上传接口
-    var multipart = require('connect-multiparty');
-    var multipartMiddleware = multipart({ uploadDir: './public/uploads' });
+
     app.post("/api/upload", multipartMiddleware, api.upload);
     var baiduAdapter = function (data) {
         var data = JSON.parse(data);
