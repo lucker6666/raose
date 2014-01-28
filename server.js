@@ -65,6 +65,10 @@ app.configure(function() {
         showStack: true,
         dumpExceptions: true
     }));
+  
+    // response time header
+    app.use(express.responseTime);
+  
     // custom header
     app.use(function(req, res, next) {
         app.disable("x-powered-by");
