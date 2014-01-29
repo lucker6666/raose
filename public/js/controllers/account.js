@@ -17,6 +17,7 @@ var SigninCtrl = function($scope, $http, $location) {
   $scope.login = function() {
     $http.post('/api/user/signin', $scope.form).success(function(data) {
       if (data['error'] === 0) { 
+        localStorage.setItem('rs_login_name',$scope.form.username);
         $scope.hideNav = false;
         document.location.href = '/me';
       } else {
