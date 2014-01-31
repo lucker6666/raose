@@ -26,6 +26,11 @@ var ProjectSchema = Schema({
     followers: Array,
     // modified date
     modified_at: Date,
+    // modified by
+    modified_by:{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     color: String,
     // cached metas
     metas: {
