@@ -3,10 +3,11 @@
 * @todo add test
 * @todo add config
 */
+var code = require('../lib/error_code');
 var toobusy = require('toobusy');
 module.exports = function(req, res, next) {
   if (toobusy()) {
-    res.send({error:503, msg:"I'm busy right now, sorry."});
+    res.send({error:code['OVER_CAPACITY'][0], msg:code['OVER_CAPACITY'][1]});
   } else {
     next();
   } 
