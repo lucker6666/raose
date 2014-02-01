@@ -17,7 +17,7 @@ function setup(app, passport) {
     var multipart = require('connect-multiparty');
     var multipartMiddleware = multipart({ uploadDir: './public/uploads' });
     
-    app.get('/api/*', require('./middlwares/CORS'));
+    app.get('/api/*', require('./middlewares/CORS'));
 
     /**
      *-----------------------状态相关-------------------

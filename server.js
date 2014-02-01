@@ -61,6 +61,11 @@ app.configure(function() {
         layout: false,
         pretty: true
     });
+  
+    // server too busy detector
+    app.use(require('./middlewares/toobusy'));
+  
+    // error handler
     app.use(express.errorHandler({
         showStack: true,
         dumpExceptions: true
