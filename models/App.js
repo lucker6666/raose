@@ -47,3 +47,5 @@ var appSchema = Schema({
     // app secret
     app_secret: String
 });
+
+module.exports = mongoose.model('app', appSchema);
