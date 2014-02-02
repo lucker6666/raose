@@ -8,10 +8,10 @@ var tokenSchema = mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        require: true,
+        require: true
     },
     token: {
-        type: String
+        type: String,
         require: true
     },
     created_at: {
