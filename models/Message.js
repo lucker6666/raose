@@ -45,7 +45,7 @@ var messageSchema = Schema({
     // on which platform to trigger the message
     source: {
         type: String,
-        enum: ['web', 'email', 'wap', 'api', 'android', 'ios']
+        enum: ['web', 'email', 'wap', 'apiss', 'android', 'ios']
     }
 });
 
