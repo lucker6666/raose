@@ -22,12 +22,18 @@ var messageSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    // has read
-    has_read: {
-        type: Boolean,
-        default: false
+    // read status
+    read_status: {
+        // has read
+        has_read: {
+            type: Boolean,
+            default: false
+        },
+        // read date
+        read_at: Date,
+        // read platform
+        read_source: String
     },
-    read_at: Date,
     // message content
     content: {
         // 添加了数据源
