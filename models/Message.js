@@ -45,7 +45,7 @@ var messageSchema = Schema({
     // on which platform to trigger the message
     source: {
         type: String,
-        enum: ['web', 'email', 'wap', 'apiss', 'android', 'ios']
+        enum: ['web', 'email', 'wap', 'app', 'android', 'ios']
     }
 });
 
@@ -64,7 +64,7 @@ messageSchema.statics.setRead = function (id, callback) {
     });
 };
 
-messageSchema.statics.listMessageByUid = function(uid,page,limit,type){
+messageSchema.statics.listMessageByUid = function (uid, page, limit, type) {
 
 };
 
