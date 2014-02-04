@@ -59,9 +59,7 @@ messageSchema.statics.setRead = function (id, callback) {
     this.findByIdAndUpdate(id, {$set: {
         has_read: true,
         read_at: Date.now()
-    }}, function (err) {
-        callback(err);
-    });
+    }}, callback);
 };
 
 messageSchema.statics.listMessageByUid = function (uid, page, limit, type) {
