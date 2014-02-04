@@ -64,5 +64,9 @@ messageSchema.statics.setRead = function (id, callback) {
     });
 };
 
+messageSchema.statics.listMessageByUid = function(uid,page,limit,type){
+
+};
+
 
 module.exports = mongoose.model('message', messageSchema);
