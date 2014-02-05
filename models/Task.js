@@ -52,5 +52,17 @@ TaskSchema.statics.search = function (query, page, limit, callback) {
     this.find({name: new RegExp(query)}).paginate(page, limit).exec(callback);
 };
 
+/**
+ * Actions:
+ * GET    /tasks              list tasks
+ * GET    /task/:id/comments  list comments
+ * POST   /tasks              create
+ * PUT    /task/:id           done             {action:done}
+ * PUT    /task/:id           reopen           {action:reopen}
+ * PUT    /task/:id           update
+ * PUT    /task/:id           setPrivate && setPublic  {action:setPrivate}
+ * DELETE /task/:id           delete
+ */
+
 
 module.exports = mongoose.model('task', TaskSchema);
