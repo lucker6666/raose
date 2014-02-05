@@ -55,7 +55,23 @@ var mongoose = require('mongoose'),
             default: false
           },
           actived_at: Date
+        },
+        // notification option
+        notification:{
+            task_assign:{
+                email: Boolean
+            },
+            issue_assign:{
+                email: Boolean
+            },
+            comment_mention:{
+                email: Boolean
+            },
+            be_joined:{
+                email: Boolean
+            }
         }
+        
     });
 
 // search method
