@@ -27,7 +27,7 @@ var ProjectSchema = Schema({
     // modified date
     modified_at: Date,
     // modified by
-    modified_by:{
+    modified_by: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
