@@ -2,7 +2,7 @@ var mongoose = require('../lib/mongoose'),
     Schema = mongoose.Schema,
     validate = require('mongoose-validator').validate;
 
-var TaskScheme = mongoose.Schema({
+var TaskSchema = Schema({
     // name
     name: {
         type: String,
@@ -47,4 +47,10 @@ var TaskScheme = mongoose.Schema({
     metas: Object
 });
 
-module.exports = mongoose.model('task', TaskScheme);
+// search tasks
+TaskSchema.statics.search = function (query, page, limit, callback) {
+    this.find({name: new RegExp(query)}).paginate(page, limit).exec(callback);
+};
+
+
+module.exports = mongoose.model('task', TaskSchema);
