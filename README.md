@@ -1,4 +1,4 @@
-# raose [![Build Status](https://secure.travis-ci.org/airyland/raose.png?branch=master)](http://travis-ci.org/airyland/raose)  [![Dependencies status](https://david-dm.org/airyland/raose.png)](https://david-dm.org/airyland/raose)
+# raose [![Build Status](https://secure.travis-ci.org/airyland/raose.png?branch=dev)](http://travis-ci.org/airyland/raose)  [![Dependencies status](https://david-dm.org/airyland/raose.png)](https://david-dm.org/airyland/raose)
 
 project management
 
