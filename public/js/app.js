@@ -4,6 +4,9 @@ socket.on("connect", function () {
     console.log("Client has connected to the server!");
 });
 
+// path and controller Map
+var pathMap = [['/project/add','添加项目','addProject','Project_add']];
+
 var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date","angularFileUpload"]).directive("ngEnter",function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
@@ -41,7 +44,7 @@ var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date","angularFil
         };
     }).filter("toMinute",function () {
         return function (time) {
-            if (!time) return "00:00";
+            if (!time) return "00:00"; 
             time = Math.round(time);
             var minute = "0" + Math.floor(time / 60), sec = "0" + time % 60;
             return minute.slice(-2) + ":" + sec.slice(-2);
@@ -59,6 +62,13 @@ var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date","angularFil
         };
     }).config([ "$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
+        pathMap.forEach(function(one){
+          $routeProvider.when(one[0],{
+            title:one[1],
+            templateUrl:'partials/'+one[3],
+            controller:window[one[2]]
+          });
+        });
         $routeProvider.when("/", {
             templateUrl: "partials/me",
             controller: MeCtrl
@@ -164,6 +174,7 @@ var app = angular.module("myApp", [ "ngRoute", "ui.utils", "ui.date","angularFil
                 templateUrl: "partials/viewDoc",
                 controller: ViewDocCtrl
             }).when("/settings", {
+                title: "设置",
                 templateUrl: "partials/settings",
                 controller: SettingsCtrl
             }).when("/visitData", {

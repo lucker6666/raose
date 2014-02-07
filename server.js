@@ -99,6 +99,11 @@ app.configure(function() {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());
+    
+    // oAuth providor
+    var myOAP = require('./lib/OAuth2Provider');
+    app.use(myOAP.oauth());
+    app.use(myOAP.login());
   
     // enable view cache in product ENV
     app.configure('product',function(){

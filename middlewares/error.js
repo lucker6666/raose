@@ -61,6 +61,7 @@ module.exports = function(err, req, res, next) {
   // mongoose error
   // unknown error
   console.log('unknown error:'+err);
+  console.log(err.stack);
   res.send({
     error:500,
     err: err.stack,
