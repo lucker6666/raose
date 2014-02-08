@@ -360,16 +360,7 @@ function setup(app, passport) {
 
 
     app.get("/api/trackdata.json*", api.tracker.list);
-    // still a TMP API
-    app.get("/api/exports/crazy", function (req, res) {
-        Crazy.find({}, function (err, data) {
-            if (err) throw err;
-            res.send({
-                error: 0,
-                data: data
-            });
-        });
-    });
+
     // 数据池
     app.get("/api/datapools", api.datapool.set);
     app.get("/api/datapool", api.datapool.get);
