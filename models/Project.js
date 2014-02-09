@@ -91,5 +91,40 @@ var ProjectSchema = Schema({
     }
 });
 
+    /**
+     * Projects
+     * GET     /projects                get all projects
+     * POST    /projects                add a project
+     *
+     * GET     /project/:id             get a project
+     * GET     /project/:id/followers   get followers of a project
+     * GET     /project/:id/feeds       get action feeds
+     * GET     /project/:id/tasks       get all tasks of a project
+     * PUT     /project/:id             update a project
+     * DELETE  /project/:id             delete a project
+     * POST    /project/:id/attachments   add an attachments to a project
+     *
+     */
+
+// create a project
+ProjectSchema.statics.create = function(data,callback){
+  this.create(data,callback);
+};
+
+// list my project
+// @todo now return all projects
+ProjectSchema.statics.list = function(callback){
+  this.find({}).exec(callback);
+};
+
+// find one
+ProjectSchema.statics.findById = function(id,callback){
+  this.findById(id,callback);
+};
+
+// add task list
+ProjectSchema.statics.addTaskList = function(data,callback){
+  
+};
 
 module.exports = mongoose.model('project', ProjectSchema);

@@ -89,20 +89,6 @@ function setup(app, passport) {
      *  POST    /task/:pid/docs          add a document
      */
 
-    /**
-     * Projects
-     * GET     /projects                get all projects
-     * POST    /projects                add a project
-     *
-     * GET     /project/:id             get a project
-     * GET     /project/:id/followers   get followers of a project
-     * GET     /project/:id/feeds       get action feeds
-     * GET     /project/:id/tasks       get all tasks of a project
-     * PUT     /project/:id             update a project
-     * DELETE  /project/:id             delete a project
-     * POST    /project/:id/attachments   add an attachments to a project
-     *
-     */
 
     /**
      * ----------------------需求相关-------------------------
