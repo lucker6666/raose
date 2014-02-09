@@ -25,9 +25,9 @@ var ProjectSchema = Schema({
     // followers
     followers: Array,
     // modified date
-    modified_at: Date,
+    updated_at: Date,
     // modified by
-    modified_by: {
+    updated_by: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
