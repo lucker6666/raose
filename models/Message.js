@@ -57,6 +57,7 @@ var messageSchema = Schema({
 
 /**
  * action:['set_read']
+ * filters: rs:read=true|false,rs:from=uid,rs:type=task_done
  */
 
 // set message read
