@@ -99,6 +99,7 @@ var ProjectSchema = Schema({
      * GET     /project/:id             get a project
      * GET     /project/:id/followers   get followers of a project
      * GET     /project/:id/feeds       get action feeds
+     * GET     /project/:id/tasklists   get tasklists of a project
      * GET     /project/:id/tasks       get all tasks of a project
      * PUT     /project/:id             update a project
      * DELETE  /project/:id             delete a project
